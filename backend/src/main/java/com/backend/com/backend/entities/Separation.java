@@ -1,0 +1,141 @@
+package com.backend.com.backend.entities;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tb_seration")
+public class Separation implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Date date;
+    private String name;
+    private Integer codProduct;
+    private Integer pallet;
+    private Integer pcMais;
+    private Integer pcMenos;
+    private Integer pcErrada;
+    private Integer error;
+
+    public Separation() {
+    }
+
+    public Separation(Long id, Date date, String name, Integer codProduct, Integer pallet, Integer pcMais,
+            Integer pcMenos, Integer pcErrada, Integer error) {
+        this.id = id;
+        this.date = date;
+        this.name = name;
+        this.codProduct = codProduct;
+        this.pallet = pallet;
+        this.pcMais = pcMais;
+        this.pcMenos = pcMenos;
+        this.pcErrada = pcErrada;
+        this.error = error;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getCodProduct() {
+        return codProduct;
+    }
+
+    public void setCodProduct(Integer codProduct) {
+        this.codProduct = codProduct;
+    }
+
+    public Integer getPallet() {
+        return pallet;
+    }
+
+    public void setPallet(Integer pallet) {
+        this.pallet = pallet;
+    }
+
+    public Integer getPcMais() {
+        return pcMais;
+    }
+
+    public void setPcMais(Integer pcMais) {
+        this.pcMais = pcMais;
+    }
+
+    public Integer getPcMenos() {
+        return pcMenos;
+    }
+
+    public void setPcMenos(Integer pcMenos) {
+        this.pcMenos = pcMenos;
+    }
+
+    public Integer getPcErrada() {
+        return pcErrada;
+    }
+
+    public void setPcErrada(Integer pcErrada) {
+        this.pcErrada = pcErrada;
+    }
+
+    public Integer getError() {
+        return error;
+    }
+
+    public void setError(Integer error) {
+        this.error = error;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Separation other = (Separation) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
+
+}
