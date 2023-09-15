@@ -1,11 +1,14 @@
 package com.backend.com.backend.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,6 +23,9 @@ public class Employee implements Serializable {
     private Integer totPcMais;
     private Integer totPcMenos;
     private Integer totPcErrada;
+
+    @ManyToMany(mappedBy = "employees")
+    private Set<Separation> errors = new HashSet<>();
 
     public Employee() {
     }
@@ -58,28 +64,44 @@ public class Employee implements Serializable {
         this.branch = branch;
     }
 
-    public Integer getTotPcMais() {
-        return totPcMais;
-    }
-
     public void setTotPcMais(Integer totPcMais) {
         this.totPcMais = totPcMais;
-    }
-
-    public Integer getTotPcMenos() {
-        return totPcMenos;
     }
 
     public void setTotPcMenos(Integer totPcMenos) {
         this.totPcMenos = totPcMenos;
     }
 
-    public Integer getTotPcErrada() {
-        return totPcErrada;
-    }
-
     public void setTotPcErrada(Integer totPcErrada) {
         this.totPcErrada = totPcErrada;
+    }
+
+    public Set<Separation> getErrors() {
+        return errors;
+    }
+
+    public Integer getTotPcMais() {
+        int sumPcMais = 0;
+        for (Separation error : errors) {
+            sumPcMais += error.getSubTotPcMais();
+        }
+        return sumPcMais;
+    }
+
+    public Integer getTotPcMenos() {
+        int sumPcMenos = 0;
+        for (Separation error : errors) {
+            sumPcMenos += error.getSubTotPcMenos();
+        }
+        return sumPcMenos;
+    }
+
+    public Integer getTotPcErrada() {
+        int sumPcErrada = 0;
+        for (Separation error : errors) {
+            sumPcErrada += error.getSubTotPcErrada();
+        }
+        return sumPcErrada;
     }
 
     @Override

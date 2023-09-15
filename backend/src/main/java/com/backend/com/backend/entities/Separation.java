@@ -2,15 +2,21 @@ package com.backend.com.backend.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.hibernate.annotations.ManyToAny;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_seration")
+@Table(name = "tb_separation")
 public class Separation implements Serializable {
 
     @Id
@@ -24,6 +30,10 @@ public class Separation implements Serializable {
     private Integer pcMenos;
     private Integer pcErrada;
     private Integer error;
+
+    @ManyToAny
+    @JoinTable(name = "employee_separation", joinColumns = @JoinColumn(name = "separation.id"), inverseJoinColumns = @JoinColumn(name = "employee.id"))
+    private Set<Employee> employees = new HashSet<>();
 
     public Separation() {
     }
@@ -111,6 +121,38 @@ public class Separation implements Serializable {
 
     public void setError(Integer error) {
         this.error = error;
+    }
+
+    public Set<Employee> getErrors() {
+        return employees;
+    }
+
+    public void setEmployee() {
+        employees.addAll(employees);
+    }
+
+    public Integer getSubTotPcMais() {
+        return pcMais + error;
+    }
+
+    public Integer getSubTotPcMenos() {
+        return pcMenos + error;
+    }
+
+    public Integer getSubTotPcErrada() {
+        return pcErrada + error;
+    }
+
+    public void addErrorTotPcMais(int selectedPcMais) {
+        pcMais += selectedPcMais;
+    }
+
+    public void addErrorTotPcMenos(int selectedPcMenos) {
+        pcMenos += selectedPcMenos;
+    }
+
+    public void addErrorTotPcErrada(int selectedPcErrada) {
+        pcErrada += selectedPcErrada;
     }
 
     @Override
