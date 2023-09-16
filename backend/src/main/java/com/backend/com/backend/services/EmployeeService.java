@@ -13,6 +13,8 @@ import com.backend.com.backend.repositories.EmployeeRepository;
 import com.backend.com.backend.services.exceptions.DatabaseException;
 import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class EmployeeService {
 
@@ -40,6 +42,20 @@ public class EmployeeService {
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException(e.getMessage());
         }
+    }
+
+    public Employee update(Long id, Employee obj) {
+        try {
+            Employee entity = repository.getReferenceById(id);
+            updateData(entity, obj);
+            return repository.save(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException(id);
+        }
+    }
+
+    private void updateData(Employee entity, Employee obj) {
+        entity.setName(obj.getName());
     }
 
 }
