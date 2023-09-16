@@ -127,10 +127,6 @@ public class Separation implements Serializable {
         return employees;
     }
 
-    public void setEmployee() {
-        employees.addAll(employees);
-    }
-
     public Integer getSubTotPcMais() {
         return pcMais + error;
     }
