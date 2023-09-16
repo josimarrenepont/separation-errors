@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.com.backend.entities.Separation;
-import com.backend.com.backend.services.SeparationSeervice;
+import com.backend.com.backend.services.SeparationService;
 
 @RestController
 @RequestMapping(value = "/separations")
 public class SeparationController {
 
     @Autowired
-    private SeparationSeervice service;
+    private SeparationService service;
 
     @GetMapping
     public ResponseEntity<List<Separation>> findAll() {
