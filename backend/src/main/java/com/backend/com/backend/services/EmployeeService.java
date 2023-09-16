@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.backend.com.backend.entities.Employee;
 import com.backend.com.backend.repositories.EmployeeRepository;
+import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class EmployeeService {
@@ -21,7 +22,7 @@ public class EmployeeService {
 
     public Employee findById(Long id) {
         Optional<Employee> obj = repository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
 }
