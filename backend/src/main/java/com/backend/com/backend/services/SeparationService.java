@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.backend.com.backend.entities.Separation;
 import com.backend.com.backend.repositories.SeparationRepository;
+import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class SeparationService {
@@ -21,6 +22,9 @@ public class SeparationService {
 
     public Separation findById(Long id) {
         Optional<Separation> obj = repository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
+
+   
+
 }

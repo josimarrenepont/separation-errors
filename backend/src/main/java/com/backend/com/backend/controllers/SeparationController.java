@@ -30,4 +30,6 @@ public class SeparationController {
         Separation obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
+
+  
 }
