@@ -6,4 +6,6 @@ import com.backend.com.backend.entities.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
+	
+
 }

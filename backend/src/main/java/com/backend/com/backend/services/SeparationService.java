@@ -25,6 +25,8 @@ public class SeparationService {
         return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
-   
+    public Separation save(Separation separation) {
+        return repository.save(separation);
+    }
 
 }

@@ -1,29 +1,37 @@
 /* separationForm.css */
 
+
 .container {
     display: flex;
-    flex-direction: column;
+    flex-direction: space-between;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
     background-color: #0c0606; /* Cor de fundo */
-    background-image: url('frontend/src/assets/images.jpg'); /* URL da imagem de fundo */
+    background-image: url('/src/assets/BANNER_SOLIDES.png'); /* URL da imagem de fundo */
     background-size: cover;
     background-position: center;
   }
   
   h1 {
     font-size: 30px;
-    color: #333;
+    color: #be0d0d;
     text-align: center;
     margin-bottom: 20px;
   }
   
   form {
-    background-color: #1d0a51;
+    background-color: #2e0b8f;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     text-align: center;
   }
-  
+
+  /* Adicione estas classes ao seu arquivo de estilo CSS */
+.button-container {
+  display: flex; /* Isso fará com que os elementos filhos (botões) fiquem lado a lado */
+  justify-content: space-between; /* Espaço igual entre os botões */
+  align-items: center; /* Alinhar verticalmente ao centro, se necessário */
+}
+

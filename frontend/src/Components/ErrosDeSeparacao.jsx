@@ -1,43 +1,40 @@
-import React from 'react';
-import './components/App';
-import './components/MeuBotao';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import MeuBotao from './MeuBotao';
+import SeparationForm from './SeparationForm';
+
 
 function ErrosDeSeparacao() {
+  const [showSeparationForm, setShowSeparationForm] = useState(false);
+  const [separations, setSeparations] = useState([]);
+
+  const handleButtonClick = () => {
+    setShowSeparationForm(true);
+  };
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/separations') // Use o método GET para buscar separações
+    .then((response) => {
+      setSeparations(response.data);
+    })
+    .catch((error) => {
+      console.error('Erro ao buscar separações:', error);
+    });
+}, []);
+
+
   return (
     <div>
-      <h1>Erros de Separação</h1>
-      <form method="post" action="/salvar-separacao">
-        <label htmlFor="data">Data:</label>
-        <input type="date" id="data" name="data" required /><br /><br />
+      <h1>Inserir Erros de Separação</h1>
+      <MeuBotao onClick={handleButtonClick} />
+      {showSeparationForm && <SeparationForm />}
       
-        <label htmlFor="employee">Funcionário:</label>
-        <select id="employee" name="employee" required>
-          <option value=""></option>
-          <option value="Alexandre">Alexandre</option>
-          <option value="Denison">Denison</option>
-          <option value="Gilvan">Gilvan</option>
-          <option value="Gildoberto">Gildoberto</option>
-        </select><br/><br/>
-
-        <label htmlFor="separation">Tipo de Erro:</label>
-        <select id="separation" name="separation" required>
-            <option value=""></option>
-            <option value="pcMais">pcMais</option>
-            <option value="pcMenos">pcMenos</option>
-            <option value="pcErrada">pcErrada</option>
-        </select><br /><br />
-
-        <label htmlFor="error">Erro:</label>
-        <input type="number" id="error" name="error" required /><br /><br />
-
-        <label htmlFor="palette">Palete:</label>
-        <input type="text" id="palette" name="palette" required /><br /><br />
-
-        <label htmlFor="produto">Produto:</label>
-        <input type="text" id="produto" name="produto" required /><br /><br />
-        
-        <input type="submit" value="Salvar" />
-      </form>
+      <h2>Lista de Separações:</h2>
+      <ul>
+        {separations.map((separation) => (
+          <li key={separation.id}>{separation.description}</li>
+        ))}
+      </ul>
     </div>
   );
 }

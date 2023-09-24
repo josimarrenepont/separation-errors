@@ -1,5 +1,5 @@
 #root {
-  max-width: 1280px;
+  max-width: 1080px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -40,3 +40,18 @@
 .read-the-docs {
   color: #888;
 }
+body {
+  background-image: url('/src/assets/BANNER_SOLIDES.png'); /* Substitua pelo caminho correto da sua imagem */
+  background-size: contain; /* Para ajustar a imagem ao tamanho da tela */
+  background-repeat: no-repeat; /* Para evitar a repetição da imagem */
+  
+}
+/* Adicione estas classes ao seu arquivo de estilo CSS */
+.button-container {
+  display: flex; /* Isso fará com que os elementos filhos (botões) fiquem lado a lado */
+  justify-content: space-between; /* Espaço igual entre os botões */
+  align-items: center; /* Alinhar verticalmente ao centro, se necessário */
+}
+
+
+

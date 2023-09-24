@@ -5,23 +5,27 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.hibernate.annotations.ManyToAny;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_separation")
 public class Separation implements Serializable {
 
-    @Id
+    private static final long serialVersionUID = 1L;
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Date date;
     private String name;
     private Integer codProduct;
@@ -31,7 +35,7 @@ public class Separation implements Serializable {
     private Integer pcErrada;
     private Integer error;
 
-    @ManyToAny
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "employee_separation", joinColumns = @JoinColumn(name = "separation.id"), inverseJoinColumns = @JoinColumn(name = "employee.id"))
     private Set<Employee> employees = new HashSet<>();
 
@@ -151,6 +155,16 @@ public class Separation implements Serializable {
         pcErrada += selectedPcErrada;
     }
 
+    public Integer TotPcMais(Integer pcMais) {
+    	return getSubTotPcMais();
+    }
+    public Integer TotPcMenos(Integer pcMenos) {
+    	return getSubTotPcMenos();
+    }
+    
+    public Integer TotPcErrada(Integer pcErrada) {
+    	return getPcErrada();
+    }
     @Override
     public int hashCode() {
         final int prime = 31;
