@@ -1,12 +1,11 @@
-import axios from 'axios'; // Importe axios
-import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
 import DateRangePicker from './components/DateRangePicker';
 import ErrosDeSeparacao from './components/ErrosDeSeparacao';
 import './index.css';
 import './vite-env.d.ts';
-
 
 // eslint-disable-next-line react-refresh/only-export-components
 function App() {
@@ -17,14 +16,15 @@ function App() {
   const handleDateRangeChange = (start, end) => {
     setStartDate(start);
     setEndDate(end);
+    // Atualize os erros com base nas datas escolhidas pelo usuário
     fetchErrorsInRange(start, end);
   };
 
-  const fetchErrorsInRange = async (startDate, endDate) => {
+  const fetchErrorsInRange = async (start, end) => {
     try {
       // Faça uma solicitação GET ao servidor para buscar erros no intervalo de datas
       const response = await axios.get('http://localhost:8080/separations', {
-        params: { startDate, endDate },
+        params: { startDate: start, endDate: end },
       });
 
       // Verifique se a resposta foi bem-sucedida
@@ -39,20 +39,12 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    // Carregue os erros iniciais com base em uma data padrão, se necessário
-    const initialStartDate = '';
-    const initialEndDate = '';
-    fetchErrorsInRange(initialStartDate, initialEndDate);
-  }, []);
-
   return (
     <div>
       <header>
-      <img src="/frontend/src/assets/BANNER_SOLIDES.png"/>
-      
-      <h1>Erros de Separação</h1>
-      <DateRangePicker onDateRangeChange={handleDateRangeChange} />
+        <img src="/frontend/src/assets/BANNER_SOLIDES.png" alt="Banner" />
+        <h1>Erros de Separação</h1>
+        <DateRangePicker onDateRangeChange={handleDateRangeChange} />
       </header>
       {/* Primeira visualização */}
       <div>
@@ -63,14 +55,12 @@ function App() {
           ))}
         </ul>
       </div>
-  
       {/* Segunda visualização */}
       <div>
         <ErrosDeSeparacao />
       </div>
     </div>
-    
   );
-  
-          }
+}
+
 ReactDOM.render(<App />, document.getElementById('root'));

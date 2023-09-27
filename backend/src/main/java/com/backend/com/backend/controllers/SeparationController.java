@@ -17,8 +17,8 @@ import com.backend.com.backend.entities.Separation;
 import com.backend.com.backend.services.SeparationService;
 
 @RestController
-@CrossOrigin(origins = "*")
-@RequestMapping(value = "/separations")
+@CrossOrigin(origins = "http://localhost:5173")
+@RequestMapping("/separations")
 public class SeparationController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class SeparationController {
         return ResponseEntity.ok().body(obj);
     }
 
-    @PostMapping("/separations") // Rota para salvar separação
+    @PostMapping
     public ResponseEntity<Separation> saveSeparation(@RequestBody Separation separation) {
         Separation savedSeparation = service.save(separation);
         return ResponseEntity.ok(savedSeparation);

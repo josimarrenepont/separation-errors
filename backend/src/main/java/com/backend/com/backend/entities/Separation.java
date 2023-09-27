@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,13 +20,14 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_separation")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Separation implements Serializable {
 
     private static final long serialVersionUID = 1L;
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd'T'HH:mm:ss'Z'", timezone = "GMT")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Date date;
     private String name;
     private Integer codProduct;
@@ -39,6 +41,7 @@ public class Separation implements Serializable {
     @JoinTable(name = "employee_separation", joinColumns = @JoinColumn(name = "separation.id"), inverseJoinColumns = @JoinColumn(name = "employee.id"))
     private Set<Employee> employees = new HashSet<>();
 
+    
     public Separation() {
     }
 
@@ -49,10 +52,10 @@ public class Separation implements Serializable {
         this.name = name;
         this.codProduct = codProduct;
         this.pallet = pallet;
-        this.pcMais = pcMais;
-        this.pcMenos = pcMenos;
-        this.pcErrada = pcErrada;
-        this.error = error;
+        this.pcMais = (pcMais != null) ? pcMais : 0;
+        this.pcMenos = (pcMenos != null) ? pcMenos : 0;
+        this.pcErrada = (pcErrada != null) ? pcErrada : 0;
+        this.error = (error != null) ? error : 0;
     }
 
     public Long getId() {
@@ -132,14 +135,25 @@ public class Separation implements Serializable {
     }
 
     public Integer getSubTotPcMais() {
+        if (pcMais == null) {
+            return 0; // ou retorne null se preferir
+        }
         return pcMais + error;
     }
 
+
     public Integer getSubTotPcMenos() {
+        if (pcMenos == null) {
+            return 0; // ou retorne null se preferir
+        }
         return pcMenos + error;
     }
 
+
     public Integer getSubTotPcErrada() {
+        if (pcErrada == null) {
+            return 0; // ou retorne null se preferir
+        }
         return pcErrada + error;
     }
 
@@ -154,17 +168,11 @@ public class Separation implements Serializable {
     public void addErrorTotPcErrada(int selectedPcErrada) {
         pcErrada += selectedPcErrada;
     }
-
-    public Integer TotPcMais(Integer pcMais) {
-    	return getSubTotPcMais();
-    }
-    public Integer TotPcMenos(Integer pcMenos) {
-    	return getSubTotPcMenos();
-    }
-    
-    public Integer TotPcErrada(Integer pcErrada) {
-    	return getPcErrada();
-    }
+    public void addEmployee(Employee existingEmployee) {
+		employees.add(existingEmployee);
+		
+	}
+   
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -189,5 +197,11 @@ public class Separation implements Serializable {
             return false;
         return true;
     }
+
+    public Employee[] getEmployees() {
+        return employees.toArray(new Employee[0]);
+    }
+
+	
 
 }

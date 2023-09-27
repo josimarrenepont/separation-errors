@@ -29,4 +29,9 @@ public class SeparationService {
         return repository.save(separation);
     }
 
+	public Separation saveAll(Separation separation, Long id) {
+		
+		return saveAll(separation, id);
+	}
+
 }

@@ -12,7 +12,7 @@ function SeparationForm() {
   const [separation, setSeparation] = useState('');
   const [palette, setPalette] = useState('');
   const [produto, setProduto] = useState('');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,6 +23,7 @@ function SeparationForm() {
       separation,
       palette,
       produto,
+      error,
     };
 
     axios.post('http://localhost:8080/separations', formData)
@@ -35,6 +36,7 @@ function SeparationForm() {
         setSeparation('');
         setPalette('');
         setProduto('');
+        setError('');
       })
       .catch((error) => {
         console.error('Erro ao salvar separação:', error);
@@ -61,8 +63,8 @@ function SeparationForm() {
           <label htmlFor="employee">Funcionário:</label>
           <select id="employee" name="employee" required>
             <option value=""></option>
-            <option value="Alexandre">Alexandre</option>
-            <option value="Denison">Denison</option>
+            <option value="Eduardo">Eduardo</option>
+            <option value="Josenilson">Josenilson</option>
             <option value="Gilvan">Gilvan</option>
             <option value="Gildoberto">Gildoberto</option>
           </select><br /><br />
