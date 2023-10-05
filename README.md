@@ -20,7 +20,7 @@ Manter controle sobre essas informações, a fim de gerenciar possíveis situaç
 
 ## Front End
 
-*React + TypeScript + Vite
+* React + TypeScript + Vite
 
 # Implantação em produção
 
