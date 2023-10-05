@@ -31,15 +31,15 @@ public class TestConfig implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Employee emp1 = new Employee(null, "Alexandre", "wne", null, null, null);
-        Employee emp2 = new Employee(null, "Denison", "wne", null, null, null);
-        Employee emp3 = new Employee(null, "Gilvan", "wne", null, null, null);
-        Employee emp4 = new Employee(null, "Gildoberto", "wne", null, null, null);
+        Employee emp1 = new Employee(null, "Gilvan", "wne", 1, 2, 3);
+        Employee emp2 = new Employee(null, "Josenilson", "wne", 2, 5, 6);
+        Employee emp3 = new Employee(null, "Jose", "wne", 8, 9, 10);
+        Employee emp4 = new Employee(null, "Eduardo", "wne", 10, 11, 12);
 
-        Separation sep1 = new Separation(null, new Date(), "Alexandre", 968, 123, 2, 3, 5, 1);
-        Separation sep2 = new Separation(null, new Date(), "Denison", 997, 123, 5, 3, 2, 2);
-        Separation sep3 = new Separation(null, new Date(), "Gilvan", 986, 123, 3, 7, 1, 6);
-        Separation sep4 = new Separation(null, new Date(), "Gildoberto", 958, 123, 5, 9, 10, 7);
+        Separation sep1 = new Separation(null, new Date(), "Gilvan", 1, 2, 3, 5, 6, 7, 10, 11);
+        Separation sep2 = new Separation(null, new Date(), "Josenilson", 1, 2, 3, 5, 6, 7, 10, 11);
+        Separation sep3 = new Separation(null, new Date(), "Jose", 1, 2, 3, 5, 6, 7, 10, 11);
+        Separation sep4 = new Separation(null, new Date(), "Eduardo", 1, 2, 3, 5, 6, 7, 10, 11);
 
         User user1 = new User(null, "wne", "123");
         User user2 = new User(null, "mb", "123");
@@ -63,9 +63,9 @@ public class TestConfig implements CommandLineRunner {
                 totPcMenos += error.getSubTotPcMenos();
                 totPcErrada += error.getSubTotPcErrada();
             }
-            employee.setTotPcMais(totPcMais);
-            employee.setTotPcMenos(totPcMenos);
-            employee.setTotPcErrada(totPcErrada);
+            employee.getTotPcMais();
+            employee.getTotPcMenos();
+            employee.getTotPcErrada();
             employeeRepository.save(employee);
 
             employeeRepository.saveAll(Arrays.asList(emp1, emp2, emp3, emp4));

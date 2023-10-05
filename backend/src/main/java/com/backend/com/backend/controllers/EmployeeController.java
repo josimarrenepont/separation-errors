@@ -19,17 +19,17 @@ import com.backend.com.backend.services.EmployeeService;
 public class EmployeeController {
 
     @Autowired
-    private EmployeeService service;
+    private EmployeeService employeeService;
 
     @GetMapping
     public ResponseEntity<List<Employee>> findAll() {
-        List<Employee> list = service.findAll();
+        List<Employee> list = employeeService.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> findById(@PathVariable Long id) {
-        Employee obj = service.findById(id);
+        Employee obj = employeeService.findById(id);
         return ResponseEntity.ok().body(obj);
 
     }

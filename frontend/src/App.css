@@ -46,7 +46,7 @@ header {
   color: #888;
 }
 body {
-  background-image: url('src/assets/BANNER_SOLIDES.png'); /* Substitua pelo caminho correto da sua imagem */
+  background-image: url('src/assets/lm2rodass.png'); /* Substitua pelo caminho correto da sua imagem */
   background-size: contain; /* Para ajustar a imagem ao tamanho da tela */
   background-repeat: no-repeat; /* Para evitar a repetição da imagem */
   
@@ -58,5 +58,60 @@ body {
   align-items: center; /* Alinhar verticalmente ao centro, se necessário */
 }
 
+/* Estilos para o componente ErrosDeSeparacao */
+
+/* Estilizando o título principal */
+h1 {
+  font-size: 24px;
+  color: #ffff;
+  margin-bottom: 20px;
+}
+
+/* Estilizando o botão de ação */
+button {
+  background-color: #007bff;
+  color: #333;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Estilizando a lista de erros */
+ul {
+  font-size: 20px;
+  color: #ffff;
+  list-style-type: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+/* Estilizando cada item da lista de erros */
+li {
+  
+  margin-bottom: 10px;
+}
+
+/* Estilizando os totais */
+strong {
+  font-size: 28px;
+  color: #ffff;
+  margin-top: 10px;
+  display: block;
+}
+
+/* Estilizando o subtítulo "Lista de Erros de Separação" */
+h2 {
+  font-size: 20px;
+  color: #ffff;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+/* Estilizando o subtítulo "Total de Erros por Ano" */
+h2:last-child {
+  
+  margin-top: 40px;
+}
 
 

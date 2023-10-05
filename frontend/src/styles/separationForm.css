@@ -7,8 +7,8 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-color: #0c0606; /* Cor de fundo */
-    background-image: url('/src/assets/BANNER_SOLIDES.png'); /* URL da imagem de fundo */
+    background-color: #06185b; /* Cor de fundo */
+    background-image: url('/src/assets/lm2rodass.png'); /* URL da imagem de fundo */
     background-size: cover;
     background-position: center;
   }

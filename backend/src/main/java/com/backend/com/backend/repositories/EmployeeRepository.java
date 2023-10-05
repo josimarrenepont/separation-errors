@@ -6,11 +6,10 @@ import com.backend.com.backend.entities.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-	static Employee findByName(String name) {
-		
-		return findByName(name);
-	}
-
 	
 
-}
+	
+	
+	}
+
+

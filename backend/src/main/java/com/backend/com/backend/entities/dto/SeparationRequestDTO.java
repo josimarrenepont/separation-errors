@@ -1,7 +1,5 @@
 package com.backend.com.backend.entities.dto;
 
-import java.util.Date;
-
 import org.springframework.beans.BeanUtils;
 
 import com.backend.com.backend.entities.Separation;
@@ -9,7 +7,7 @@ import com.backend.com.backend.entities.Separation;
 public class SeparationRequestDTO {
 
     private Long id;
-    private Date date;
+    private String date;
     private String employee;
     private Integer pcMais;
     private Integer pcMenos;
@@ -17,6 +15,7 @@ public class SeparationRequestDTO {
     private Integer palette;
     private Integer product;
     private Integer error;
+    private String name;
 
     public SeparationRequestDTO() {
     }
@@ -29,7 +28,7 @@ public class SeparationRequestDTO {
         return id;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -61,4 +60,19 @@ public class SeparationRequestDTO {
         return error;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 }

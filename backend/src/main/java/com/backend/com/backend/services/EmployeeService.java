@@ -17,24 +17,24 @@ import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
 public class EmployeeService {
 
     @Autowired
-    private EmployeeRepository repository;
+    private EmployeeRepository employeeRepository;
 
     public List<Employee> findAll() {
-        return repository.findAll();
+        return employeeRepository.findAll();
     }
 
     public Employee findById(Long id) {
-        Optional<Employee> obj = repository.findById(id);
+        Optional<Employee> obj = employeeRepository.findById(id);
         return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public Employee insert(Employee obj) {
-        return repository.save(obj);
+        return employeeRepository.save(obj);
     }
 
     public void delete(Long id) {
         try {
-            repository.deleteById(id);
+            employeeRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException(id);
         } catch (DataIntegrityViolationException e) {
@@ -43,11 +43,11 @@ public class EmployeeService {
     }
 
     public Employee update(Long id, Employee obj) {
-        Optional<Employee> optionalEntity = repository.findById(id);
+        Optional<Employee> optionalEntity = employeeRepository.findById(id);
         if (optionalEntity.isPresent()) {
             Employee entity = optionalEntity.get();
             updateData(entity, obj);
-            return repository.save(entity);
+            return employeeRepository.save(entity);
         } else {
             throw new ResourceNotFoundException(id);
         }
@@ -55,10 +55,6 @@ public class EmployeeService {
 
     private void updateData(Employee entity, Employee obj) {
         entity.setName(obj.getName());
-    }
-
-    public Employee findByName(String name) {
-        return EmployeeRepository.findByName(name);
     }
 
 }

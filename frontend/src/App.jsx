@@ -1,16 +1,18 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './App.css';
+
+
 import DateRangePicker from './components/DateRangePicker';
 import ErrosDeSeparacao from './components/ErrosDeSeparacao';
 import './index.css';
-import './vite-env.d.ts';
+
 
 // eslint-disable-next-line react-refresh/only-export-components
 function App() {
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
   const [errors, setErrors] = useState([]);
 
   const handleDateRangeChange = (start, end) => {
@@ -26,6 +28,7 @@ function App() {
       const response = await axios.get('http://localhost:8080/separations', {
         params: { startDate: start, endDate: end },
       });
+      
 
       // Verifique se a resposta foi bem-sucedida
       if (response.status === 200) {
@@ -42,7 +45,6 @@ function App() {
   return (
     <div>
       <header>
-        <img src="/frontend/src/assets/BANNER_SOLIDES.png" alt="Banner" />
         <h1>Erros de Separação</h1>
         <DateRangePicker onDateRangeChange={handleDateRangeChange} />
       </header>
@@ -51,7 +53,7 @@ function App() {
         <h2>Erros no período selecionado ({startDate} a {endDate})</h2>
         <ul>
           {errors.map((error) => (
-            <li key={error.id}>{error.errorMessage}</li>
+            <li key={error.id}>{error.name} = {errors.map.length}</li>
           ))}
         </ul>
       </div>
@@ -63,4 +65,5 @@ function App() {
   );
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+createRoot(document.getElementById('root')).render(<App />);
+

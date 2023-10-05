@@ -11,7 +11,7 @@ const api = axios.create({
 });
 
 export const saveSeparation = (formData) => {
-  return api.post('/salvar-separacao', formData);
+  return api.post('http://localhost:8080/separations', formData);
 };
 
 // Outras funções de serviço podem ser adicionadas aqui conforme necessário

@@ -3,6 +3,7 @@ package com.backend.com.backend.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,11 +24,10 @@ import jakarta.persistence.Table;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Separation implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd'T'HH:mm:ss'Z'", timezone = "GMT")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Date date;
     private String name;
     private Integer codProduct;
@@ -35,18 +35,19 @@ public class Separation implements Serializable {
     private Integer pcMais;
     private Integer pcMenos;
     private Integer pcErrada;
-    private Integer error;
+    private Integer errorPcMais;
+    private Integer errorPcMenos;
+    private Integer errorPcErrada;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "employee_separation", joinColumns = @JoinColumn(name = "separation.id"), inverseJoinColumns = @JoinColumn(name = "employee.id"))
     private Set<Employee> employees = new HashSet<>();
 
-    
     public Separation() {
     }
 
     public Separation(Long id, Date date, String name, Integer codProduct, Integer pallet, Integer pcMais,
-            Integer pcMenos, Integer pcErrada, Integer error) {
+            Integer pcMenos, Integer pcErrada, Integer errorPcMais, Integer errorPcMenos, Integer errorPcErrada) {
         this.id = id;
         this.date = date;
         this.name = name;
@@ -55,7 +56,9 @@ public class Separation implements Serializable {
         this.pcMais = (pcMais != null) ? pcMais : 0;
         this.pcMenos = (pcMenos != null) ? pcMenos : 0;
         this.pcErrada = (pcErrada != null) ? pcErrada : 0;
-        this.error = (error != null) ? error : 0;
+        this.errorPcMais = (errorPcMais != null) ? errorPcMais : 0;
+        this.errorPcMenos = (errorPcMenos != null) ? errorPcMenos : 0;
+        this.errorPcErrada = (errorPcErrada != null) ? errorPcErrada : 0;
     }
 
     public Long getId() {
@@ -122,12 +125,28 @@ public class Separation implements Serializable {
         this.pcErrada = pcErrada;
     }
 
-    public Integer getError() {
-        return error;
+    public Integer getErrorPcMais() {
+        return errorPcMais;
     }
 
-    public void setError(Integer error) {
-        this.error = error;
+    public void setErrorPcMais(Integer errorPcMais) {
+        this.errorPcMais = errorPcMais;
+    }
+
+    public Integer getErrorPcMenos() {
+        return errorPcMenos;
+    }
+
+    public void setErrorPcMenos(Integer errorPcMenos) {
+        this.errorPcMenos = errorPcMenos;
+    }
+
+    public Integer getErrorPcErrada() {
+        return errorPcErrada;
+    }
+
+    public void setErrorPcErrada(Integer errorPcErrada) {
+        this.errorPcErrada = errorPcErrada;
     }
 
     public Set<Employee> getErrors() {
@@ -138,23 +157,21 @@ public class Separation implements Serializable {
         if (pcMais == null) {
             return 0; // ou retorne null se preferir
         }
-        return pcMais + error;
+        return pcMais + errorPcMais;
     }
-
 
     public Integer getSubTotPcMenos() {
         if (pcMenos == null) {
             return 0; // ou retorne null se preferir
         }
-        return pcMenos + error;
+        return pcMenos + errorPcMenos;
     }
-
 
     public Integer getSubTotPcErrada() {
         if (pcErrada == null) {
             return 0; // ou retorne null se preferir
         }
-        return pcErrada + error;
+        return pcErrada + errorPcErrada;
     }
 
     public void addErrorTotPcMais(int selectedPcMais) {
@@ -168,17 +185,18 @@ public class Separation implements Serializable {
     public void addErrorTotPcErrada(int selectedPcErrada) {
         pcErrada += selectedPcErrada;
     }
+
     public void addEmployee(Employee existingEmployee) {
-		employees.add(existingEmployee);
-		
-	}
-   
+        employees.add(existingEmployee);
+    }
+
+    public Employee[] getEmployees() {
+        return employees.toArray(new Employee[0]);
+    }
+
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
+        return Objects.hash(id, name);
     }
 
     @Override
@@ -190,18 +208,7 @@ public class Separation implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         Separation other = (Separation) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+        return Objects.equals(id, other.id) && Objects.equals(name, other.name);
     }
-
-    public Employee[] getEmployees() {
-        return employees.toArray(new Employee[0]);
-    }
-
-	
 
 }
