@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.backend.com.backend.entities.Separation;
+import com.backend.com.backend.entities.dto.SeparationRequestDTO;
 import com.backend.com.backend.repositories.SeparationRepository;
 import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
 
@@ -65,4 +66,28 @@ public class SeparationService {
     public List<Separation> getAllSeparations() {
         return getAllSeparations();
     }
+    public Separation addError(SeparationRequestDTO errorData) {
+        // Aqui você pode criar uma nova instância de Separation com os dados fornecidos em errorData
+       
+    	Separation newError = new Separation();
+        newError.setDate(errorData.getDate());
+        newError.setName(errorData.getName());
+        newError.setPallet(errorData.getPallet());
+        newError.setCodProduct(errorData.getCodProduct());
+        newError.setPcMais(errorData.getPcMais());
+        newError.setPcMenos(errorData.getPcMenos());
+        newError.setPcErrada(errorData.getPcErrada());
+        newError.setErrorPcMais(errorData.getErrorPcMais());
+        newError.setErrorPcMenos(errorData.getErrorPcMenos());
+        newError.setErrorPcErrada(errorData.getErrorPcErrada());
+        
+        // Defina outros campos conforme necessário
+
+        // Agora, você pode salvar a nova instância no banco de dados
+        
+        return separationRepository.save(newError);
+    }
+
+    // Outros métodos de serviço
 }
+

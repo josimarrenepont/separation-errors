@@ -88,8 +88,9 @@ ul {
 
 /* Estilizando cada item da lista de erros */
 li {
-  
-  margin-bottom: 10px;
+  font-size: 20px;
+  margin-bottom: 20px;
+  list-style-type: none;
 }
 
 /* Estilizando os totais */

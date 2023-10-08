@@ -73,4 +73,10 @@ public class SeparationController {
         return new ResponseEntity<>(separationDTOs, HttpStatus.OK);
     }
 
+    @PostMapping("/separations")
+    public ResponseEntity<Separation> addError(@RequestBody SeparationRequestDTO errorData) {
+        Separation newError = separationService.addError(errorData);
+        return ResponseEntity.ok(newError);
+    }
+
 }

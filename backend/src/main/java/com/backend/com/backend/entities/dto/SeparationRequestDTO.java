@@ -1,5 +1,7 @@
 package com.backend.com.backend.entities.dto;
 
+import java.util.Date;
+
 import org.springframework.beans.BeanUtils;
 
 import com.backend.com.backend.entities.Separation;
@@ -7,15 +9,16 @@ import com.backend.com.backend.entities.Separation;
 public class SeparationRequestDTO {
 
     private Long id;
-    private String date;
-    private String employee;
+    private Date date;
+    private String name;
+    private Integer codProduct;
+    private Integer pallet;
     private Integer pcMais;
     private Integer pcMenos;
     private Integer pcErrada;
-    private Integer palette;
-    private Integer product;
-    private Integer error;
-    private String name;
+    private Integer errorPcMais;
+    private Integer errorPcMenos;
+    private Integer errorPcErrada;
 
     public SeparationRequestDTO() {
     }
@@ -28,12 +31,12 @@ public class SeparationRequestDTO {
         return id;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public String getEmployee() {
-        return employee;
+    public String getName() {
+        return name;
     }
 
     public Integer getPcMais() {
@@ -48,16 +51,56 @@ public class SeparationRequestDTO {
         return pcErrada;
     }
 
-    public Integer getPalette() {
-        return palette;
+    public Integer getPallet() {
+        return pallet;
     }
 
-    public Integer getProduct() {
-        return product;
+    public Integer getCodProduct() {
+        return codProduct;
     }
 
-    public Integer getError() {
-        return error;
+    public Integer getErrorPcMais() {
+        return errorPcMais;
+    }
+
+    public Integer getErrorPcMenos() {
+        return errorPcMenos;
+    }
+
+    public void setErrorPcMenos(Integer errorPcMenos) {
+        this.errorPcMenos = errorPcMenos;
+    }
+
+    public Integer getErrorPcErrada() {
+        return errorPcErrada;
+    }
+
+    public void setErrorPcErrada(Integer errorPcErrada) {
+        this.errorPcErrada = errorPcErrada;
+    }
+
+    public void setCodProduct(Integer codProduct) {
+        this.codProduct = codProduct;
+    }
+
+    public void setPallet(Integer pallet) {
+        this.pallet = pallet;
+    }
+
+    public void setPcMais(Integer pcMais) {
+        this.pcMais = pcMais;
+    }
+
+    public void setPcMenos(Integer pcMenos) {
+        this.pcMenos = pcMenos;
+    }
+
+    public void setPcErrada(Integer pcErrada) {
+        this.pcErrada = pcErrada;
+    }
+
+    public void setErrorPcMais(Integer errorPcMais) {
+        this.errorPcMais = errorPcMais;
     }
 
     public void setId(Long id) {
@@ -68,11 +111,12 @@ public class SeparationRequestDTO {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
+    public void setDate(Date string) {
+        this.date = string;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDate(String string) {
+        this.date = getDate();
     }
+
 }

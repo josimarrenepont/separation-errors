@@ -9,9 +9,12 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.backend.com.backend.entities.Employee;
+import com.backend.com.backend.entities.Separation;
 import com.backend.com.backend.repositories.EmployeeRepository;
 import com.backend.com.backend.services.exceptions.DatabaseException;
 import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class EmployeeService {
@@ -55,6 +58,27 @@ public class EmployeeService {
 
     private void updateData(Employee entity, Employee obj) {
         entity.setName(obj.getName());
+    }
+
+    public Employee findByName(String name) {
+        // Implemente a lógica para buscar o funcionário pelo nome no seu repositório
+        return employeeRepository.findByName(name);
+    }
+
+    public Employee addErrorToEmployee(Long employeeId, Separation errorData) {
+        // Primeiro, você deve recuperar o funcionário pelo ID
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EntityNotFoundException("Funcionário não encontrado com o ID: " + employeeId));
+
+        // Agora, você pode adicionar os erros ao funcionário
+        // Suponha que a classe Employee tenha um método para adicionar erros, como
+        // addError(Separation errorData)
+        employee.addError(errorData);
+
+        // Salve o funcionário atualizado no repositório
+        Employee updatedEmployee = employeeRepository.save(employee);
+
+        return updatedEmployee;
     }
 
 }

@@ -33,5 +33,14 @@ public class EmployeeController {
         return ResponseEntity.ok().body(obj);
 
     }
+    @GetMapping("/findByName/{name}")
+    public ResponseEntity<Employee> findByName(@PathVariable String name) {
+        Employee employee = employeeService.findByName(name);
+        if (employee != null) {
+            return ResponseEntity.ok(employee);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }
