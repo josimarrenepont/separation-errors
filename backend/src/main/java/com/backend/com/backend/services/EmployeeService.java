@@ -3,13 +3,13 @@ package com.backend.com.backend.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.backend.com.backend.entities.Separation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.backend.com.backend.entities.Employee;
-import com.backend.com.backend.entities.Separation;
 import com.backend.com.backend.repositories.EmployeeRepository;
 import com.backend.com.backend.services.exceptions.DatabaseException;
 import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
@@ -58,11 +58,13 @@ public class EmployeeService {
 
     private void updateData(Employee entity, Employee obj) {
         entity.setName(obj.getName());
+        entity.setBranch(obj.getBranch());
     }
 
     public Employee findByName(String name) {
         // Implemente a lógica para buscar o funcionário pelo nome no seu repositório
         return employeeRepository.findByName(name);
+
     }
 
     public Employee addErrorToEmployee(Long employeeId, Separation errorData) {
@@ -80,5 +82,6 @@ public class EmployeeService {
 
         return updatedEmployee;
     }
+
 
 }

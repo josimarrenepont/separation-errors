@@ -19,6 +19,7 @@ public class SeparationRequestDTO {
     private Integer errorPcMais;
     private Integer errorPcMenos;
     private Integer errorPcErrada;
+    private Long employeeId;
 
     public SeparationRequestDTO() {
     }
@@ -119,4 +120,7 @@ public class SeparationRequestDTO {
         this.date = getDate();
     }
 
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
 }

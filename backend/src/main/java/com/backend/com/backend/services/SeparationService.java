@@ -1,9 +1,9 @@
 package com.backend.com.backend.services;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
+import com.backend.com.backend.entities.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,7 @@ public class SeparationService {
         return separationRepository.save(separation);
     }
 
-    public Separation updateErrors(Long employeeId, Map<String, Integer> errorData) {
+    public Separation updateErrors(Long employeeId, Employee errorData) {
 
         Optional<Separation> optionalSeparation = separationRepository.findById(employeeId);
 
@@ -43,11 +43,11 @@ public class SeparationService {
 
         Separation separation = optionalSeparation.get();
 
-        Integer pcMais = errorData.get("pcMais");
+        Integer pcMais = errorData.getTotPcMais();
 
-        Integer pcMenos = errorData.get("pcMenos");
+        Integer pcMenos = errorData.getTotPcMenos();
 
-        Integer pcErrada = errorData.get("pcErrada");
+        Integer pcErrada = errorData.getTotPcErrada();
 
         // Atualize os erros do funcionário
 

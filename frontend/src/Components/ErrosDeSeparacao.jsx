@@ -44,15 +44,29 @@ function ErrosDeSeparacao() {
       {/* Aqui você pode adicionar um seletor de datas para o usuário escolher a data mínima e máxima */}
 
       <h2>Lista de Erros de Separação:</h2>
-      <ul>
-        {errors.map((error) => (
-          <li key={error.id}>
-            {error.name}: TotPcMais= {error.subTotPcMais}, TotPcMenos= {error.subTotPcMenos}, TotPcErrada= {error.subTotPcErrada}
-            <br />
-            {error.errorMessage} - Ano: {new Date(error.date).getFullYear()}
-          </li>
-        ))}
-      </ul>
+      <table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>TotPcMais</th>
+      <th>TotPcMenos</th>
+      <th>TotPcErrada</th>
+      <th>Ano</th>
+    </tr>
+  </thead>
+  <tbody>
+    {errors.map((error) => (
+      <tr key={error.id}>
+        <td>{error.name}</td>
+        <td>{error.subTotPcMais}</td>
+        <td>{error.subTotPcMenos}</td>
+        <td>{error.subTotPcErrada}</td>
+        <td>{new Date(error.date).getFullYear()}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
     </div>
   );
 }

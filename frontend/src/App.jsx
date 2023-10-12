@@ -2,8 +2,6 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './App.css';
-
-
 import DateRangePicker from './components/DateRangePicker';
 import ErrosDeSeparacao from './components/ErrosDeSeparacao';
 import './index.css';
@@ -44,19 +42,31 @@ function App() {
 
   return (
     <div>
-      <header>
-        <h1>Erros de Separação</h1>
-        <DateRangePicker onDateRangeChange={handleDateRangeChange} />
-      </header>
-      {/* Primeira visualização */}
-      <div>
-        <h2>Erros no período selecionado ({startDate} a {endDate})</h2>
-        <ul>
-          {errors.map((error) => (
-            <li key={error.id}>{error.name} = {errors.map.length}</li>
-          ))}
-        </ul>
-      </div>
+        <header>
+    <h1>Erros de Separação</h1>
+    <DateRangePicker onDateRangeChange={handleDateRangeChange} />
+  </header>
+  {/* Primeira visualização */}
+  <div>
+    <h2>Erros no período selecionado ({startDate} a {endDate})</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Total de Erros</th>
+        </tr>
+      </thead>
+      <tbody>
+        {errors.map((error) => (
+          <tr key={error.id}>   
+            <td>{error.name}</td>
+            <td>{error.totalErrors}{errors.map.length}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
       {/* Segunda visualização */}
       <div>
         <ErrosDeSeparacao />

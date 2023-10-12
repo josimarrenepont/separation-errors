@@ -19,14 +19,14 @@ function SeparationForm() {
   const [errorPcMenos, setErrorPcMenos] = useState('');
   const [errorPcErrada, setErrorPcErrada] = useState('');
   const [setSuccessMessage] = useState(''); // Estado para feedback de sucesso
-  const [setFormData] = useState('');
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Primeiro, busque o ID do funcionário com base no nome selecionado
     try {
-      const response = await axios.get(`http://localhost:8080/employees/findByName/${employee.id}`);
+      const response = await axios.get(`http://localhost:8080/employees/findByName/${employee}`);
       const employeeData = response.data; // O response.data é um objeto que representa o funcionário
     
       // Agora, você deve acessar o employeeId do objeto retornado
@@ -55,26 +55,25 @@ function SeparationForm() {
 
       // Envie a solicitação POST com o ID do funcionário
       const postResponse = await axios.post('http://localhost:8080/separations', formData);
-
+      
       console.log('Erros atualizados com sucesso:', postResponse.data);
-          // Defina a mensagem de sucesso e limpe os campos
-          setSuccessMessage('Erros atualizados com sucesso');
-          setFormData({
-            date: '',
-            employee: '',
-            separation: '',
-            pallet: '',
-            codProduct: '',
-            pcMais: '',
-            pcMenos: '',
-            pcErrada: '',
-            errorPcMais: '',
-            errorPcMenos: '',
-            errorPcErrada: '',
-          });
-    } catch (error) {
+      setSuccessMessage('Erros atualizados com sucesso'); // Define a mensagem de sucesso    
+          setEmployee(''); // Limpa o campo do funcionário
+          setDate('');
+          setSeparation('');
+          setPallet('');
+          setCodProduct('');
+          setPcMais('');
+          setPcMenos('');
+          setPcErrada('');
+          setErrorPcMais('');
+          setErrorPcMenos('');
+          setErrorPcErrada('');
+         
+          }
+      catch (error) {
       console.error('Erro ao buscar o ID do funcionário:', error);
-      ('Erro ao atualizar erros. Por favor, tente novamente.');
+     
     }
   };
 
@@ -99,7 +98,7 @@ function SeparationForm() {
           <select
             id="employee"
             name="employee"
-            value={employee.name}
+            value={employee}
             onChange={(e) => setEmployee(e.target.value)}
             required
           >

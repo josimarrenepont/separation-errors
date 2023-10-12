@@ -115,4 +115,123 @@ h2:last-child {
   margin-top: 40px;
 }
 
+/* Arquivo CSS */
 
+/* Estilo para a tabela */
+/* Adicione esses estilos CSS ao seu arquivo de estilo para centralizar o conteúdo da tabela */
+
+/* Estilo para a tabela */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* Estilo para o cabeçalho da tabela */
+th {
+  background-color: #f2f2f2;
+  text-align: center; /* Centralizar o texto horizontalmente */
+  padding: 10px;
+  font-weight: bold;
+  border-bottom: 2px solid #ddd;
+}
+
+/* Estilo para as células da tabela */
+td {
+  text-align: center; /* Centralizar o texto horizontalmente */
+  vertical-align: middle; /* Centralizar o texto verticalmente */
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Estilo para linhas alternadas (para facilitar a leitura) */
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Estilo para realçar quando o mouse passa por cima das linhas */
+tr:hover {
+  background-color: #ddd;
+}
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ddd;
+}
+
+.form-container {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 400px;
+  text-align: center;
+}
+
+.form-container h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path fill='%23000' d='M5.8 10.7l-4.1-4.1c-.2-.2-.2-.5 0-.7l.7-.7c.2-.2.5-.2.7 0l3.4 3.4 3.4-3.4c.2-.2.5-.2.7 0l.7.7c.2.2.2.5 0 .7l-4.1 4.1c-.2.2-.5.2-.7 0z'/></svg>");
+  background-size: 12px;
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+  cursor: pointer;
+}
+
+.error-message {
+  color: red;
+  margin-top: 4px;
+}
+
+.submit-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}

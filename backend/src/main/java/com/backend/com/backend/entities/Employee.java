@@ -28,6 +28,7 @@ public class Employee implements Serializable {
     @ManyToMany(mappedBy = "employees")
     private Set<Separation> errors = new HashSet<>();
 
+
     public Employee() {
     }
 
@@ -105,9 +106,9 @@ public class Employee implements Serializable {
         return sumPcErrada;
     }
 
-    public void addError(Separation separation) {
-        errors.add(separation);
-        separation.getEmployees();
+    public void addError(Separation errorData) {
+        errors.add(errorData);
+        errorData.setEmployee(this);
     }
 
     @Override

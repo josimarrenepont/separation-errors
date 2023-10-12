@@ -8,10 +8,4 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
 	Employee findByName(String name);
 
-	Employee findEmployeeWithErrorsById(Long id);
-
-	
-	
-	}
-
-
+}

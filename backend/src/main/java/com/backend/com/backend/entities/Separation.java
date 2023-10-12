@@ -193,6 +193,9 @@ public class Separation implements Serializable {
     public Employee[] getEmployees() {
         return employees.toArray(new Employee[0]);
     }
+    public void setEmployee(Employee employee) {
+        addEmployee(employee);
+    }
 
     @Override
     public int hashCode() {
@@ -210,5 +213,6 @@ public class Separation implements Serializable {
         Separation other = (Separation) obj;
         return Objects.equals(id, other.id) && Objects.equals(name, other.name);
     }
+
 
 }
