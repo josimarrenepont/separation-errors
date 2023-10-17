@@ -21,9 +21,7 @@ public class Employee implements Serializable {
     private Long id;
     private String name;
     private String branch;
-    private Integer totPcMais;
-    private Integer totPcMenos;
-    private Integer totPcErrada;
+
 
     @ManyToMany(mappedBy = "employees")
     private Set<Separation> errors = new HashSet<>();
@@ -32,13 +30,11 @@ public class Employee implements Serializable {
     public Employee() {
     }
 
-    public Employee(Long id, String name, String branch, Integer totPcMais, Integer totPcMenos, Integer totPcErrada) {
+    public Employee(Long id, String name, String branch) {
         this.id = id;
         this.name = name;
         this.branch = branch;
-        this.totPcMais = totPcMais;
-        this.totPcMenos = totPcMenos;
-        this.totPcErrada = totPcErrada;
+
 
     }
 
@@ -64,18 +60,6 @@ public class Employee implements Serializable {
 
     public void setBranch(String branch) {
         this.branch = branch;
-    }
-
-    public void setTotPcMais(Integer totPcMais) {
-        this.totPcMais = totPcMais;
-    }
-
-    public void setTotPcMenos(Integer totPcMenos) {
-        this.totPcMenos = totPcMenos;
-    }
-
-    public void setTotPcErrada(Integer totPcErrada) {
-        this.totPcErrada = totPcErrada;
     }
 
     public Set<Separation> getErrors() {
@@ -106,26 +90,15 @@ public class Employee implements Serializable {
         return sumPcErrada;
     }
 
-    public void addError(Separation errorData) {
-        errors.add(errorData);
-        errorData.setEmployee(this);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Employee employee)) return false;
+        return Objects.equals(getId(), employee.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(getId());
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Employee other = (Employee) obj;
-        return Objects.equals(id, other.id) && Objects.equals(name, other.name);
-    }
-
 }

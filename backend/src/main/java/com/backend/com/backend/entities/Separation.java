@@ -9,15 +9,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tb_separation")
@@ -39,9 +31,11 @@ public class Separation implements Serializable {
     private Integer errorPcMenos;
     private Integer errorPcErrada;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "employee_separation", joinColumns = @JoinColumn(name = "separation.id"), inverseJoinColumns = @JoinColumn(name = "employee.id"))
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "employee_separation", joinColumns = @JoinColumn(name = "separation_id"), inverseJoinColumns = @JoinColumn(name = "employee_id"))
     private Set<Employee> employees = new HashSet<>();
+
+
 
     public Separation() {
     }
@@ -198,21 +192,14 @@ public class Separation implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Separation that)) return false;
+        return Objects.equals(getId(), that.getId());
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Separation other = (Separation) obj;
-        return Objects.equals(id, other.id) && Objects.equals(name, other.name);
+    public int hashCode() {
+        return Objects.hash(getId());
     }
-
-
 }

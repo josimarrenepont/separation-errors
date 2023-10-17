@@ -31,10 +31,10 @@ public class TestConfig implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Employee emp1 = new Employee(null, "Gilvan", "wne", 1, 2, 3);
-        Employee emp2 = new Employee(null, "Josenilson", "wne", 2, 5, 6);
-        Employee emp3 = new Employee(null, "Jose", "wne", 8, 9, 10);
-        Employee emp4 = new Employee(null, "Eduardo", "wne", 10, 11, 12);
+        Employee emp1 = new Employee(null, "Gilvan", "wne");
+        Employee emp2 = new Employee(null, "Josenilson", "wne");
+        Employee emp3 = new Employee(null, "Jose", "wne");
+        Employee emp4 = new Employee(null, "Eduardo", "wne");
 
         Separation sep1 = new Separation(null, new Date(), "Gilvan", 1, 2, 3, 5, 6, 7, 10, 11);
         Separation sep2 = new Separation(null, new Date(), "Josenilson", 1, 2, 3, 5, 6, 7, 10, 11);

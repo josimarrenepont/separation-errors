@@ -9,7 +9,6 @@ import './SeparationForm';
 function SeparationForm() {
   const [date, setDate] = useState('');
   const [employee, setEmployee] = useState('');
-  const [separation, setSeparation] = useState('');
   const [pallet, setPallet] = useState('');
   const [codProduct, setCodProduct] = useState('');
   const [pcMais, setPcMais] = useState('');
@@ -19,68 +18,65 @@ function SeparationForm() {
   const [errorPcMenos, setErrorPcMenos] = useState('');
   const [errorPcErrada, setErrorPcErrada] = useState('');
   const [setSuccessMessage] = useState(''); // Estado para feedback de sucesso
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Primeiro, busque o ID do funcionário com base no nome selecionado
+    // Primeiro, busque o funcionário com base no nome selecionado
     try {
       const response = await axios.get(`http://localhost:8080/employees/findByName/${employee}`);
-      const employeeData = response.data; // O response.data é um objeto que representa o funcionário
-    
-      // Agora, você deve acessar o employeeId do objeto retornado
-      const employee = employeeData.id;
+      const employeeData = response.data;
 
-      // Continue com o envio da solicitação POST com o ID do funcionário
-      const errorData = {
-        pcMais: parseInt(pcMais, 10),
-        pcMenos: parseInt(pcMenos, 10),
-        pcErrada: parseInt(pcErrada, 10),
-        errorPcMais: parseInt(errorPcMais, 10),
-        errorPcMenos: parseInt(errorPcMenos, 10),
-        errorPcErrada: parseInt(errorPcErrada, 10)
-      };
+      if (employeeData) {
+        // O funcionário existe, agora você pode atualizar os erros
+        const errorData = {
+          pcMais: parseInt(pcMais, 10),
+          pcMenos: parseInt(pcMenos, 10),
+          pcErrada: parseInt(pcErrada, 10),
+          errorPcMais: parseInt(errorPcMais, 10),
+          errorPcMenos: parseInt(errorPcMenos, 10),
+          errorPcErrada: parseInt(errorPcErrada, 10),
+        };
 
-      const formData = {
-        date,
-        employee: employee.id, // Use o ID do funcionário em vez do nome
-        separation: parseInt(separation, 10),
-        pallet: parseInt(pallet, 10),
-        codProduct: parseInt(codProduct, 10),
-        errorPcMais: errorData,
-        errorPcMenos: errorData,
-        errorPcErrada: errorData
-      };
+        const updatedSeparation = {
+          ...employeeData,
+          errorPcMais: (employeeData.errorPcMais || 0) + errorData.pcMais,
+          errorPcMenos: (employeeData.errorPcMenos || 0) + errorData.pcMenos,
+          errorPcErrada: (employeeData.errorPcErrada || 0) + errorData.pcErrada,
+        };
 
-      // Envie a solicitação POST com o ID do funcionário
-      const postResponse = await axios.post('http://localhost:8080/separations', formData);
-      
-      console.log('Erros atualizados com sucesso:', postResponse.data);
-      setSuccessMessage('Erros atualizados com sucesso'); // Define a mensagem de sucesso    
-          setEmployee(''); // Limpa o campo do funcionário
-          setDate('');
-          setSeparation('');
-          setPallet('');
-          setCodProduct('');
-          setPcMais('');
-          setPcMenos('');
-          setPcErrada('');
-          setErrorPcMais('');
-          setErrorPcMenos('');
-          setErrorPcErrada('');
-         
-          }
-      catch (error) {
-      console.error('Erro ao buscar o ID do funcionário:', error);
-     
+        // Faça uma solicitação para atualizar o funcionário com os novos erros
+        const updateResponse = await axios.post(`http://localhost:8080/separations/${employeeData.id}`, updatedSeparation, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        console.log('Erros atualizados com sucesso no funcionário:', updateResponse.data);
+        setSuccessMessage('Erros atualizados com sucesso no funcionário');
+      } else {
+        console.error('Funcionário não encontrado');
+      }
+
+      // Limpe os campos do formulário
+      setEmployee('');
+      setDate('');
+      setPallet('');
+      setCodProduct('');
+      setPcMais('');
+      setPcMenos('');
+      setPcErrada('');
+      setErrorPcMais('');
+      setErrorPcMenos('');
+      setErrorPcErrada('');
+    } catch (error) {
+      console.error('Erro ao buscar o funcionário ou atualizar os erros:', error);
     }
   };
 
   return (
     <div className="container">
       <h1>Formulário de Separação</h1>
-      <div className='SeparationForm'>
+      <div className="SeparationForm">
         {errorPcMais && <div className="error-message">{errorPcMais}</div>}
         {errorPcMenos && <div className="error-message">{errorPcMenos}</div>}
         {errorPcErrada && <div className="error-message">{errorPcErrada}</div>}
@@ -93,7 +89,9 @@ function SeparationForm() {
             onChange={(e) => setDate(e.target.value)}
             name="date"
             required
-          /><br /><br />
+          />
+          <br /><br />
+
           <label htmlFor="employee">Funcionário:</label>
           <select
             id="employee"
@@ -108,61 +106,64 @@ function SeparationForm() {
             <option value="Gilvan">Gilvan</option>
             <option value="Jose">Jose</option>
             <option value="Gildoberto">Gildoberto</option>
-          </select><br /><br />
-          <label htmlFor="separation">Separação:</label>
-          <input
-            type="text"
-            id="separation"
-            value={separation}
-            onChange={(e) => setSeparation(e.target.value)}
-            name="separation"
-            required
-          /><br /><br />
+          </select>
+          <br /><br />
+
           <label htmlFor="pallet">Pallet:</label>
           <input
-            type="text"
+            type="number"
             id="pallet"
             value={pallet}
             onChange={(e) => setPallet(e.target.value)}
             name="pallet"
             required
-          /><br /><br />
+          />
+          <br /><br />
+
           <label htmlFor="codProduct">codProduct:</label>
           <input
-            type="text"
+            type="number"
             id="codProduct"
             value={codProduct}
             onChange={(e) => setCodProduct(e.target.value)}
             name="codProduct"
             required
-          /><br /><br />
+          />
+          <br /><br />
+
           <label htmlFor="errorPcMais">errorPcMais:</label>
           <input
-            type="text"
+            type="number"
             id="errorPcMais"
             value={errorPcMais}
             onChange={(e) => setErrorPcMais(e.target.value)}
             name="errorPcMais"
             required
-          /><br /><br />
+          />
+          <br /><br />
+
           <label htmlFor="errorPcMenos">errorPcMenos:</label>
           <input
-            type="text"
+            type="number"
             id="errorPcMenos"
             value={errorPcMenos}
             onChange={(e) => setErrorPcMenos(e.target.value)}
             name="errorPcMenos"
             required
-          /><br /><br />
+          />
+          <br /><br />
+
           <label htmlFor="errorPcErrada">errorPcErrada:</label>
           <input
-            type="text"
+            type="number"
             id="errorPcErrada"
             value={errorPcErrada}
             onChange={(e) => setErrorPcErrada(e.target.value)}
             name="errorPcErrada"
             required
-          /><br /><br />
+          />
+          <br /><br />
+
           <label htmlFor="pcMais">PC Mais:</label>
           <select
             id="pcMais"
@@ -182,7 +183,9 @@ function SeparationForm() {
             <option value="8">8</option>
             <option value="9">9</option>
             <option value="10">10</option>
-          </select><br /><br />
+          </select>
+          <br /><br />
+
           <label htmlFor="pcMenos">PC Menos:</label>
           <select
             id="pcMenos"
@@ -202,7 +205,9 @@ function SeparationForm() {
             <option value="8">8</option>
             <option value="9">9</option>
             <option value="10">10</option>
-          </select><br /><br />
+          </select>
+          <br /><br />
+
           <label htmlFor="pcErrada">PC Errada:</label>
           <select
             id="pcErrada"
@@ -222,7 +227,9 @@ function SeparationForm() {
             <option value="8">8</option>
             <option value="9">9</option>
             <option value="10">10</option>
-          </select><br /><br />
+          </select>
+          <br /><br />
+
           <input type="submit" value="Salvar" />
         </form>
       </div>

@@ -11,6 +11,7 @@ import com.backend.com.backend.entities.Separation;
 import com.backend.com.backend.entities.dto.SeparationRequestDTO;
 import com.backend.com.backend.repositories.SeparationRepository;
 import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Service
 public class SeparationService {
@@ -18,6 +19,10 @@ public class SeparationService {
     @Autowired
     private SeparationRepository separationRepository;
 
+    @Autowired
+    public SeparationService(SeparationRepository separationRepository) {
+        this.separationRepository = separationRepository;
+    }
     public List<Separation> findAll() {
         return separationRepository.findAll();
     }
@@ -62,7 +67,7 @@ public class SeparationService {
         return separationRepository.save(separation);
 
     }
-
+    @PostMapping("/separations")
     public List<Separation> getAllSeparations() {
         return getAllSeparations();
     }
@@ -88,6 +93,12 @@ public class SeparationService {
         return separationRepository.save(newError);
     }
 
-    // Outros métodos de serviço
+   public Separation separationRequestDTO(Separation requestDTO){
+        return separationRepository.save(requestDTO);
+   }
+
+    public Separation createSeparation(Separation separation) {
+        return separationRepository.save(separation);
+    }
 }
 

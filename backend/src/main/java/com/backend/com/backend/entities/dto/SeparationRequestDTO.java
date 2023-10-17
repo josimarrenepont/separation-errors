@@ -6,6 +6,9 @@ import org.springframework.beans.BeanUtils;
 
 import com.backend.com.backend.entities.Separation;
 
+import lombok.Getter;
+
+@Getter
 public class SeparationRequestDTO {
 
     private Long id;
@@ -28,52 +31,8 @@ public class SeparationRequestDTO {
         BeanUtils.copyProperties(entity, this);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Integer getPcMais() {
-        return pcMais;
-    }
-
-    public Integer getPcMenos() {
-        return pcMenos;
-    }
-
-    public Integer getPcErrada() {
-        return pcErrada;
-    }
-
-    public Integer getPallet() {
-        return pallet;
-    }
-
-    public Integer getCodProduct() {
-        return codProduct;
-    }
-
-    public Integer getErrorPcMais() {
-        return errorPcMais;
-    }
-
-    public Integer getErrorPcMenos() {
-        return errorPcMenos;
-    }
-
     public void setErrorPcMenos(Integer errorPcMenos) {
         this.errorPcMenos = errorPcMenos;
-    }
-
-    public Integer getErrorPcErrada() {
-        return errorPcErrada;
     }
 
     public void setErrorPcErrada(Integer errorPcErrada) {

@@ -34,6 +34,11 @@ public class SeparationController {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    public SeparationController(SeparationService separationService) {
+        this.separationService = separationService;
+    }
+
     @GetMapping
     public ResponseEntity<List<Separation>> findAll() {
         List<Separation> list = separationService.findAll();
@@ -46,14 +51,7 @@ public class SeparationController {
         return ResponseEntity.ok().body(obj);
     }
 
-    @PostMapping("/updateErrors/{employeeId}")
-    public ResponseEntity<Separation> updateErrors(@PathVariable Long employeeId,
-            @RequestBody Employee errorData) {
-
-        Separation separation = separationService.updateErrors(employeeId, errorData);
-        return ResponseEntity.ok(separation);
-    }
-
+    @PostMapping("/separations")
     public ResponseEntity<List<SeparationRequestDTO>> getSeparations() {
         List<Separation> separations = separationService.getAllSeparations();
 
@@ -77,19 +75,19 @@ public class SeparationController {
             return dto;
         }).collect(Collectors.toList());
 
-        return new ResponseEntity<>(separationDTOs, HttpStatus.OK);
+        return new ResponseEntity<>(separationDTOs, HttpStatus.CREATED);
     }
 
-    @PostMapping("/separations")
+    @PostMapping("/separationRequestDTO")
     public ResponseEntity<Separation> addError(@RequestBody SeparationRequestDTO errorData) {
         Separation newError = separationService.addError(errorData);
         return ResponseEntity.ok(newError);
     }
 
-    @PutMapping("/employees/{id}")
+    @PostMapping("/employees/{id}")
     public ResponseEntity<Employee> updatedEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployeeData) {
         try {
-            Separation updatedEmployee = separationService.updateErrors(id, updatedEmployeeData);
+            separationService.updateErrors(id, updatedEmployeeData);
             return ResponseEntity.ok(updatedEmployeeData);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -126,5 +124,12 @@ public class SeparationController {
 
         return ResponseEntity.ok(savedError);
     }
+    @PostMapping
+    public ResponseEntity<Separation> createSeparation(@RequestBody Separation separation) {
+        Separation newSeparation = separationService.createSeparation(separation); // Implemente createSeparation no seu serviço
+        return ResponseEntity.status(HttpStatus.CREATED).body(newSeparation);
+    }
+
+
 
 }
