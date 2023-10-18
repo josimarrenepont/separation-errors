@@ -101,4 +101,8 @@ public class Employee implements Serializable {
     public int hashCode() {
         return Objects.hash(getId());
     }
+
+    public void addError(Separation errorData) {
+        addError(errorData);
+    }
 }
