@@ -1,10 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import './ChartComponent';
-import './DateRangePicker';
-import './ErrosDeSeparacao';
-import './MeuBotao';
-import './SeparationForm';
+
 
 function SeparationForm() {
   const [date, setDate] = useState('');
@@ -46,7 +42,7 @@ function SeparationForm() {
         };
 
         // Faça uma solicitação para atualizar o funcionário com os novos erros
-        const updateResponse = await axios.post(`http://localhost:8080/separations/${employeeData.id}`, updatedSeparation, {
+        const updateResponse = await axios.put(`http://localhost:8080/separations/${employeeData.id}`, updatedSeparation, {
           headers: {
             'Content-Type': 'application/json',
           },

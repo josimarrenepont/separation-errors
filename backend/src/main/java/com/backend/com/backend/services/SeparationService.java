@@ -18,6 +18,7 @@ public class SeparationService {
 
     @Autowired
     private SeparationRepository separationRepository;
+    private Separation existingSeparation;
 
     @Autowired
     public SeparationService(SeparationRepository separationRepository) {
@@ -99,6 +100,15 @@ public class SeparationService {
 
     public Separation createSeparation(Separation separation) {
         return separationRepository.save(separation);
+    }
+
+    public Separation getSeparationById(Long id) {
+        return separationRepository.getReferenceById(id);
+        
+    }
+
+    public Separation updateSeparation(Separation existingSeparation) {
+        return separationRepository.getReferenceById(existingSeparation.getId());
     }
 }
 

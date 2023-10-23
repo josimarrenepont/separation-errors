@@ -1,27 +1,19 @@
 package com.backend.com.backend.controllers;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.backend.com.backend.entities.Employee;
 import com.backend.com.backend.entities.Separation;
 import com.backend.com.backend.entities.dto.SeparationRequestDTO;
 import com.backend.com.backend.services.EmployeeService;
 import com.backend.com.backend.services.SeparationService;
 import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
@@ -51,40 +43,69 @@ public class SeparationController {
         return ResponseEntity.ok().body(obj);
     }
 
-    @PostMapping("/separations")
-    public ResponseEntity<List<SeparationRequestDTO>> getSeparations() {
-        List<Separation> separations = separationService.getAllSeparations();
 
-        // Use um SimpleDateFormat para formatar as datas antes de enviá-las para o
-        // front-end
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    @PutMapping("/separations/{id}")
+    public ResponseEntity<SeparationRequestDTO> updateSeparation(@PathVariable Long id, @RequestBody Separation updateSeparation) {
+        Separation existingSeparation = separationService.getSeparationById(id);
 
-        List<SeparationRequestDTO> separationDTOs = separations.stream().map(separation -> {
-            SeparationRequestDTO dto = new SeparationRequestDTO();
-            dto.setDate(sdf.format(separation.getDate())); // Formate a data aqui
-            dto.setId(separation.getId());
-            dto.setName(separation.getName());
-            dto.setPallet(separation.getPallet());
-            dto.setCodProduct(separation.getCodProduct());
-            dto.setErrorPcMais(separation.getErrorPcMais());
-            dto.setErrorPcMenos(separation.getErrorPcMenos());
-            dto.setErrorPcErrada(separation.getErrorPcErrada());
-            dto.setPcMais(separation.getPcMais());
-            dto.setPcMenos(separation.getPcMenos());
-            dto.setPcErrada(separation.getPcErrada());
-            return dto;
-        }).collect(Collectors.toList());
+        if (existingSeparation == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        return new ResponseEntity<>(separationDTOs, HttpStatus.CREATED);
+        // Verifique se os campos em 'updateSeparation' não são nulos antes de atualizar
+        if (updateSeparation.getDate() != null) {
+            existingSeparation.setDate(updateSeparation.getDate());
+        }
+
+        if (updateSeparation.getCodProduct() != null) {
+            existingSeparation.setCodProduct(updateSeparation.getCodProduct());
+        }
+
+        if (updateSeparation.getPallet() != null) {
+            existingSeparation.setPallet(updateSeparation.getPallet());
+        }
+
+        // Atualize outros campos conforme necessário
+        existingSeparation.setName(updateSeparation.getName());
+        existingSeparation.setDate(updateSeparation.getDate());
+        existingSeparation.setPallet(updateSeparation.getPallet());
+        existingSeparation.setId(updateSeparation.getId());
+        existingSeparation.setCodProduct(updateSeparation.getCodProduct());
+        existingSeparation.setErrorPcMais(updateSeparation.getErrorPcMais());
+        existingSeparation.setErrorPcMenos(updateSeparation.getErrorPcMenos());
+        existingSeparation.setErrorPcErrada(updateSeparation.getErrorPcErrada());
+        existingSeparation.setPcMais(updateSeparation.getPcMais());
+        existingSeparation.setPcMenos(updateSeparation.getPcMenos());
+        existingSeparation.setPcErrada(updateSeparation.getPcErrada());
+
+        Separation updatedSeparation = separationService.updateSeparation(existingSeparation);
+
+        SeparationRequestDTO separationDTO = new SeparationRequestDTO();
+
+        separationDTO.setId(updatedSeparation.getId());
+        separationDTO.setName(updatedSeparation.getName());
+        separationDTO.setDate(updatedSeparation.getDate());
+        separationDTO.setCodProduct(updatedSeparation.getCodProduct());
+        separationDTO.setPallet(updatedSeparation.getPallet());
+        separationDTO.setErrorPcMais(updatedSeparation.getErrorPcMais());
+        separationDTO.setErrorPcMenos(updatedSeparation.getErrorPcMenos());
+        separationDTO.setErrorPcErrada(updatedSeparation.getErrorPcErrada());
+        separationDTO.setPcMais(updatedSeparation.getPcMais());
+        separationDTO.setPcMenos(updatedSeparation.getPcMenos());
+        separationDTO.setPcErrada(updatedSeparation.getPcErrada());
+
+        return new ResponseEntity<>(separationDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/separationRequestDTO")
+
+
+    @PutMapping("/separationRequestDTO")
     public ResponseEntity<Separation> addError(@RequestBody SeparationRequestDTO errorData) {
         Separation newError = separationService.addError(errorData);
         return ResponseEntity.ok(newError);
     }
 
-    @PostMapping("/employees/{id}")
+    @PutMapping("/employees/{id}")
     public ResponseEntity<Employee> updatedEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployeeData) {
         try {
             separationService.updateErrors(id, updatedEmployeeData);
@@ -94,7 +115,7 @@ public class SeparationController {
         }
     }
 
-    @PostMapping("/addErrorToEmployee")
+    @PutMapping("/addErrorToEmployee")
     public ResponseEntity<Separation> addErrorToEmployee(@RequestBody SeparationRequestDTO errorData) {
         // Buscar employee com base no nome
         Employee employee = employeeService.findByName(errorData.getName());
@@ -124,7 +145,7 @@ public class SeparationController {
 
         return ResponseEntity.ok(savedError);
     }
-    @PostMapping
+    @PutMapping
     public ResponseEntity<Separation> createSeparation(@RequestBody Separation separation) {
         Separation newSeparation = separationService.createSeparation(separation); // Implemente createSeparation no seu serviço
         return ResponseEntity.status(HttpStatus.CREATED).body(newSeparation);
