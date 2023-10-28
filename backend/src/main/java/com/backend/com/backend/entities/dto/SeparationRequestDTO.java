@@ -1,15 +1,13 @@
 package com.backend.com.backend.entities.dto;
 
-import java.util.Date;
-
+import com.backend.com.backend.entities.Separation;
+import lombok.Getter;
 import org.springframework.beans.BeanUtils;
 
-import com.backend.com.backend.entities.Separation;
-
-import lombok.Getter;
+import java.util.Date;
 
 @Getter
-public class SeparationRequestDTO {
+public class SeparationRequestDTO{
 
     private Long id;
     private Date date;

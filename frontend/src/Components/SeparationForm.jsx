@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios';
 import React, { useState } from 'react';
 
@@ -13,7 +14,8 @@ function SeparationForm() {
   const [errorPcMais, setErrorPcMais] = useState('');
   const [errorPcMenos, setErrorPcMenos] = useState('');
   const [errorPcErrada, setErrorPcErrada] = useState('');
-  const [setSuccessMessage] = useState(''); // Estado para feedback de sucesso
+  const [successMessage, setSuccessMessage] = useState(''); // Estado para feedback de sucesso
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,6 +28,10 @@ function SeparationForm() {
       if (employeeData) {
         // O funcionário existe, agora você pode atualizar os erros
         const errorData = {
+          date,
+          name: employee,
+          codProduct: parseInt(codProduct, 10),
+          pallet: parseInt(pallet, 10),
           pcMais: parseInt(pcMais, 10),
           pcMenos: parseInt(pcMenos, 10),
           pcErrada: parseInt(pcErrada, 10),
@@ -36,13 +42,20 @@ function SeparationForm() {
 
         const updatedSeparation = {
           ...employeeData,
+          date: (new Date().getTime()),
+          employeeData,
+          codProduct,
+          pallet,
+          pcMais,
+          pcMenos,
+          pcErrada,
           errorPcMais: (employeeData.errorPcMais || 0) + errorData.pcMais,
           errorPcMenos: (employeeData.errorPcMenos || 0) + errorData.pcMenos,
           errorPcErrada: (employeeData.errorPcErrada || 0) + errorData.pcErrada,
         };
 
         // Faça uma solicitação para atualizar o funcionário com os novos erros
-        const updateResponse = await axios.put(`http://localhost:8080/separations/${employeeData.id}`, updatedSeparation, {
+        const updateResponse = await axios.put(`http://localhost:8080/separations`, updatedSeparation, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -226,7 +239,7 @@ function SeparationForm() {
           </select>
           <br /><br />
 
-          <input type="submit" value="Salvar" />
+          <button onClick={handleSubmit}>Salvar</button>
         </form>
       </div>
     </div>

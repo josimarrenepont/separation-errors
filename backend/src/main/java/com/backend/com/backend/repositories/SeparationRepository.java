@@ -2,6 +2,7 @@ package com.backend.com.backend.repositories;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import com.backend.com.backend.entities.Employee;
 import org.hibernate.annotations.Parameter;
@@ -21,7 +22,8 @@ public interface SeparationRepository extends JpaRepository<Separation, Long> {
 	@Query
 	List<Employee> findByName(String name);
 
-	public Separation save(Separation separation);
+	public Separation save(Separation updateSeparation);
 
 
+	Separation save(Optional<Separation> separation);
 }

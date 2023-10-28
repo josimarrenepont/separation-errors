@@ -10,7 +10,14 @@ const PORT = process.env.PORT || 3000;
 app.use(json());
 
 // Conecte as rotas da sua aplicação
+// Conecte as rotas da sua aplicação
 app.use('/', routes);
+
+// Inicie o servidor
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
+
 
 // Configuração da conexão ao PostgreSQL
 const pool = new Pool({

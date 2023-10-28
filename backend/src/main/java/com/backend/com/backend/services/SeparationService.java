@@ -1,17 +1,16 @@
 package com.backend.com.backend.services;
 
-import java.util.List;
-import java.util.Optional;
-
-import com.backend.com.backend.entities.Employee;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.backend.com.backend.entities.Separation;
+import com.backend.com.backend.entities.SeparationErrorHistory;
 import com.backend.com.backend.entities.dto.SeparationRequestDTO;
 import com.backend.com.backend.repositories.SeparationRepository;
 import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SeparationService {
@@ -19,6 +18,10 @@ public class SeparationService {
     @Autowired
     private SeparationRepository separationRepository;
     private Separation existingSeparation;
+
+    private Separation separation;
+
+    private SeparationErrorHistory errorHistory;
 
     @Autowired
     public SeparationService(SeparationRepository separationRepository) {
@@ -37,41 +40,40 @@ public class SeparationService {
         return separationRepository.save(separation);
     }
 
-    public Separation updateErrors(Long employeeId, Employee errorData) {
+    public Separation updateErrors(Long separationId, SeparationRequestDTO errorData) {
+        Separation separation = separationRepository.findById(separationId)
+                .orElseThrow(() -> new ResourceNotFoundException(separationId));
 
-        Optional<Separation> optionalSeparation = separationRepository.findById(employeeId);
 
-        if (optionalSeparation.isEmpty()) {
+        SeparationErrorHistory errorHistoryEntry = new SeparationErrorHistory();
+        errorHistoryEntry.setDate(errorData.getDate());
+        errorHistoryEntry.setName(errorData.getName());
+        errorHistoryEntry.setCodProduct(errorData.getCodProduct());
+        errorHistoryEntry.setPallet(errorData.getPallet());
+        errorHistoryEntry.setErrorPcMais(errorData.getErrorPcMais());
+        errorHistoryEntry.setErrorPcMenos(errorData.getErrorPcMenos());
+        errorHistoryEntry.setErrorPcErrada(errorData.getErrorPcErrada());
+        errorHistoryEntry.setPcMais(errorData.getPcMais());
+        errorHistoryEntry.setPcMenos(errorData.getPcMenos());
+        errorHistoryEntry.setPcErrada(errorData.getPcErrada());
 
-            throw new ResourceNotFoundException(employeeId);
+        // Defina a relação entre a entrada de histórico de erro e a separação
+        errorHistoryEntry.setSeparation(separation);
 
+        // Adicione o histórico de erro à coleção
+
+        // Verifique se a coleção errorHistory está inicializada, crie uma nova lista se não estiver
+        if (separation.getErrorHistory() == null) {
+            separation.setErrorHistory(new HashSet<>());
         }
 
-        Separation separation = optionalSeparation.get();
+// Adicione o histórico de erro à coleção
+        separation.getErrorHistory().add(errorHistoryEntry);
 
-        Integer pcMais = errorData.getTotPcMais();
-
-        Integer pcMenos = errorData.getTotPcMenos();
-
-        Integer pcErrada = errorData.getTotPcErrada();
-
-        // Atualize os erros do funcionário
-
-        separation.setPcMais(pcMais);
-
-        separation.setPcMenos(pcMenos);
-
-        separation.setPcErrada(pcErrada);
-
-        // Salve a separação atualizada
 
         return separationRepository.save(separation);
+    }
 
-    }
-    @PostMapping("/separations")
-    public List<Separation> getAllSeparations() {
-        return getAllSeparations();
-    }
     public Separation addError(SeparationRequestDTO errorData) {
         // Aqui você pode criar uma nova instância de Separation com os dados fornecidos em errorData
        

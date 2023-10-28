@@ -1,41 +1,51 @@
 package com.backend.com.backend.entities;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import jakarta.persistence.*;
+import lombok.Getter;
+
+import java.io.Serializable;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_separation")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Separation implements Serializable {
 
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Getter
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Date date;
+    @Getter
     private String name;
+    @Getter
     private Integer codProduct;
+    @Getter
     private Integer pallet;
+    @Getter
     private Integer pcMais;
+    @Getter
     private Integer pcMenos;
+    @Getter
     private Integer pcErrada;
+    @Getter
     private Integer errorPcMais;
+    @Getter
     private Integer errorPcMenos;
+    @Getter
     private Integer errorPcErrada;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "employee_separation", joinColumns = @JoinColumn(name = "separation_id"), inverseJoinColumns = @JoinColumn(name = "employee_id"))
     private Set<Employee> employees = new HashSet<>();
 
-
+    @Getter
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "separation")
+    private Set<SeparationErrorHistory> errorHistory = new HashSet<>();
 
     public Separation() {
     }
@@ -55,88 +65,44 @@ public class Separation implements Serializable {
         this.errorPcErrada = (errorPcErrada != null) ? errorPcErrada : 0;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Date getDate() {
-        return date;
     }
 
     public void setDate(Date date) {
         this.date = date;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getCodProduct() {
-        return codProduct;
     }
 
     public void setCodProduct(Integer codProduct) {
         this.codProduct = codProduct;
     }
 
-    public Integer getPallet() {
-        return pallet;
-    }
-
     public void setPallet(Integer pallet) {
         this.pallet = pallet;
-    }
-
-    public Integer getPcMais() {
-        return pcMais;
     }
 
     public void setPcMais(Integer pcMais) {
         this.pcMais = pcMais;
     }
 
-    public Integer getPcMenos() {
-        return pcMenos;
-    }
-
     public void setPcMenos(Integer pcMenos) {
         this.pcMenos = pcMenos;
-    }
-
-    public Integer getPcErrada() {
-        return pcErrada;
     }
 
     public void setPcErrada(Integer pcErrada) {
         this.pcErrada = pcErrada;
     }
 
-    public Integer getErrorPcMais() {
-        return errorPcMais;
-    }
-
     public void setErrorPcMais(Integer errorPcMais) {
         this.errorPcMais = errorPcMais;
     }
 
-    public Integer getErrorPcMenos() {
-        return errorPcMenos;
-    }
-
     public void setErrorPcMenos(Integer errorPcMenos) {
         this.errorPcMenos = errorPcMenos;
-    }
-
-    public Integer getErrorPcErrada() {
-        return errorPcErrada;
     }
 
     public void setErrorPcErrada(Integer errorPcErrada) {
@@ -191,6 +157,12 @@ public class Separation implements Serializable {
         addEmployee(employee);
     }
 
+    public void setErrorHistory(Set<SeparationErrorHistory> errorHistory) {
+        this.errorHistory = errorHistory;
+    }
+
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -202,4 +174,6 @@ public class Separation implements Serializable {
     public int hashCode() {
         return Objects.hash(getId());
     }
+
+
 }

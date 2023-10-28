@@ -11,9 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
@@ -44,44 +42,26 @@ public class SeparationController {
     }
 
 
-    @PutMapping("/separations/{id}")
-    public ResponseEntity<SeparationRequestDTO> updateSeparation(@PathVariable Long id, @RequestBody Separation updateSeparation) {
-        Separation existingSeparation = separationService.getSeparationById(id);
+    @PutMapping("/separations")
+    public ResponseEntity<SeparationRequestDTO> addEmployeeToSeparation(
+            @RequestBody Long separationId,
+            @RequestBody Long employeeId
+    ) {
+        Separation separation = separationService.getSeparationById(separationId);
+        Employee employee = employeeService.getEmployeeById(employeeId);
 
-        if (existingSeparation == null) {
+        if (separation == null || employee == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        // Verifique se os campos em 'updateSeparation' não são nulos antes de atualizar
-        if (updateSeparation.getDate() != null) {
-            existingSeparation.setDate(updateSeparation.getDate());
-        }
+        // Adicione o funcionário ao registro de separação.
+        separation.addEmployee(employee);
 
-        if (updateSeparation.getCodProduct() != null) {
-            existingSeparation.setCodProduct(updateSeparation.getCodProduct());
-        }
+        // Salve o registro de separação atualizado no serviço.
+        Separation updatedSeparation = separationService.updateSeparation(separation);
 
-        if (updateSeparation.getPallet() != null) {
-            existingSeparation.setPallet(updateSeparation.getPallet());
-        }
-
-        // Atualize outros campos conforme necessário
-        existingSeparation.setName(updateSeparation.getName());
-        existingSeparation.setDate(updateSeparation.getDate());
-        existingSeparation.setPallet(updateSeparation.getPallet());
-        existingSeparation.setId(updateSeparation.getId());
-        existingSeparation.setCodProduct(updateSeparation.getCodProduct());
-        existingSeparation.setErrorPcMais(updateSeparation.getErrorPcMais());
-        existingSeparation.setErrorPcMenos(updateSeparation.getErrorPcMenos());
-        existingSeparation.setErrorPcErrada(updateSeparation.getErrorPcErrada());
-        existingSeparation.setPcMais(updateSeparation.getPcMais());
-        existingSeparation.setPcMenos(updateSeparation.getPcMenos());
-        existingSeparation.setPcErrada(updateSeparation.getPcErrada());
-
-        Separation updatedSeparation = separationService.updateSeparation(existingSeparation);
-
+        // Converta a separação atualizada em um DTO para retorná-la ao cliente.
         SeparationRequestDTO separationDTO = new SeparationRequestDTO();
-
         separationDTO.setId(updatedSeparation.getId());
         separationDTO.setName(updatedSeparation.getName());
         separationDTO.setDate(updatedSeparation.getDate());
@@ -93,8 +73,15 @@ public class SeparationController {
         separationDTO.setPcMais(updatedSeparation.getPcMais());
         separationDTO.setPcMenos(updatedSeparation.getPcMenos());
         separationDTO.setPcErrada(updatedSeparation.getPcErrada());
+        // Copie outros campos para o DTO conforme necessário.
 
         return new ResponseEntity<>(separationDTO, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Separation> updateSeparationErrors(
+            @PathVariable Long separationId, @RequestBody SeparationRequestDTO errorData){
+        Separation updateSeparation = separationService.updateErrors(separationId, errorData);
+        return ResponseEntity.ok(updateSeparation);
     }
 
 
@@ -106,7 +93,7 @@ public class SeparationController {
     }
 
     @PutMapping("/employees/{id}")
-    public ResponseEntity<Employee> updatedEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployeeData) {
+    public ResponseEntity<SeparationRequestDTO> updatedEmployee(@PathVariable Long id, @RequestBody SeparationRequestDTO updatedEmployeeData) {
         try {
             separationService.updateErrors(id, updatedEmployeeData);
             return ResponseEntity.ok(updatedEmployeeData);

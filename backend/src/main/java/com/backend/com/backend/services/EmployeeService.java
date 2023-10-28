@@ -83,4 +83,7 @@ public class EmployeeService {
         return updatedEmployee;
     }
 
+    public Employee getEmployeeById(Long employeeId) {
+        return employeeRepository.findById(employeeId).orElse(null);
+    }
 }

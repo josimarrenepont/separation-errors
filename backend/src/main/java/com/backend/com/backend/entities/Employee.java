@@ -1,17 +1,14 @@
 package com.backend.com.backend.entities;
 
+import jakarta.persistence.*;
+import lombok.Getter;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-
+@Getter
 @Entity
 @Table(name = "tb_employee")
 public class Employee implements Serializable {
@@ -38,32 +35,16 @@ public class Employee implements Serializable {
 
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getBranch() {
-        return branch;
-    }
-
     public void setBranch(String branch) {
         this.branch = branch;
-    }
-
-    public Set<Separation> getErrors() {
-        return errors;
     }
 
     public Integer getTotPcMais() {
@@ -90,6 +71,10 @@ public class Employee implements Serializable {
         return sumPcErrada;
     }
 
+    public void addError(Separation errorData) {
+        addError(errorData);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -100,9 +85,5 @@ public class Employee implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
-    }
-
-    public void addError(Separation errorData) {
-        addError(errorData);
     }
 }
