@@ -25,4 +25,8 @@ public class SeparationErrorHistoryService {
         return obj.orElseThrow(()-> new ResourceNotFoundException(id));
 
     }
+
+    public SeparationErrorHistory createErrorHistory(SeparationErrorHistory errorHistory) {
+        return errorHistoryRepository.save(errorHistory);
+    }
 }

@@ -44,7 +44,7 @@ public class Separation implements Serializable {
     private Set<Employee> employees = new HashSet<>();
 
     @Getter
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "separation")
+    @OneToMany(mappedBy = "separation", cascade = CascadeType.ALL)
     private Set<SeparationErrorHistory> errorHistory = new HashSet<>();
 
     public Separation() {
@@ -111,6 +111,10 @@ public class Separation implements Serializable {
 
     public Set<Employee> getErrors() {
         return employees;
+    }
+
+    public void addErrorToHistory(SeparationErrorHistory errorHistoryEntry){
+        this.errorHistory.add(errorHistoryEntry);
     }
 
     public Integer getSubTotPcMais() {

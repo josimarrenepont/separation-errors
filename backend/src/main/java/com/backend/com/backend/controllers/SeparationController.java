@@ -75,6 +75,7 @@ public class SeparationController {
         separationDTO.setPcErrada(updatedSeparation.getPcErrada());
         // Copie outros campos para o DTO conforme necessário.
 
+     
         return new ResponseEntity<>(separationDTO, HttpStatus.OK);
     }
 
