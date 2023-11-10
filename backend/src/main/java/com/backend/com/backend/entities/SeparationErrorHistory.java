@@ -1,6 +1,7 @@
 package com.backend.com.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -52,6 +53,7 @@ public class SeparationErrorHistory implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "separation_id")
+    @JsonIgnore
     private Separation separation;
 
 
@@ -63,12 +65,12 @@ public class SeparationErrorHistory implements Serializable {
         this.date = date;
         this.codProduct = codProduct;
         this.pallet = pallet;
-        this.pcMais = pcMais;
-        this.pcMenos = pcMenos;
-        this.pcErrada = pcErrada;
-        this.errorPcMais = errorPcMais;
-        this.errorPcMenos = errorPcMenos;
-        this.errorPcErrada = errorPcErrada;
+        this.pcMais = (pcMais != null) ? pcMais : 0;
+        this.pcMenos = (pcMenos != null) ? pcMenos : 0;
+        this.pcErrada = (pcErrada != null) ? pcErrada : 0;
+        this.errorPcMais = (errorPcMais != null) ? errorPcMais : 0;
+        this.errorPcMenos = (errorPcMenos != null) ? errorPcMenos : 0;
+        this.errorPcErrada = (errorPcErrada != null) ? errorPcErrada : 0;
     }
 
     public void setId(Long id) {
@@ -104,20 +106,23 @@ public class SeparationErrorHistory implements Serializable {
     }
 
     public void setErrorPcMais(Integer errorPcMais) {
-        this.errorPcMais = errorPcMais;
+        this.errorPcMais += errorPcMais;
     }
 
     public void setErrorPcMenos(Integer errorPcMenos) {
-        this.errorPcMenos = errorPcMenos;
+        this.errorPcMenos += errorPcMenos;
     }
 
     public void setErrorPcErrada(Integer errorPcErrada) {
-        this.errorPcErrada = errorPcErrada;
+        this.errorPcErrada += errorPcErrada;
     }
+
 
     public void setSeparation(Separation separation) {
         this.separation = separation;
     }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

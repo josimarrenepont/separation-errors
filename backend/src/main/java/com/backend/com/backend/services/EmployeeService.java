@@ -1,20 +1,18 @@
 package com.backend.com.backend.services;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.backend.com.backend.entities.Employee;
 import com.backend.com.backend.entities.Separation;
+import com.backend.com.backend.repositories.EmployeeRepository;
+import com.backend.com.backend.services.exceptions.DatabaseException;
+import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.backend.com.backend.entities.Employee;
-import com.backend.com.backend.repositories.EmployeeRepository;
-import com.backend.com.backend.services.exceptions.DatabaseException;
-import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
-
-import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -86,4 +84,6 @@ public class EmployeeService {
     public Employee getEmployeeById(Long employeeId) {
         return employeeRepository.findById(employeeId).orElse(null);
     }
+
+
 }

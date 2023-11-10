@@ -42,16 +42,19 @@ function SeparationForm() {
 
         const updatedSeparation = {
           ...employeeData,
-          date: (new Date().getTime()),
-          employeeData,
-          codProduct,
-          pallet,
-          pcMais,
-          pcMenos,
-          pcErrada,
-          errorPcMais: (employeeData.errorPcMais || 0) + errorData.pcMais,
-          errorPcMenos: (employeeData.errorPcMenos || 0) + errorData.pcMenos,
-          errorPcErrada: (employeeData.errorPcErrada || 0) + errorData.pcErrada,
+              date: (new Date().getTime()),
+              employeeData,
+              codProduct,
+              pallet,
+              pcMais: (employeeData.pcMais || 0) + errorData.pcMais,
+              pcMenos: (employeeData.pcMenos || 0) + errorData.pcMenos,
+              pcErrada: (employeeData.pcErrada || 0) + errorData.pcErrada,
+              errorPcMais: (employeeData.errorPcMais || 0) + errorData.errorPcMais,
+              errorPcMenos: (employeeData.errorPcMenos || 0) + errorData.errorPcMenos,
+              errorPcErrada: (employeeData.errorPcErrada || 0) + errorData.errorPcErrada,
+              subTotPcMais: (employeeData.subTotPcMais || 0) + errorData.errorPcMais + errorData.pcMais,
+              subTotPcMenos: (employeeData.subTotPcMenos || 0) + errorData.errorPcMenos + errorData.pcMenos,
+              subTotPcErrada: (employeeData.subTotPcErrada || 0) + errorData.errorPcErrada + errorData.pcErrada
         };
 
         // Faça uma solicitação para atualizar o funcionário com os novos erros
@@ -147,7 +150,7 @@ function SeparationForm() {
             value={errorPcMais}
             onChange={(e) => setErrorPcMais(e.target.value)}
             name="errorPcMais"
-            required
+            
           />
           <br /><br />
 
@@ -158,7 +161,7 @@ function SeparationForm() {
             value={errorPcMenos}
             onChange={(e) => setErrorPcMenos(e.target.value)}
             name="errorPcMenos"
-            required
+            
           />
           <br /><br />
 
@@ -169,76 +172,40 @@ function SeparationForm() {
             value={errorPcErrada}
             onChange={(e) => setErrorPcErrada(e.target.value)}
             name="errorPcErrada"
-            required
+            
           />
           <br /><br />
 
           <label htmlFor="pcMais">PC Mais:</label>
-          <select
+          <input
+            type="number"
             id="pcMais"
-            name="pcMais"
             value={pcMais}
             onChange={(e) => setPcMais(e.target.value)}
-            required
-          >
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-          </select>
+            name="pcMais" 
+          />
           <br /><br />
 
           <label htmlFor="pcMenos">PC Menos:</label>
-          <select
+          <input
+            type="number"
             id="pcMenos"
-            name="pcMenos"
             value={pcMenos}
             onChange={(e) => setPcMenos(e.target.value)}
-            required
-          >
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-          </select>
+            name="pcMenos" 
+          />
           <br /><br />
 
           <label htmlFor="pcErrada">PC Errada:</label>
-          <select
+          <input
+            type="number"
             id="pcErrada"
-            name="pcErrada"
-            value={pcErrada}
+            value={pcMais}
             onChange={(e) => setPcErrada(e.target.value)}
-            required
-          >
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-          </select>
+            name="pcErrada" 
+          />
           <br /><br />
-
+    
           <button onClick={handleSubmit}>Salvar</button>
         </form>
       </div>

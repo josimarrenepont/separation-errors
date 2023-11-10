@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
-@RequestMapping("/separations")
+@RequestMapping(value = "/separations")
 public class SeparationController {
 
     @Autowired
@@ -24,11 +24,17 @@ public class SeparationController {
     @Autowired
     private EmployeeService employeeService;
 
+
     @Autowired
     public SeparationController(SeparationService separationService) {
         this.separationService = separationService;
     }
 
+
+
+    public void setSeparationService(SeparationService separationService) {
+        this.separationService = separationService;
+    }
     @GetMapping
     public ResponseEntity<List<Separation>> findAll() {
         List<Separation> list = separationService.findAll();
@@ -75,7 +81,7 @@ public class SeparationController {
         separationDTO.setPcErrada(updatedSeparation.getPcErrada());
         // Copie outros campos para o DTO conforme necessário.
 
-     
+
         return new ResponseEntity<>(separationDTO, HttpStatus.OK);
     }
 
@@ -103,42 +109,20 @@ public class SeparationController {
         }
     }
 
-    @PutMapping("/addErrorToEmployee")
-    public ResponseEntity<Separation> addErrorToEmployee(@RequestBody SeparationRequestDTO errorData) {
-        // Buscar employee com base no nome
-        Employee employee = employeeService.findByName(errorData.getName());
 
-        if (employee == null) {
-            return ResponseEntity.notFound().build(); // employee não encontrado
-        }
 
-        // Obter ID do employee
-        Long employeeId = employee.getId();
-
-        // Criar o erro em Separation com employee_id
-
-        SeparationRequestDTO newError = new SeparationRequestDTO();
-        newError.setDate(errorData.getDate());
-        newError.setEmployeeId(employeeId);
-        newError.setPallet(errorData.getPallet());
-        newError.setCodProduct(errorData.getCodProduct());
-        newError.setErrorPcMais(errorData.getErrorPcMais());
-        newError.setErrorPcMenos(errorData.getErrorPcMenos());
-        newError.setErrorPcErrada(errorData.getErrorPcErrada());
-        newError.setPcMais(errorData.getPcMais());
-        newError.setPcMenos(errorData.getPcMenos());
-        newError.setPcErrada(errorData.getPcErrada());
-
-        Separation savedError = separationService.addError(newError);
-
-        return ResponseEntity.ok(savedError);
-    }
-    @PutMapping
     public ResponseEntity<Separation> createSeparation(@RequestBody Separation separation) {
         Separation newSeparation = separationService.createSeparation(separation); // Implemente createSeparation no seu serviço
         return ResponseEntity.status(HttpStatus.CREATED).body(newSeparation);
     }
-
+    @PutMapping
+    public ResponseEntity<Separation> updateSeparation(@RequestBody Separation updatedSeparation) {
+        Separation updated = separationService.updateSeparation(updatedSeparation);
+        System.out.println("Dados recebidos para atualização: " + updatedSeparation.toString());
+        return ResponseEntity.ok(updatedSeparation);
+    }
 
 
 }
+
+

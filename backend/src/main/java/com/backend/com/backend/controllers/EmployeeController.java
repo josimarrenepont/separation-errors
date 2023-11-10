@@ -1,23 +1,14 @@
 package com.backend.com.backend.controllers;
 
-import java.net.URI;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import com.backend.com.backend.entities.Employee;
 import com.backend.com.backend.services.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
@@ -40,7 +31,7 @@ public class EmployeeController {
 
     }
 
-    @GetMapping("/findByName/{name}")
+    @GetMapping(value = "/findByName/{name}")
     public ResponseEntity<Employee> findByName(@PathVariable String name) {
         Employee employee = employeeService.findByName(name);
         if (employee != null) {
@@ -67,6 +58,42 @@ public class EmployeeController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<Employee> update(@PathVariable Long id, @RequestBody Employee obj) {
         obj = employeeService.update(id, obj);
+
+        // Adicione aqui o trecho de código para calcular e atualizar as somas acumuladas
+        Integer somaAcumuladaPcMais = calcularSomaAcumuladaPcMais();
+        Integer somaAcumuladaPcMenos = calcularSomaAcumuladaPcMenos();
+        Integer somaAcumuladaPcErrada = calcularSomaAcumuladaPcErrada();
+
+        obj.setTotPcMais(somaAcumuladaPcMais);
+        obj.setTotPcMenos(somaAcumuladaPcMenos);
+        obj.setTotPcErrada(somaAcumuladaPcErrada);
+
         return ResponseEntity.ok().body(obj);
+    }
+    private Integer calcularSomaAcumuladaPcErrada() {
+        List<Employee> employees = employeeService.findAll();
+        int soma = 0;
+        for(Employee employee : employees){
+            soma += employee.getTotPcErrada();
+        }
+        return soma;
+    }
+
+    private Integer calcularSomaAcumuladaPcMenos() {
+        List<Employee> employees = employeeService.findAll();
+        int soma = 0;
+        for(Employee employee : employees){
+            soma += employee.getTotPcMenos();
+        }
+        return soma;
+    }
+
+    private Integer calcularSomaAcumuladaPcMais() {
+        List<Employee> employees = employeeService.findAll();
+        int soma = 0;
+        for(Employee employee : employees){
+            soma += employee.getTotPcMais();
+        }
+        return soma;
     }
 }

@@ -22,24 +22,14 @@ public class SeparationErrorHistoryController {
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Object> findById(@PathVariable Long id){
         SeparationErrorHistory obj = errorHistoryService.findById(id);
         return ResponseEntity.ok().body(obj);
     }
-    @PutMapping
+    @PutMapping("/separation-error-history")
     public SeparationErrorHistory createErrorHistory(@RequestBody SeparationErrorHistory errorHistory){
     return errorHistoryService.createErrorHistory(errorHistory);
     }
-
-    //@GetMapping("/{id}")
-    //public SeparationErrorHistory getErrorHistoryByld(@PathVariable Long id){
-      //  return errorHistoryService.getErrorHistoryByld(id);
-   // }
-    //@GetMapping("/all")
-   // public List<SeparationErrorHistory> getAllErrorHistory(){
-     //   return errorHistoryService.getAllErrorHistory();
-    //}
-
 
 }

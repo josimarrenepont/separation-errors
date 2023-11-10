@@ -21,6 +21,12 @@ public class SeparationRequestDTO{
     private Integer errorPcMenos;
     private Integer errorPcErrada;
     private Long employeeId;
+    @Getter
+    private Integer sumPcMais;
+    @Getter
+    private Integer sumPcMenos;
+    @Getter
+    private  Integer sumPcErrada;
 
     public SeparationRequestDTO() {
     }
@@ -61,6 +67,18 @@ public class SeparationRequestDTO{
         this.errorPcMais = errorPcMais;
     }
 
+    public void setSumPcMais(Integer sumPcMais) {
+        this.sumPcMais = sumPcMais;
+    }
+
+    public void setSumPcMenos(Integer sumPcMenos) {
+        this.sumPcMenos = sumPcMenos;
+    }
+
+    public void setSumPcErrada(Integer sumPcErrada) {
+        this.sumPcErrada = sumPcErrada;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -79,5 +97,10 @@ public class SeparationRequestDTO{
 
     public void setEmployeeId(Long employeeId) {
         this.employeeId = employeeId;
+    }
+
+
+    public void setSeparation(Separation separation) {
+        separation.setErrorHistory(separation.getErrorHistory());
     }
 }
