@@ -1,9 +1,9 @@
 import React from 'react';
 
-function MeuBotaoPcMais({ onClick }) {
+function MeuBotao({ onClick }) {
   return (
     <button onClick={onClick}>Inserir Erros</button>
   );
 }
 
-export default MeuBotaoPcMais;
+export default MeuBotao;

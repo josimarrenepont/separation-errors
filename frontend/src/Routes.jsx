@@ -1,7 +1,7 @@
 // routes.js
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import ErrosDeSeparacao from './components/ErrosDeSeparacao';
-import SeparationForm from './components/SeparationForm';
+import ErrosDeSeparacao from './ErrosDeSeparacao';
+import SeparationForm from './SeparationForm';
 
 function Routes() {
   return (

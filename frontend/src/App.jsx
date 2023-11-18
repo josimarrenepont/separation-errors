@@ -4,22 +4,20 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import './App.css';
+import DateRangePicker from './Components/DateRangePicker';
 import ErrosDeSeparacao from './Components/ErrosDeSeparacao';
-import DateRangePicker from './components/DateRangePicker';
+
+import './App.css';
+
+
 import './index.css';
-
-// ...
-
-// ...
-
-// ...
 
 function App() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [errorSummary, setErrorSummary] = useState({});
   const [loading, setLoading] = useState(false);
+  
 
   const handleDateRangeChange = (start, end) => {
     setStartDate(start);
@@ -40,7 +38,7 @@ function App() {
 
     try {
       // Faça uma solicitação GET ao servidor para buscar erros no intervalo de datas
-      const response = await axios.get('http://localhost:8080/separations', {
+      const response = await axios.get('http://localhost:8080/separation-error-history', {
         params: { startDate: start, endDate: end },
       });
 
@@ -68,16 +66,25 @@ function App() {
   };
 
   // Função para calcular o resumo de erros
-  const calculateErrorSummary = (filteredErrors) => {
-    const summary = {};
-    filteredErrors.forEach((error) => {
-      if (!summary[error.name]) {
-        summary[error.name] = 0;
-      }
-      summary[error.name] += 1; // Incrementa o contador de erros para o funcionário
-    });
-    return summary;
-  };
+// Função para calcular o resumo de erros por quantidade de entradas de erro
+const calculateErrorSummary = (filteredErrors) => {
+  const summary = {};
+
+  filteredErrors.forEach((error) => {
+    const { name } = error;
+
+    // Verifica se o funcionário já está no resumo, se não, cria uma entrada para ele
+    if (!summary[name]) {
+      summary[name] = 0;
+    }
+
+    // Incrementa a quantidade de entradas de erro para o funcionário
+    summary[name]++;
+  });
+
+  return summary;
+};
+
 
   return (
     <div>
@@ -114,7 +121,7 @@ function App() {
 
       {/* Segunda visualização */}
       <div>
-        <ErrosDeSeparacao />
+        <ErrosDeSeparacao/>
       </div>
     </div>
   );

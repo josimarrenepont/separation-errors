@@ -27,9 +27,10 @@ public class Employee implements Serializable {
     @Getter
     private Integer totPcErrada;
 
+    private Separation separation;
 
     @ManyToMany(mappedBy = "employees")
-    private Set<Separation> errors = new HashSet<>();
+    private Set<Separation> separations = new HashSet<>();
 
     public Employee() {
     }
@@ -70,15 +71,15 @@ public class Employee implements Serializable {
 
     public Integer getTotPcMais() {
         totPcMais = 0;
-        for (Separation separations : errors) {
-            totPcMais += separations.getSubTotPcMais();
+        for (Separation separations : separations) {
+             totPcMais = separations.getSubTotPcMais();
         }
         return totPcMais;
     }
 
     public Integer getTotPcMenos() {
        totPcMenos = 0;
-        for (Separation separations : errors) {
+        for (Separation separations : separations) {
             totPcMenos += separations.getSubTotPcMenos();
         }
         return totPcMenos;
@@ -86,18 +87,18 @@ public class Employee implements Serializable {
 
     public Integer getTotPcErrada() {
         totPcErrada = 0;
-        for (Separation separations : errors) {
+        for (Separation separations : separations) {
             totPcErrada += separations.getSubTotPcErrada();
         }
         return totPcErrada;
     }
     public void addError(Separation errorData) {
 
-        this.getErrors().add(errorData);
+        this.getSeparations().add(errorData);
     }
-    public Set<Separation> setErrors(SeparationRequestDTO requestDTO){
+    public Set<Separation> setErrors(Separation requestDTO){
        SeparationRequestDTO separationRequestDTO = new SeparationRequestDTO();
-       return getErrors();
+       return getSeparations();
     }
 
     @Override

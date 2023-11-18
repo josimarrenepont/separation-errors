@@ -1,6 +1,7 @@
 package com.backend.com.backend.entities.dto;
 
 import com.backend.com.backend.entities.Separation;
+import com.backend.com.backend.entities.SeparationErrorHistory;
 import lombok.Getter;
 import org.springframework.beans.BeanUtils;
 
@@ -12,7 +13,9 @@ public class SeparationRequestDTO{
     private Long id;
     private Date date;
     private String name;
+    @Getter
     private Integer codProduct;
+    @Getter
     private Integer pallet;
     private Integer pcMais;
     private Integer pcMenos;
@@ -22,11 +25,11 @@ public class SeparationRequestDTO{
     private Integer errorPcErrada;
     private Long employeeId;
     @Getter
-    private Integer sumPcMais;
+    private Integer subTotPcMais;
     @Getter
-    private Integer sumPcMenos;
+    private Integer subTotPcMenos;
     @Getter
-    private  Integer sumPcErrada;
+    private  Integer subTotPcErrada;
 
     public SeparationRequestDTO() {
     }
@@ -67,16 +70,16 @@ public class SeparationRequestDTO{
         this.errorPcMais = errorPcMais;
     }
 
-    public void setSumPcMais(Integer sumPcMais) {
-        this.sumPcMais = sumPcMais;
+    public void setSubTotPcMais(Integer subTotPcMais) {
+        this.subTotPcMais = subTotPcMais;
     }
 
-    public void setSumPcMenos(Integer sumPcMenos) {
-        this.sumPcMenos = sumPcMenos;
+    public void setSubTotPcMenos(Integer subTotPcMenos) {
+        this.subTotPcMenos = subTotPcMenos;
     }
 
-    public void setSumPcErrada(Integer sumPcErrada) {
-        this.sumPcErrada = sumPcErrada;
+    public void setSubTotPcErrada(Integer subTotPcErrada) {
+        this.subTotPcErrada = subTotPcErrada;
     }
 
     public void setId(Long id) {
@@ -102,5 +105,8 @@ public class SeparationRequestDTO{
 
     public void setSeparation(Separation separation) {
         separation.setErrorHistory(separation.getErrorHistory());
+    }
+    public void setSeparationErrosHistory(SeparationErrorHistory errorHistory){
+        errorHistory.setSeparation((Separation) errorHistory.getSeparation());
     }
 }

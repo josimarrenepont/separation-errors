@@ -1,25 +1,28 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import './ErrosDeSeparacao';
+import "./DateRangePicker";
+import "./ErrosDeSeparacao";
 import MeuBotao from './MeuBotao';
 import SeparationForm from './SeparationForm';
 
 function ErrosDeSeparacao() {
   const [showSeparationForm, setShowSeparationForm] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [startDate] = useState(''); // Data mínima escolhida pelo usuário
-  const [endDate] = useState(''); // Data máxima escolhida pelo usuário
+  const [startDate] = useState('');
+  const [endDate] = useState('');
+  const [codProduct, setCodProduct] = useState('');
+  const [loadingByProduct, setLoadingByProduct] = useState(false);
+
 
   const handleButtonClick = () => {
     setShowSeparationForm(true);
   };
 
-  // Função para buscar os erros de separação no banco de dados com base nas datas
   const fetchErrors = () => {
     axios
       .get('http://localhost:8080/separations', {
-        params: { startDate, endDate }, // Passa as datas como parâmetros da solicitação GET
+        params: { startDate, endDate },
       })
       .then((response) => {
         setErrors(response.data);
@@ -30,45 +33,70 @@ function ErrosDeSeparacao() {
   };
 
   useEffect(() => {
-    // Chamando a função para buscar os erros de separação quando o componente é montado
     fetchErrors();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startDate, endDate]); // Certifica-se de que a função é chamada quando as datas são atualizadas
+  }, [startDate, endDate]);
+
+  const fetchErrorsByProductCode = async () => {
+    try {
+      setLoadingByProduct(true);
+      const response = await axios.get(`http://localhost:8080/separations/separation-error-history/${codProduct}`); // Corrigido: adicionado '/' após 'separation-error-history'
+      const errors = response.data;
+      setErrors(errors);
+    } catch (error) {
+      console.error('Erro ao buscar erros de separação por código do produto:', error);
+    } finally {
+      setLoadingByProduct(false);
+    }
+  };
 
   return (
     <div>
       <h1>Inserir Erros de Separação</h1>
       <MeuBotao onClick={handleButtonClick} />
-      {showSeparationForm && <SeparationForm />}
-
-      {/* Aqui você pode adicionar um seletor de datas para o usuário escolher a data mínima e máxima */}
+      {showSeparationForm && <SeparationForm/>}
 
       <h2>Lista de Erros de Separação:</h2>
       <table>
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>TotPcMais</th>
-      <th>TotPcMenos</th>
-      <th>TotPcErrada</th>
-      <th>Ano</th>
-    </tr>
-  </thead>
-  <tbody>
-    {errors.map((error) => (
-      <tr key={error.id}>
-        <td>{error.name}</td>
-        <td>{error.subTotPcMais}</td>
-        <td>{error.subTotPcMenos}</td>
-        <td>{error.subTotPcErrada}</td>
-        <td>{new Date(error.date).getFullYear()}</td>
-      </tr>
-    ))}
-  </tbody>
-</table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>TotPcMais</th>
+            <th>TotPcMenos</th>
+            <th>TotPcErrada</th>
+            <th>Ano</th>
+          </tr>
+        </thead>
+        <tbody>
+          {errors.map((error) => (
+            <tr key={error.id}>
+              <td>{error.name}</td>
+              <td>{error.subTotPcMais}</td>
+              <td>{error.subTotPcMenos}</td>
+              <td>{error.subTotPcErrada}</td>
+              <td>{new Date(error.date).getFullYear()}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Campo e botão para buscar por código do produto */}
+      <label htmlFor="codProduct">Código do Produto:</label>
+      <input
+        type="number"
+        id="codProduct"
+        value={codProduct}
+        onChange={(e) => setCodProduct(e.target.value)}
+        name="codProduct"
+        required
+      />
+      <button type="button" onClick={fetchErrorsByProductCode}>
+        Buscar Erros por Código do Produto
+      </button>
+      {loadingByProduct && <p>Buscando erros por código do produto...</p>}
 
     </div>
   );
+  
 }
 
 export default ErrosDeSeparacao;

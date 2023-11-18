@@ -2,33 +2,35 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
-
 function SeparationForm() {
-  const [date, setDate] = useState('');
-  const [employee, setEmployee] = useState('');
-  const [pallet, setPallet] = useState('');
-  const [codProduct, setCodProduct] = useState('');
-  const [pcMais, setPcMais] = useState('');
-  const [pcMenos, setPcMenos] = useState('');
-  const [pcErrada, setPcErrada] = useState('');
-  const [errorPcMais, setErrorPcMais] = useState('');
-  const [errorPcMenos, setErrorPcMenos] = useState('');
-  const [errorPcErrada, setErrorPcErrada] = useState('');
-  const [successMessage, setSuccessMessage] = useState(''); // Estado para feedback de sucesso
+  const [date, setDate] = useState('date.Date');
+  const [employee, setEmployee] = useState('employee.name');
+  const [pallet, setPallet] = useState('pallet.parseInt');
+  const [codProduct, setCodProduct] = useState('codProduct.parseInt');
+  const [pcMais, setPcMais] = useState('pcMais.parseInt');
+  const [pcMenos, setPcMenos] = useState('pcMenos.parseInt');
+  const [pcErrada, setPcErrada] = useState('pcErrada.parseInt');
+  const [errorPcMais, setErrorPcMais] = useState('errorPcMais.parseInt');
+  const [errorPcMenos, setErrorPcMenos] = useState('errorPcMenos.parseInt');
+  const [errorPcErrada, setErrorPcErrada] = useState('errorPcErrada.parseInt');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorHistory, setErrorHistory] = useState([]);
+  
 
+  const parseNumberIfNotEmpty = (value) => {
+    return value.trim() !== '' ? parseInt(value, 10) : null;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Primeiro, busque o funcionário com base no nome selecionado
     try {
       const response = await axios.get(`http://localhost:8080/employees/findByName/${employee}`);
       const employeeData = response.data;
 
       if (employeeData) {
-        // O funcionário existe, agora você pode atualizar os erros
         const errorData = {
-          date,
+          date: (new Date().getTime()),
           name: employee,
           codProduct: parseInt(codProduct, 10),
           pallet: parseInt(pallet, 10),
@@ -38,38 +40,40 @@ function SeparationForm() {
           errorPcMais: parseInt(errorPcMais, 10),
           errorPcMenos: parseInt(errorPcMenos, 10),
           errorPcErrada: parseInt(errorPcErrada, 10),
+          
         };
 
         const updatedSeparation = {
-          ...employeeData,
-              date: (new Date().getTime()),
-              employeeData,
-              codProduct,
-              pallet,
-              pcMais: (employeeData.pcMais || 0) + errorData.pcMais,
-              pcMenos: (employeeData.pcMenos || 0) + errorData.pcMenos,
-              pcErrada: (employeeData.pcErrada || 0) + errorData.pcErrada,
-              errorPcMais: (employeeData.errorPcMais || 0) + errorData.errorPcMais,
-              errorPcMenos: (employeeData.errorPcMenos || 0) + errorData.errorPcMenos,
-              errorPcErrada: (employeeData.errorPcErrada || 0) + errorData.errorPcErrada,
-              subTotPcMais: (employeeData.subTotPcMais || 0) + errorData.errorPcMais + errorData.pcMais,
-              subTotPcMenos: (employeeData.subTotPcMenos || 0) + errorData.errorPcMenos + errorData.pcMenos,
-              subTotPcErrada: (employeeData.subTotPcErrada || 0) + errorData.errorPcErrada + errorData.pcErrada
+          
+            ...employeeData,
+                date: (new Date().getTime()),
+                employeeData,
+                codProduct,
+                pallet,
+                pcMais: (employeeData.pcMais || 0) + errorData.pcMais,
+                pcMenos: (employeeData.pcMenos || 0) + errorData.pcMenos,
+                pcErrada: (employeeData.pcErrada || 0) + errorData.pcErrada,
+                errorPcMais: (employeeData.errorPcMais || 0) + errorData.errorPcMais,
+                errorPcMenos: (employeeData.errorPcMenos || 0) + errorData.errorPcMenos,
+                errorPcErrada: (employeeData.errorPcErrada || 0) + errorData.errorPcErrada,
+                subTotPcMais: (employeeData.subTotPcMais || 0) + errorData.errorPcMais + errorData.pcMais,
+                subTotPcMenos: (employeeData.subTotPcMenos || 0) + errorData.errorPcMenos + errorData.pcMenos,
+                subTotPcErrada: (employeeData.subTotPcErrada || 0) + errorData.errorPcErrada + errorData.pcErrada,
+                errorHistory: [...errorHistory, errorData]
         };
 
-        // Faça uma solicitação para atualizar o funcionário com os novos erros
-        const updateResponse = await axios.put(`http://localhost:8080/separations`, updatedSeparation, {
+        const updateResponse = await axios.put('http://localhost:8080/separations', updatedSeparation, {
           headers: {
             'Content-Type': 'application/json',
           },
         });
+
         console.log('Erros atualizados com sucesso no funcionário:', updateResponse.data);
         setSuccessMessage('Erros atualizados com sucesso no funcionário');
       } else {
         console.error('Funcionário não encontrado');
       }
 
-      // Limpe os campos do formulário
       setEmployee('');
       setDate('');
       setPallet('');
@@ -80,7 +84,8 @@ function SeparationForm() {
       setErrorPcMais('');
       setErrorPcMenos('');
       setErrorPcErrada('');
-    } catch (error) {
+      setErrorHistory([]);
+      } catch (error) {
       console.error('Erro ao buscar o funcionário ou atualizar os erros:', error);
     }
   };
@@ -88,12 +93,9 @@ function SeparationForm() {
   return (
     <div className="container">
       <h1>Formulário de Separação</h1>
-      <div className="SeparationForm">
-        {errorPcMais && <div className="error-message">{errorPcMais}</div>}
-        {errorPcMenos && <div className="error-message">{errorPcMenos}</div>}
-        {errorPcErrada && <div className="error-message">{errorPcErrada}</div>}
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="date">Date:</label>
+      
+      <form onSubmit={handleSubmit}>
+      <label htmlFor="date">Date:</label>
           <input
             type="date"
             id="date"
@@ -200,15 +202,13 @@ function SeparationForm() {
           <input
             type="number"
             id="pcErrada"
-            value={pcMais}
+            value={pcErrada}
             onChange={(e) => setPcErrada(e.target.value)}
             name="pcErrada" 
           />
           <br /><br />
-    
-          <button onClick={handleSubmit}>Salvar</button>
-        </form>
-      </div>
+        <button type="submit">Salvar</button>
+      </form>
     </div>
   );
 }

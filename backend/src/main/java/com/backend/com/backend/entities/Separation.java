@@ -6,10 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_separation")
@@ -57,6 +54,7 @@ public class Separation implements Serializable {
     @ManyToMany(mappedBy = "separation", cascade = CascadeType.ALL)
     private Set<SeparationErrorHistory> errorHistory = new HashSet<>();
 
+
     public Separation() {
     }
 
@@ -78,11 +76,23 @@ public class Separation implements Serializable {
         this.subTotPcErrada = (subTotPcErrada != null) ? subTotPcErrada : 0;
 
     }
-
     public void updateAccumulatedSumOfErrors() {
-        this.subTotPcMais += (this.pcMais != null ? this.pcMais : 0) + this.errorPcMais;
-        this.subTotPcMenos += (this.pcMenos != null ? this.pcMenos : 0) + this.errorPcMenos;
-        this.subTotPcErrada += (this.pcErrada != null ? this.pcErrada : 0) + this.errorPcErrada;
+        this.subTotPcMais = calculateSum(this.pcMais, this.errorPcMais);
+        this.subTotPcMenos = calculateSum(this.pcMenos, this.errorPcMenos);
+        this.subTotPcErrada = calculateSum(this.pcErrada, this.errorPcErrada);
+
+    }
+
+    private int calculateSum(Integer value1, Integer value2) {
+        int sum = (value1 != null ? value1 : 0) + (value2 != null ? value2 : 0);
+        return sum;
+    }
+
+    @PrePersist
+    public void validateErrorsBeforePersist() {
+        if (this.errorPcMais == 0 || this.errorPcMenos == 0 || this.errorPcErrada == 0 || this.pcMais == 0 || this.pcMenos == 0 ||this.pcErrada == 0) {
+            throw new IllegalStateException("Todos os valores de erro são zero. Não é possível salvar no banco de dados.");
+        }
     }
 
     public void setId(Long id) {
@@ -98,95 +108,11 @@ public class Separation implements Serializable {
     }
 
 
-    public void setSubTotPcMais(Integer subTotPcMais) {
-        if(this.subTotPcMais != null && this.subTotPcMais != 0){
-            this.subTotPcMais += this.subTotPcMais;
-        }
-    }
-
-    public void setSubTotPcMenos(Integer subTotPcMenos) {
-        if(this.subTotPcMenos != null && this.subTotPcMenos != 0){
-            this.subTotPcMenos += this.subTotPcMenos;
-        }
-    }
-
-    public void setSubTotPcErrada(Integer subTotPcErrada) {
-        if (this.subTotPcErrada != null && this.subTotPcErrada != 0) {
-            this.subTotPcErrada += this.subTotPcErrada;
-        }
-    }
-
-    public void addErrorToHistory(SeparationErrorHistory errorHistoryEntry) {
-        this.errorHistory.add(errorHistoryEntry);
-
-        // Atualize a soma acumulada de erros
-        updateAccumulatedSumOfErrors();
-    }
-
-    public Integer getSubTotPcMais() {
-        return (this.subTotPcMais != null ? this.subTotPcMais : 0) + (this.pcMais != null ? this.pcMais : 0) + (this.errorPcMais != null ? this.errorPcMais : 0);
-    }
-
-    public Integer getSubTotPcMenos() {
-        return (this.subTotPcMenos != null ? this.subTotPcMenos : 0) + (this.pcMenos != null ? this.pcMenos : 0) + (this.errorPcMenos != null ? this.errorPcMenos : 0);
-    }
-
-    public Integer getSubTotPcErrada() {
-        return (this.subTotPcErrada != null ? this.subTotPcErrada : 0) + (this.pcErrada != null ? this.pcErrada : 0) + (this.errorPcErrada != null ? this.errorPcErrada : 0);
-    }
-
-    public void addErrorTotPcMais(int selectedPcMais) {
-        if (selectedPcMais != 0 && this.pcMais != 0 && this.errorPcMais != 0) {
-            this.subTotPcMais += this.pcMais + selectedPcMais + this.errorPcMais;
-            updateAccumulatedSumOfErrors();
-        }
-    }
-    public void addErrorTotPcMenos(int selectedPcMenos) {
-        if (selectedPcMenos != 0 && this.pcMenos != 0 && this.errorPcMenos != 0) {
-            this.subTotPcMenos += this.pcMenos + selectedPcMenos + this.errorPcMenos;
-            updateAccumulatedSumOfErrors();
-        }
-    }
-
-    public void addErrorTotPcErrada(int selectedPcErrada) {
-        if (selectedPcErrada != 0 && this.pcErrada != 0 && this.errorPcErrada != 0) {
-            this.subTotPcErrada += this.pcErrada + selectedPcErrada + this.errorPcErrada;
-            updateAccumulatedSumOfErrors();
-        }
-    }
-    public void addEmployee(Employee existingEmployee) {
-        employees.add(existingEmployee);
-
-        // Atualize a soma acumulada de erros quando adiciona um funcionário
-        updateAccumulatedSumOfErrors();
-    }
-
-
-    public void setErrorHistory(Set<SeparationErrorHistory> errorHistory) {
-
-        this.errorHistory = errorHistory;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof Separation that))
-            return false;
-        return Objects.equals(getId(), that.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
-    }
-
-    public void setCodProduct(Integer codProduct) {
-        this.codProduct = codProduct;
-    }
-
     public void setPallet(Integer pallet) {
         this.pallet = pallet;
+    }
+    public void setCodProduct(Integer codProduct){
+        this.codProduct = codProduct;
     }
 
     public void setPcMais(Integer pcMais) {
@@ -213,11 +139,111 @@ public class Separation implements Serializable {
         this.errorPcErrada = errorPcErrada;
     }
 
-    public void addErrorHistory(SeparationErrorHistory separationErrorHistory) {
+   public void addErrorHistory(SeparationErrorHistory separationErrorHistory) {
         if (this.errorHistory == null) {
-            this.errorHistory = new HashSet<>();
+            this.errorHistory = getErrorHistory();
         }
         this.errorHistory.add(separationErrorHistory);
+        separationErrorHistory.setSeparation(this);
     }
+
+    public void setSubTotPcMais(Integer subTotPcMais) {
+        if(this.subTotPcMais != null && this.subTotPcMais != 0){
+            this.subTotPcMais += subTotPcMais;
+                updateAccumulatedSumOfErrors();
+        }
+    }
+
+    public void setSubTotPcMenos(Integer subTotPcMenos) {
+        if(this.subTotPcMenos != null && this.subTotPcMenos != 0){
+            this.subTotPcMenos += subTotPcMenos;
+                updateAccumulatedSumOfErrors();
+        }
+    }
+
+    public void setSubTotPcErrada(Integer subTotPcErrada) {
+        if (this.subTotPcErrada != null && this.subTotPcErrada != 0) {
+            this.subTotPcErrada += subTotPcErrada;
+                updateAccumulatedSumOfErrors();
+        }
+    }
+
+    public void addErrorToHistory(SeparationErrorHistory errorHistory) {
+        this.errorHistory.add(errorHistory);
+            updateAccumulatedSumOfErrors();
+    }
+
+
+    public Integer getSubTotPcMais() {
+        return (this.subTotPcMais != null ? this.subTotPcMais : 0) + (this.pcMais != null ? this.pcMais : 0) + (this.errorPcMais != null ? this.errorPcMais : 0);
+    }
+
+    public Integer getSubTotPcMenos() {
+        return (this.subTotPcMenos != null ? this.subTotPcMenos : 0) + (this.pcMenos != null ? this.pcMenos : 0) + (this.errorPcMenos != null ? this.errorPcMenos : 0);
+    }
+
+    public Integer getSubTotPcErrada() {
+        return (this.subTotPcErrada != null ? this.subTotPcErrada : 0) + (this.pcErrada != null ? this.pcErrada : 0) + (this.errorPcErrada != null ? this.errorPcErrada : 0);
+    }
+
+    public void addErrorTotPcMais(int selectedPcMais) {
+        if (selectedPcMais != 0 && this.pcMais != 0 && this.errorPcMais != 0) {
+            int updatedSubTotPcMais = this.pcMais + selectedPcMais + this.errorPcMais;
+            if (updatedSubTotPcMais != this.subTotPcMais) { // Verificação de condição para atualização
+                this.subTotPcMais = updatedSubTotPcMais;
+                updateAccumulatedSumOfErrors();
+            }
+        }
+    }
+
+    public void addErrorTotPcMenos(int selectedPcMenos) {
+        if (selectedPcMenos != 0 && this.pcMenos != 0 && this.errorPcMenos != 0) {
+            int updatedSubTotPcMenos = this.pcMenos + selectedPcMenos + this.errorPcMenos;
+            if (updatedSubTotPcMenos != this.subTotPcMenos) { // Verificação de condição para atualização
+                this.subTotPcMenos = updatedSubTotPcMenos;
+                updateAccumulatedSumOfErrors();
+            }
+        }
+    }
+
+    public void addErrorTotPcErrada(int selectedPcErrada) {
+        if (selectedPcErrada != 0 && this.pcErrada != 0 && this.errorPcErrada != 0) {
+            int updatedSubTotPcErrada = this.pcErrada + selectedPcErrada + this.errorPcErrada;
+            if (updatedSubTotPcErrada != this.subTotPcErrada) { // Verificação de condição para atualização
+                this.subTotPcErrada = updatedSubTotPcErrada;
+                updateAccumulatedSumOfErrors();
+            }
+        }
+    }
+
+    public void addEmployee(Employee existingEmployee) {
+        employees.add(existingEmployee);
+
+        // Atualize a soma acumulada de erros quando adiciona um funcionário
+        updateAccumulatedSumOfErrors();
+    }
+
+
+    public void setErrorHistory(Set<SeparationErrorHistory> errorHistory) {
+
+        this.errorHistory = errorHistory;
+    }
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof Separation that))
+            return false;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
 
 }
