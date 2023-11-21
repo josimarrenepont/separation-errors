@@ -7,9 +7,9 @@ import com.backend.com.backend.repositories.SeparationErrorHistoryRepository;
 import com.backend.com.backend.repositories.SeparationRepository;
 import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -27,12 +27,13 @@ public class SeparationService {
 
     private Separation savedSeparation;
 
-
+    @Autowired
     public SeparationService(SeparationRepository separationRepository) {
         this.separationRepository = separationRepository;
     }
-
-
+    public void updateAccumulatedSumsOfErrors() {
+        separationRepository.updateAccumulatedSumsOfErrors();
+    }
     public List<Separation> findAll() {
         return (List<Separation>) separationRepository.findAll();
     }
@@ -47,13 +48,14 @@ public class SeparationService {
         return separationRepository.save(separation);
     }
 
+    @Transactional
     public Separation updateErrors(Long separationId, Separation errorData) {
         Separation separation = separationRepository.findById(separationId)
                 .orElseThrow(() -> new ResourceNotFoundException(separationId));
 
         // Crie uma nova instância de SeparationErrorHistory
         SeparationErrorHistory errorHistory = new SeparationErrorHistory();
-        errorHistory.setId(separationId);
+        errorHistory.setId(errorData.getId());
         errorHistory.setDate(new Date());
         errorHistory.setName(errorData.getName());
         errorHistory.setCodProduct(errorData.getCodProduct());
@@ -72,7 +74,8 @@ public class SeparationService {
         separation.addErrorHistory(errorHistory);
 
         // Atualize os campos relevantes no objeto Separation
-        separation.setId(separationId);
+
+        separation.setId(errorData.getId());
         separation.setDate(new Date());
         separation.setName(errorData.getName());
         separation.setPallet(errorData.getPallet());
@@ -80,7 +83,9 @@ public class SeparationService {
         separation.setPcMais(errorData.getPcMais());
         separation.setErrorPcMais(errorData.getErrorPcMais());
         separation.setPcMenos(errorData.getPcMenos());
+        separation.setErrorPcMenos(errorData.getErrorPcMenos());
         separation.setPcErrada(errorData.getPcErrada());
+        separation.setErrorPcErrada(errorData.getErrorPcErrada());
         separation.setSubTotPcMais(errorData.getSubTotPcMais());
         separation.setSubTotPcMenos(errorData.getSubTotPcMenos());
         separation.setSubTotPcErrada(errorData.getSubTotPcErrada());
@@ -99,6 +104,7 @@ public class SeparationService {
 
     }
 
+
     public Separation addError(Separation newError) {
         return separationRepository.save(newError);
 
@@ -116,6 +122,7 @@ public class SeparationService {
         return separationRepository.sumSubTotPcErradaByDateRange(new Date(), new Date());
     }
 
+    @Transactional
     public void salvarSeparation(Separation separation) {
         // Verifica se os valores de erro não são zero antes de salvar no banco de dados
         if (separation.getErrorPcMais() != 0 || separation.getErrorPcMenos() != 0 || separation.getErrorPcErrada() != 0) {
@@ -125,22 +132,7 @@ public class SeparationService {
             System.out.println("Todos os valores de erro são zero. Não salvando no banco de dados.");
         }
     }
-    public void salvarSeparations(Separation separation) {
-        // Verifica se os valores de erro não são zero antes de salvar no banco de dados
-        if (separation.getPcMais() != 0 ||
-                separation.getPcMenos() != 0 ||
-                separation.getPcErrada() != 0 ||
-                separation.getErrorPcMais() !=0 ||
-                separation.getErrorPcMenos() != 0 ||
-                separation.getErrorPcErrada() !=0) {
 
-            separationRepository.save(separation);
-
-        } else {
-            // Faça alguma coisa, como registrar um aviso ou ignorar a persistência, caso todos os valores de erro sejam zero
-            System.out.println("Todos os valores de erro são zero. Não salvando no banco de dados.");
-        }
-    }
     @Transactional
     public Separation updateSeparation(Separation updatedSeparation) {
         Optional<Separation> optionalSeparation = separationRepository.findById(updatedSeparation.getId());
@@ -173,7 +165,7 @@ public class SeparationService {
             existingSeparation.setSubTotPcErrada(add(existingSeparation.getSubTotPcErrada(), existingSeparation.getErrorPcErrada()));
 
             // Salva a separação atualizada
-            return separationRepository.save(existingSeparation);
+            return separationRepository.save(updatedSeparation);
         }
 
         // Lança uma exceção ou retorna null, dependendo da sua lógica
@@ -190,72 +182,6 @@ public class SeparationService {
         return (a != null ? a : 0) - (b != null ? b : 0);
     }
 
-
-  /*
-    public Separation updateSeparationError(Separation updatedSeparation) {
-        Long separationId = updatedSeparation.getId();
-
-        // Verificar se a separação existe no banco de dados
-        Separation existingSeparation = separationRepository.findById(separationId)
-                .orElseThrow(() -> new EntityNotFoundException("Separation not found with id: " + separationId));
-
-        // Atualizar os campos da separação com base nos dados fornecidos
-        existingSeparation.setDate(updatedSeparation.getDate());
-        existingSeparation.setName(updatedSeparation.getName());
-        existingSeparation.setPallet(updatedSeparation.getPallet());
-        existingSeparation.setCodProduct(updatedSeparation.getCodProduct());
-        existingSeparation.setPcMais(updatedSeparation.getPcMais());
-        existingSeparation.setPcMenos(updatedSeparation.getPcMenos());
-        existingSeparation.setPcErrada(updatedSeparation.getPcErrada());
-        existingSeparation.setErrorPcMais(updatedSeparation.getErrorPcMais());
-        existingSeparation.setErrorPcMenos(updatedSeparation.getErrorPcMenos());
-        existingSeparation.setErrorPcErrada(updatedSeparation.getErrorPcErrada());
-
-        // Atualizar a soma acumulada de erros
-        existingSeparation.setSubTotPcMais(updatedSeparation.getSubTotPcMais());
-        existingSeparation.setSubTotPcMenos(updatedSeparation.getSubTotPcMenos());
-        existingSeparation.setSubTotPcErrada(updatedSeparation.getSubTotPcErrada());
-        // Salvar a separação atualizada no banco de dados
-        Separation updatedSeparationEntity = separationRepository.save(existingSeparation);
-
-        return updatedSeparationEntity;
-    }
-    */
-
-    public void updateAccumulatedSumOfErrors(Separation separation) {
-        Long separationId = separation.getId();
-
-        // Busque os valores do banco de dados antes de somar
-        Integer pcMaisFromDB = separationRepository.findPcMaisById(separationId);
-        Integer errorPcMaisFromDB = separationRepository.findErrorPcMaisById(separationId);
-
-        Integer pcMenosFromDB = separationRepository.findPcMaisById(separationId);
-        Integer errorPcMenosFromDB = separationRepository.findErrorPcMaisById(separationId);
-
-        Integer pcErradaFromDB = separationRepository.findPcMaisById(separationId);
-        Integer errorPcErradaFromDB = separationRepository.findErrorPcMaisById(separationId);
-
-        // Some os valores do banco com os valores existentes na entidade Separation
-        int sumPcMais = (pcMaisFromDB != null ? pcMaisFromDB : 0) + (separation.getPcMais() != null ? separation.getPcMais() : 0);
-        int sumErrorPcMais = (errorPcMaisFromDB != null ? errorPcMaisFromDB : 0) + (separation.getErrorPcMais() != null ? separation.getErrorPcMais() : 0);
-
-        int sumPcMenos = (pcMenosFromDB != null ? pcMenosFromDB : 0) + (separation.getPcMenos() != null ? separation.getPcMenos() : 0);
-        int sumErrorPcMenos = (errorPcMenosFromDB != null ? errorPcMenosFromDB : 0) + (separation.getErrorPcMenos() != null ? separation.getErrorPcMenos() : 0);
-
-        int sumPcErrada = (pcMaisFromDB != null ? pcErradaFromDB : 0) + (separation.getPcErrada() != null ? separation.getPcErrada() : 0);
-        int sumErrorPcErrada = (errorPcErradaFromDB != null ? errorPcErradaFromDB : 0) + (separation.getErrorPcErrada() != null ? separation.getErrorPcErrada() : 0);
-
-        // Atualize os campos na entidade Separation
-        separation.setSubTotPcMais(sumPcMais);
-        separation.setErrorPcMais(sumErrorPcMais);
-        separation.setSubTotPcMenos(sumPcMenos);
-        separation.setErrorPcMenos(sumErrorPcMenos);
-        separation.setSubTotPcErrada(sumPcErrada);
-        separation.setErrorPcErrada(sumErrorPcErrada);
-
-        // Salve a separação atualizada no banco de dados
-        separationRepository.save(separation);
-    }
 
     public Separation updateErrors(Long id, SeparationRequestDTO errorData) {
         return separationRepository.getReferenceById(id);

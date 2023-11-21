@@ -27,7 +27,7 @@ public class SeparationErrorHistoryController {
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping("/error-history/{codProduct}")
+    @GetMapping(value = "/error-history/{codProduct}")
     public ResponseEntity<List<SeparationErrorHistory>> getErrorHistoryByCodProduct(@PathVariable Integer codProduct) {
         // Lógica para buscar o histórico de erros por código de produto
         List<SeparationErrorHistory> errorHistory = errorHistoryService.getErrorHistoryByCodProduct(codProduct);

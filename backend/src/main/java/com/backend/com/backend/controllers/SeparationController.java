@@ -11,6 +11,7 @@ import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -22,13 +23,14 @@ import java.util.List;
 public class SeparationController {
 
     @Autowired
-    private SeparationService separationService;
+    private final SeparationService separationService;
 
     @Autowired
     private EmployeeService employeeService;
 
     @Autowired
     private SeparationRepository separationRepository;
+
     @Autowired
     public SeparationController(SeparationService separationService) {
         this.separationService = separationService;
@@ -40,12 +42,22 @@ public class SeparationController {
         return ResponseEntity.ok().body(list);
     }
 
+    @PutMapping(value = "/updateErrorsAndSums")
+    public ResponseEntity<String> updateErrorsAndSums(@RequestBody Separation separation) {
+        // Lógica para realizar a ação necessária com os erros ou separações
+
+        // Após realizar a ação, chame o serviço para atualizar as somas acumuladas
+        separationService.updateAccumulatedSumsOfErrors();
+
+        return ResponseEntity.ok("Erros e somas acumuladas atualizadas com sucesso");
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> findById(@PathVariable Long id) {
         Separation obj = separationService.findById(id);
         return ResponseEntity.ok().body(obj);
     }
-    @PutMapping("/separations")
+    @PutMapping(value = "/separations")
     public ResponseEntity<SeparationRequestDTO> addEmployeeToSeparation(
             @RequestBody Long separationId,
             @RequestBody Long employeeId
@@ -114,13 +126,27 @@ public class SeparationController {
         return ResponseEntity.ok(updatedSeparation);
     }
     @PutMapping
+    @Transactional
     public ResponseEntity<?> updateSeparationError(@RequestBody Separation separation) {
         try {
             // Lógica para atualizar a separação em tb_separation
+            Separation separations = new Separation();
+            separations.setName(separation.getName());
+            separations.setId(separations.getId());
+            separations.setPcMais(separations.getPcMais());
+            separations.setErrorPcMais(separations.getErrorPcMais());
+            separations.setPcMenos(separations.getPcMenos());
+            separations.setErrorPcMenos(separations.getErrorPcMenos());
+            separations.setPcErrada(separations.getPcErrada());
+            separations.setErrorPcErrada(separations.getErrorPcErrada());
+            separations.setSubTotPcMais(separations.getSubTotPcMais());
+            separations.setSubTotPcMenos(separations.getSubTotPcMenos());
+            separations.setSubTotPcErrada(separations.getSubTotPcErrada());
 
             // Criar um novo histórico de erro
             SeparationErrorHistory errorHistory = new SeparationErrorHistory();
             errorHistory.setName(separation.getName());
+            errorHistory.setId(separations.getId());
             errorHistory.setDate(new Date());
             errorHistory.setCodProduct(errorHistory.getCodProduct());
             errorHistory.setPallet(errorHistory.getPallet());
@@ -150,7 +176,6 @@ public class SeparationController {
         Separation updateSeparation = separationService.updateErrors(id, errorData);
 
         // Atualize as somas acumuladas após adicionar erros
-        updateSeparation.updateAccumulatedSumOfErrors();
 
         return ResponseEntity.ok(updateSeparation);
     }

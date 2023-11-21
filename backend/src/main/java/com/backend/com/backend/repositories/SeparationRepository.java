@@ -50,21 +50,6 @@ public interface SeparationRepository extends JpaRepository<Separation, Long> {
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true,
-			value = "UPDATE Separation s SET s.date = :date, s.pallet = :pallet, s.codProduct = :codProduct, s.pcMais = :pcMais, " +
-			"s.subTotPcMais = :subTotPcMais, s.subTotPcMenos = :subTotPcMenos, s.subTotPcErrada = :subTotPcErrada, " +
-			"s.pcMenos = :pcMenos, s.pcErrada = :pcErrada, " +
-			"s.errorPcMais = :errorPcMais, s.errorPcMenos = :errorPcMenos, " +
-			"s.errorPcErrada = :errorPcErrada WHERE s.id = :id")
-	void updateTotals(
-			@Param("id") Long id, @Param("date") Date date, @Param("pcMais") Integer pcMais, @Param("pcMenos") Integer pcMenos, @Param("pcErrada") Integer pcErrada,
-			@Param("errorPcMais") Integer errorPcMais, @Param("errorPcMenos") Integer errorPcMenos, @Param("errorPcErrada") Integer errorPcErrada,
-			@Param("pallet") Integer pallet, @Param("codProduct") Integer codProduct,
-			@Param("subTotPcMais") Integer subTotPcMais, @Param("subTotPcErrada") Integer subTotPcErrada,
-			@Param("subTotPcMenos") Integer subTotPcMenos);
-
-	@Modifying
-	@Transactional
-	@Query(nativeQuery = true,
 			value= "UPDATE Separation s SET " +
 			"s.pcMais = CASE WHEN s.pcMais <> 0 THEN s.pcMais ELSE :pcMais END, " +
 			"s.subTotPcMais = CASE WHEN s.subTotPcMais <> 0 THEN s.subTotPcMais ELSE :subTotPcMais END, " +
@@ -86,6 +71,12 @@ public interface SeparationRepository extends JpaRepository<Separation, Long> {
 									   @Param("subTotPcErrada") Integer subTotPcErrada);
 
 	Separation getReferenceById(Long id);
-
+	@Transactional
+	@Query(value = "UPDATE tb_separation " +
+			"SET sub_tot_pc_mais = pc_mais + error_pc_mais, " +
+			"    sub_tot_pc_menos = pc_menos + error_pc_menos, " +
+			"    sub_tot_pc_errada = pc_errada + error_pc_errada, ",
+			nativeQuery = true)
+	void updateAccumulatedSumsOfErrors();
 
 }

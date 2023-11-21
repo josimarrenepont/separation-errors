@@ -38,8 +38,12 @@ function ErrosDeSeparacao() {
 
   const fetchErrorsByProductCode = async () => {
     try {
+      if (!codProduct) {
+        console.error('Código do produto vazio');
+        return;
+      }
       setLoadingByProduct(true);
-      const response = await axios.get(`http://localhost:8080/separations/separation-error-history/${codProduct}`); // Corrigido: adicionado '/' após 'separation-error-history'
+      const response = await axios.get(`http://localhost:8080/separation-error-history/error-history/${codProduct}`);
       const errors = response.data;
       setErrors(errors);
     } catch (error) {
@@ -48,6 +52,7 @@ function ErrosDeSeparacao() {
       setLoadingByProduct(false);
     }
   };
+  
 
   return (
     <div>
@@ -63,7 +68,7 @@ function ErrosDeSeparacao() {
             <th>TotPcMais</th>
             <th>TotPcMenos</th>
             <th>TotPcErrada</th>
-            <th>Ano</th>
+            <th>Data</th>
           </tr>
         </thead>
         <tbody>
@@ -73,7 +78,7 @@ function ErrosDeSeparacao() {
               <td>{error.subTotPcMais}</td>
               <td>{error.subTotPcMenos}</td>
               <td>{error.subTotPcErrada}</td>
-              <td>{new Date(error.date).getFullYear()}</td>
+              <td>{error.date}</td>
             </tr>
           ))}
         </tbody>

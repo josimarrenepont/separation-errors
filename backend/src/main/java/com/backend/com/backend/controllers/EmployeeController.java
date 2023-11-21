@@ -54,46 +54,4 @@ public class EmployeeController {
         return ResponseEntity.noContent().build();
 
     }
-
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<Employee> update(@PathVariable Long id, @RequestBody Employee obj) {
-        obj = employeeService.update(id, obj);
-
-        // Adicione aqui o trecho de código para calcular e atualizar as somas acumuladas
-        Integer somaAcumuladaPcMais = calcularSomaAcumuladaPcMais();
-        Integer somaAcumuladaPcMenos = calcularSomaAcumuladaPcMenos();
-        Integer somaAcumuladaPcErrada = calcularSomaAcumuladaPcErrada();
-
-        obj.setTotPcMais(somaAcumuladaPcMais);
-        obj.setTotPcMenos(somaAcumuladaPcMenos);
-        obj.setTotPcErrada(somaAcumuladaPcErrada);
-
-        return ResponseEntity.ok().body(obj);
-    }
-    private Integer calcularSomaAcumuladaPcErrada() {
-        List<Employee> employees = employeeService.findAll();
-        int soma = 0;
-        for(Employee employee : employees){
-            soma += employee.getTotPcErrada();
-        }
-        return soma;
-    }
-
-    private Integer calcularSomaAcumuladaPcMenos() {
-        List<Employee> employees = employeeService.findAll();
-        int soma = 0;
-        for(Employee employee : employees){
-            soma += employee.getTotPcMenos();
-        }
-        return soma;
-    }
-
-    private Integer calcularSomaAcumuladaPcMais() {
-        List<Employee> employees = employeeService.findAll();
-        int soma = 0;
-        for(Employee employee : employees){
-            soma += employee.getTotPcMais();
-        }
-        return soma;
-    }
 }
