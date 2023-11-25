@@ -1,37 +1,40 @@
-/* separationForm.css */
-
-
 .container {
-    display: flex;
-    flex-direction: space-between;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: #06185b; /* Cor de fundo */
-    background-image: url('/src/assets/lm2rodass.png'); /* URL da imagem de fundo */
-    background-size: cover;
-    background-position: center;
-  }
-  
-  h1 {
-    font-size: 30px;
-    color: #be0d0d;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  form {
-    background-color: #2e0b8f;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.453);
-    text-align: center;
-  }
-
-  /* Adicione estas classes ao seu arquivo de estilo CSS */
-.button-container {
-  display: flex; /* Isso fará com que os elementos filhos (botões) fiquem lado a lado */
-  justify-content: space-between; /* Espaço igual entre os botões */
-  align-items: center; /* Alinhar verticalmente ao centro, se necessário */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #06185b;
+  background-image: url('/src/assets/lm2rodass.png');
+  background-size: cover;
+  background-position: center;
 }
 
+h1 {
+  font-size: 30px;
+  color: #be0d0d;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-popup {
+  display: flex;
+  flex-direction: column;
+  background-color: #2e0b8f;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.453);
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import "./DateRangePicker";
 import "./ErrosDeSeparacao";
 import MeuBotao from './MeuBotao';
@@ -9,8 +9,6 @@ import SeparationForm from './SeparationForm';
 function ErrosDeSeparacao() {
   const [showSeparationForm, setShowSeparationForm] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [startDate] = useState('');
-  const [endDate] = useState('');
   const [codProduct, setCodProduct] = useState('');
   const [loadingByProduct, setLoadingByProduct] = useState(false);
 
@@ -19,23 +17,7 @@ function ErrosDeSeparacao() {
     setShowSeparationForm(true);
   };
 
-  const fetchErrors = () => {
-    axios
-      .get('http://localhost:8080/separations', {
-        params: { startDate, endDate },
-      })
-      .then((response) => {
-        setErrors(response.data);
-      })
-      .catch((error) => {
-        console.error('Erro ao buscar erros de separação:', error);
-      });
-  };
-
-  useEffect(() => {
-    fetchErrors();
-  }, [startDate, endDate]);
-
+  
   const fetchErrorsByProductCode = async () => {
     try {
       if (!codProduct) {
@@ -75,9 +57,9 @@ function ErrosDeSeparacao() {
           {errors.map((error) => (
             <tr key={error.id}>
               <td>{error.name}</td>
-              <td>{error.subTotPcMais}</td>
-              <td>{error.subTotPcMenos}</td>
-              <td>{error.subTotPcErrada}</td>
+              <td>{error.errorPcMais}</td>
+              <td>{error.errorPcMenos}</td>
+              <td>{error.errorPcErrada}</td>
               <td>{error.date}</td>
             </tr>
           ))}

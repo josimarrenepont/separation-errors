@@ -18,7 +18,7 @@ export const saveSeparation = (formData) => {
 
 export const fetchErrorsByProductCode = async (codProduct) => {
   try {
-    const response = await api.get(`http://localhost:8080/separations/separation-error-history/${codProduct}`);
+    const response = await api.get(`http://localhost:8080/separation-error-history/error-history/${codProduct}`);
     return response.data;
   } catch (error) {
     console.error('Erro ao buscar erros de separação por código do produto:', error);

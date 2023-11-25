@@ -72,7 +72,7 @@ public class Employee implements Serializable {
     public Integer getTotPcMais() {
         totPcMais = 0;
         for (Separation separations : separations) {
-             totPcMais = separations.getSubTotPcMais();
+             totPcMais = separations.getErrorPcMais();
         }
         return totPcMais;
     }
@@ -80,7 +80,7 @@ public class Employee implements Serializable {
     public Integer getTotPcMenos() {
        totPcMenos = 0;
         for (Separation separations : separations) {
-            totPcMenos += separations.getSubTotPcMenos();
+            totPcMenos += separations.getErrorPcMenos();
         }
         return totPcMenos;
     }
@@ -88,7 +88,7 @@ public class Employee implements Serializable {
     public Integer getTotPcErrada() {
         totPcErrada = 0;
         for (Separation separations : separations) {
-            totPcErrada += separations.getSubTotPcErrada();
+            totPcErrada += separations.getErrorPcErrada();
         }
         return totPcErrada;
     }

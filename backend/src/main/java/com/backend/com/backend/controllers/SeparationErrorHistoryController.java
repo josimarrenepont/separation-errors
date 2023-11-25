@@ -43,5 +43,4 @@ public class SeparationErrorHistoryController {
     public SeparationErrorHistory createErrorHistory(@RequestBody SeparationErrorHistory errorHistory){
     return errorHistoryService.createErrorHistory(errorHistory);
     }
-
 }

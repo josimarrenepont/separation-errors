@@ -1,6 +1,5 @@
 package com.backend.com.backend.controllers;
 
-import com.backend.com.backend.entities.Employee;
 import com.backend.com.backend.entities.Separation;
 import com.backend.com.backend.entities.SeparationErrorHistory;
 import com.backend.com.backend.entities.dto.SeparationRequestDTO;
@@ -42,55 +41,10 @@ public class SeparationController {
         return ResponseEntity.ok().body(list);
     }
 
-    @PutMapping(value = "/updateErrorsAndSums")
-    public ResponseEntity<String> updateErrorsAndSums(@RequestBody Separation separation) {
-        // Lógica para realizar a ação necessária com os erros ou separações
-
-        // Após realizar a ação, chame o serviço para atualizar as somas acumuladas
-        separationService.updateAccumulatedSumsOfErrors();
-
-        return ResponseEntity.ok("Erros e somas acumuladas atualizadas com sucesso");
-    }
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> findById(@PathVariable Long id) {
         Separation obj = separationService.findById(id);
         return ResponseEntity.ok().body(obj);
-    }
-    @PutMapping(value = "/separations")
-    public ResponseEntity<SeparationRequestDTO> addEmployeeToSeparation(
-            @RequestBody Long separationId,
-            @RequestBody Long employeeId
-    ) {
-        Separation separation = separationService.getSeparationById(separationId);
-        Employee employee = employeeService.getEmployeeById(employeeId);
-
-        if (separation == null || employee == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        // Adicione o funcionário ao registro de separação.
-        separation.addEmployee(employee);
-
-        // Salve o registro de separação atualizado no serviço.
-        Separation updatedSeparation = separationService.updateSeparation(separation);
-
-        // Converta a separação atualizada em um DTO para retorná-la ao cliente.
-        SeparationRequestDTO separationDTO = new SeparationRequestDTO();
-        separationDTO.setId(updatedSeparation.getId());
-        separationDTO.setName(updatedSeparation.getName());
-        separationDTO.setDate(updatedSeparation.getDate());
-        separationDTO.setCodProduct(updatedSeparation.getCodProduct());
-        separationDTO.setPallet(updatedSeparation.getPallet());
-        separationDTO.setErrorPcMais(updatedSeparation.getErrorPcMais());
-        separationDTO.setErrorPcMenos(updatedSeparation.getErrorPcMenos());
-        separationDTO.setErrorPcErrada(updatedSeparation.getErrorPcErrada());
-        separationDTO.setPcMais(updatedSeparation.getPcMais());
-        separationDTO.setPcMenos(updatedSeparation.getPcMenos());
-        separationDTO.setPcErrada(updatedSeparation.getPcErrada());
-        // Copie outros campos para o DTO conforme necessário.
-
-        return new ResponseEntity<>(separationDTO, HttpStatus.OK);
     }
 
     public ResponseEntity<Separation> updateSeparationErrors(
@@ -120,11 +74,6 @@ public class SeparationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newSeparation);
     }
 
-
-    public ResponseEntity<Separation> updateSeparation(@RequestBody Separation updatedSeparation) {
-        Separation updated = separationService.updateSeparation(updatedSeparation);
-        return ResponseEntity.ok(updatedSeparation);
-    }
     @PutMapping
     @Transactional
     public ResponseEntity<?> updateSeparationError(@RequestBody Separation separation) {
@@ -133,15 +82,9 @@ public class SeparationController {
             Separation separations = new Separation();
             separations.setName(separation.getName());
             separations.setId(separations.getId());
-            separations.setPcMais(separations.getPcMais());
             separations.setErrorPcMais(separations.getErrorPcMais());
-            separations.setPcMenos(separations.getPcMenos());
             separations.setErrorPcMenos(separations.getErrorPcMenos());
-            separations.setPcErrada(separations.getPcErrada());
-            separations.setErrorPcErrada(separations.getErrorPcErrada());
-            separations.setSubTotPcMais(separations.getSubTotPcMais());
-            separations.setSubTotPcMenos(separations.getSubTotPcMenos());
-            separations.setSubTotPcErrada(separations.getSubTotPcErrada());
+            separations.setErrorPcErrada(separations.getErrorPcErrada());;
 
             // Criar um novo histórico de erro
             SeparationErrorHistory errorHistory = new SeparationErrorHistory();
@@ -150,13 +93,9 @@ public class SeparationController {
             errorHistory.setDate(new Date());
             errorHistory.setCodProduct(errorHistory.getCodProduct());
             errorHistory.setPallet(errorHistory.getPallet());
-            errorHistory.setPcMais(errorHistory.getPcMais());
-            errorHistory.setPcMenos(errorHistory.getPcMenos());
-            errorHistory.setPcErrada(errorHistory.getPcErrada());
             errorHistory.setErrorPcMais(errorHistory.getErrorPcMais());
             errorHistory.setErrorPcMenos(errorHistory.getErrorPcMenos());
             errorHistory.setErrorPcErrada(errorHistory.getErrorPcErrada());
-            // Definir outros campos do histórico de erro conforme necessário
 
             // Adicionar o histórico de erro à separação
             separation.addErrorHistory(errorHistory);
@@ -174,8 +113,6 @@ public class SeparationController {
     public ResponseEntity<Separation> updateSeparationErrors(
             @PathVariable Long id, @RequestBody SeparationRequestDTO errorData) {
         Separation updateSeparation = separationService.updateErrors(id, errorData);
-
-        // Atualize as somas acumuladas após adicionar erros
 
         return ResponseEntity.ok(updateSeparation);
     }
