@@ -47,10 +47,10 @@ function ErrosDeSeparacao() {
         <thead>
           <tr>
             <th>Nome</th>
-            <th>TotPcMais</th>
-            <th>TotPcMenos</th>
-            <th>TotPcErrada</th>
-            <th>Data</th>
+            <th>Peças Mais</th>
+            <th>Peças Menos</th>
+            <th>Peças Erradas</th>
+            <th> Data </th>
           </tr>
         </thead>
         <tbody>

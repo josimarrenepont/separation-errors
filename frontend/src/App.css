@@ -30,7 +30,7 @@ button[type="button"] {
   background-color: #0772e3;
   color: #ffffff;
   border: none;
-  border-radius: 6px;
+  border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
