@@ -6,6 +6,8 @@
 O projeto foi elaborado, para controlar os erros na separação dos produtos na logística. 
 Manter controle sobre essas informações, a fim de gerenciar possíveis situações, que possam surgir durante a movimentação dos itens na logística.
 
+https://github.com/josimarrenepont/separation-errors/assets/111367304/402b618d-9f86-416a-abbd-76f17b0eefc6
+
 # Tecnologias utilizadas
 
 ## Back End
@@ -21,7 +23,7 @@ Manter controle sobre essas informações, a fim de gerenciar possíveis situaç
 
 # Implantação em produção
 
-* Banco de dados: Postgresql
+* Banco de dados: PostgreSQL
 
 # Autor
 
