@@ -6,7 +6,7 @@
 O projeto foi elaborado, para controlar os erros na separação dos produtos na logística. 
 Manter controle sobre essas informações, a fim de gerenciar possíveis situações, que possam surgir durante a movimentação dos itens na logística.
 
-https://github.com/josimarrenepont/separation-errors/assets/111367304/402b618d-9f86-416a-abbd-76f17b0eefc6
+https://github.com/josimarrenepont/separation-errors/assets/111367304/6d2463ea-5212-4800-9a17-00a2c6f30305
 
 # Tecnologias utilizadas
 
