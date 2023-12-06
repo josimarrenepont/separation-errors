@@ -26,7 +26,7 @@ public class SeparationErrorHistory implements Serializable {
 
     @Getter
     @Column(name = "date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "America/New_York")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "America/Sao_Paulo")
     private Date date;
 
     @Getter

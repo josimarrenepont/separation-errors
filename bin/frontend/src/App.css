@@ -1,0 +1,80 @@
+/* Estilos para o contêiner principal */
+div {
+  font-family: 'Roboto', sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  
+}
+
+/* Estilos para títulos */
+h1 {
+  font-size: 15px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+h2 {
+  font-size: 15px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Estilos para botão customizado */
+button[type="button"] {
+  padding: 10px 20px;
+  background-color: #0772e3;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="button"]:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos para tabela */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* Estilos para o campo de input */
+input[type="number"] {
+  width: 50%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+/* Estilos para a mensagem de carregamento */
+p {
+  margin-top: 10px;
+  font-style: italic;
+  color: #777;
+}
+body {
+  background-image: url('src/assets/lm2rodass.png'); /* Substitua pelo caminho correto da sua imagem */
+  background-size: 400px; /* Para ajustar a imagem ao tamanho da tela */
+  background-repeat: no-repeat; /* Para evitar a repetição da imagem */
+  
+}

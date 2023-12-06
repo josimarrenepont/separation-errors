@@ -1,0 +1,14 @@
+{
+    "java.compile.nullAnalysis.mode": "automatic",
+    "cSpell.words": [
+        "atualizados",
+        "Botao",
+        "Erros",
+        "Separacao"
+    ],
+    "graalvm.home": "C:\\graalvm-jdk-17.0.9+11.1",
+    "graalvm.installations": [
+        "C:\\graalvm-jdk-17.0.9+11.1"
+    ],
+    "java.home": "C:\\graalvm-jdk-17.0.9+11.1"
+}

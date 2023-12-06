@@ -1,5 +1,4 @@
-/*
-package com.backend.com.backend.config;
+package com.backend.config;
 
 import com.backend.com.backend.entities.Employee;
 import com.backend.com.backend.entities.Separation;
@@ -36,10 +35,10 @@ public class TestConfig implements CommandLineRunner {
       Employee emp3 = new Employee(null, "Jose", "wne", 20, 10 , 30);
       Employee emp4 = new Employee(null, "Eduardo", "wne", 20, 10 , 30);
 
-      Separation sep1 = new Separation(null, new Date(), "Gilvan", 1, 2, 3, 5, 6, 7, 10, 11, emp1.getTotPcMais(), emp1.getTotPcMenos(), emp1.getTotPcErrada());
-      Separation sep2 = new Separation(null, new Date(), "Josenilson", 1, 2, 3, 5, 6, 7, 10, 11, emp1.getTotPcMais(), emp1.getTotPcMenos(), emp1.getTotPcErrada());
-      Separation sep3 = new Separation(null, new Date(), "Jose", 1, 2, 3, 5, 6, 7, 10, 11, emp1.getTotPcMais(), emp1.getTotPcMenos(), emp1.getTotPcErrada());
-      Separation sep4 = new Separation(null, new Date(), "Eduardo", 1, 2, 3, 5, 6, 7, 10, 11, emp1.getTotPcMais(), emp1.getTotPcMenos(), emp1.getTotPcErrada());
+      Separation sep1 = new Separation(null, new Date(), "Gilvan", 1, 2, 3, 5, 6);
+      Separation sep2 = new Separation(null, new Date(), "Josenilson", 1, 2, 3, 5, 6);
+      Separation sep3 = new Separation(null, new Date(), "Jose", 1, 2, 3, 5, 6);
+      Separation sep4 = new Separation(null, new Date(), "Eduardo", 1, 2, 3, 5, 6);
 
       User user1 = new User(null, "wne", "123");
       User user2 = new User(null, "mb", "123");
@@ -48,26 +47,15 @@ public class TestConfig implements CommandLineRunner {
       User user5 = new User(null, "lm", "123");
       User user6 = new User(null, "wco", "123");
 
-      emp1.getErrors().add(sep1);
-      emp2.getErrors().add(sep2);
-      emp3.getErrors().add(sep3);
-      emp4.getErrors().add(sep4);
-
 
       for (Employee employee : Arrays.asList(emp1, emp2, emp3, emp4)) {
           int totPcMais = 0;
           int totPcMenos = 0;
           int totPcErrada = 0;
 
-          for (Separation error : employee.getErrors()) {
-              totPcMais += error.getSubTotPcMais() + error.getSubTotPcMais();
-              totPcMenos += error.getSubTotPcMenos() + error.getSubTotPcMenos();
-              totPcErrada += error.getSubTotPcErrada() + error.getSubTotPcErrada();
+
           }
-          employee.getTotPcMais();
-          employee.getTotPcMenos();
-          employee.getTotPcErrada();
-          employeeRepository.save(employee);
+
 
           employeeRepository.saveAll(Arrays.asList(emp1, emp2, emp3, emp4));
           separationRepository.saveAll(Arrays.asList(sep1, sep2, sep3, sep4));
@@ -75,7 +63,4 @@ public class TestConfig implements CommandLineRunner {
 
       }
 
-  }
-
 }
-*/
