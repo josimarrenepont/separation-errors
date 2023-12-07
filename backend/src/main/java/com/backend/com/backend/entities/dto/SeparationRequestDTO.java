@@ -17,19 +17,11 @@ public class SeparationRequestDTO{
     private Integer codProduct;
     @Getter
     private Integer pallet;
-    private Integer pcMais;
-    private Integer pcMenos;
-    private Integer pcErrada;
     private Integer errorPcMais;
     private Integer errorPcMenos;
     private Integer errorPcErrada;
     private Long employeeId;
-    @Getter
-    private Integer subTotPcMais;
-    @Getter
-    private Integer subTotPcMenos;
-    @Getter
-    private  Integer subTotPcErrada;
+
 
     public SeparationRequestDTO() {
     }
@@ -53,33 +45,9 @@ public class SeparationRequestDTO{
     public void setPallet(Integer pallet) {
         this.pallet = pallet;
     }
-
-    public void setPcMais(Integer pcMais) {
-        this.pcMais = pcMais;
-    }
-
-    public void setPcMenos(Integer pcMenos) {
-        this.pcMenos = pcMenos;
-    }
-
-    public void setPcErrada(Integer pcErrada) {
-        this.pcErrada = pcErrada;
-    }
-
+    
     public void setErrorPcMais(Integer errorPcMais) {
         this.errorPcMais = errorPcMais;
-    }
-
-    public void setSubTotPcMais(Integer subTotPcMais) {
-        this.subTotPcMais = subTotPcMais;
-    }
-
-    public void setSubTotPcMenos(Integer subTotPcMenos) {
-        this.subTotPcMenos = subTotPcMenos;
-    }
-
-    public void setSubTotPcErrada(Integer subTotPcErrada) {
-        this.subTotPcErrada = subTotPcErrada;
     }
 
     public void setId(Long id) {
