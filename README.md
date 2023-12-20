@@ -1,5 +1,3 @@
-[Separation Errors.pdf](https://github.com/josimarrenepont/separation-errors/files/13709797/Separation.Errors.pdf)<h1 align="center">Separation Errors Project</h1>
-
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/josimarrenepont/separation-errors/blob/main/LICENSE)
 
 # Sobre o projeto
