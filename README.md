@@ -8,7 +8,7 @@ https://github.com/josimarrenepont/separation-errors/assets/111367304/6d2463ea-5
 
 # Modelo Conceitual
 
-![Separation Errors](https://github.com/josimarrenepont/separation-errors/assets/111367304/58cf040d-a1d6-44c4-9edd-65be9db0bad0)
+![Separation Errors](https://github.com/josimarrenepont/separation-errors/assets/111367304/5b5451f5-a73b-4178-aff9-8853deaa2ce3)
 
 # Tecnologias utilizadas
 
