@@ -86,7 +86,7 @@ public class SeparationController {
             separations.setErrorPcMenos(separations.getErrorPcMenos());
             separations.setErrorPcErrada(separations.getErrorPcErrada());;
 
-            // Criar um novo histórico de erro
+            // Criando um novo histórico de erro
             SeparationErrorHistory errorHistory = new SeparationErrorHistory();
             errorHistory.setName(separation.getName());
             errorHistory.setId(separations.getId());
@@ -97,10 +97,10 @@ public class SeparationController {
             errorHistory.setErrorPcMenos(errorHistory.getErrorPcMenos());
             errorHistory.setErrorPcErrada(errorHistory.getErrorPcErrada());
 
-            // Adicionar o histórico de erro à separação
+            // Adicionando o histórico de erro à separação
             separation.addErrorHistory(errorHistory);
 
-            // Salvar a separação (que agora inclui o histórico) no banco de dados
+            // Salvando a separação (que agora está incluindo o histórico) no banco de dados
             separationRepository.save(separation);
 
             return ResponseEntity.ok("Separation updated successfully with error history");
