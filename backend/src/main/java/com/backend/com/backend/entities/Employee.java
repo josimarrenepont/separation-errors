@@ -3,6 +3,8 @@ package com.backend.com.backend.entities;
 import com.backend.com.backend.entities.dto.SeparationRequestDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -13,21 +15,26 @@ import java.util.Set;
 @Table(name = "tb_employee")
 public class Employee implements Serializable {
 
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Setter
     @Getter
     private String name;
+    @Setter
     @Getter
     private String branch;
+    @Setter
     @Getter
     private Integer totPcMais;
+    @Setter
     @Getter
     private Integer totPcMenos;
+    @Setter
     @Getter
     private Integer totPcErrada;
 
-    private Separation separation;
 
     @ManyToMany(mappedBy = "employees")
     private Set<Separation> separations = new HashSet<>();
@@ -44,30 +51,6 @@ public class Employee implements Serializable {
         this.totPcErrada = totPcErrada;
     }
 
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setBranch(String branch) {
-        this.branch = branch;
-    }
-
-    public void setTotPcMais(Integer totPcMais) {
-        this.totPcMais = totPcMais;
-    }
-
-    public void setTotPcMenos(Integer totPcMenos) {
-        this.totPcMenos = totPcMenos;
-    }
-
-    public void setTotPcErrada(Integer totPcErrada) {
-        this.totPcErrada = totPcErrada;
-    }
 
     public Integer getTotPcMais() {
         totPcMais = 0;

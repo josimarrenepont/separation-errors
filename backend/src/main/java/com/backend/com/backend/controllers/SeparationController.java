@@ -46,10 +46,10 @@ public class SeparationController {
         Separation obj = separationService.findById(id);
         return ResponseEntity.ok().body(obj);
     }
-
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Separation> updateSeparationErrors(
-            @PathVariable Long separationId, @RequestBody Separation errorData){
-        Separation updateSeparation = separationService.updateErrors(separationId, errorData);
+            @PathVariable Long id, @RequestBody Separation errorData){
+        Separation updateSeparation = separationService.updateErrors(id, errorData);
         return ResponseEntity.ok(updateSeparation);
     }
 
@@ -80,7 +80,7 @@ public class SeparationController {
         try {
             // Lógica para atualizar a separação em tb_separation
             Separation separations = new Separation();
-            separations.setName(separation.getName());
+            separations.setName(separations.getName());
             separations.setId(separations.getId());
             separations.setErrorPcMais(separations.getErrorPcMais());
             separations.setErrorPcMenos(separations.getErrorPcMenos());

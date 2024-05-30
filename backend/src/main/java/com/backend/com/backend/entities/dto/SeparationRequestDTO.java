@@ -3,10 +3,12 @@ package com.backend.com.backend.entities.dto;
 import com.backend.com.backend.entities.Separation;
 import com.backend.com.backend.entities.SeparationErrorHistory;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 
+@Setter
 @Getter
 public class SeparationRequestDTO{
 
@@ -30,44 +32,8 @@ public class SeparationRequestDTO{
         BeanUtils.copyProperties(entity, this);
     }
 
-    public void setErrorPcMenos(Integer errorPcMenos) {
-        this.errorPcMenos = errorPcMenos;
-    }
-
-    public void setErrorPcErrada(Integer errorPcErrada) {
-        this.errorPcErrada = errorPcErrada;
-    }
-
-    public void setCodProduct(Integer codProduct) {
-        this.codProduct = codProduct;
-    }
-
-    public void setPallet(Integer pallet) {
-        this.pallet = pallet;
-    }
-    
-    public void setErrorPcMais(Integer errorPcMais) {
-        this.errorPcMais = errorPcMais;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDate(Date string) {
-        this.date = string;
-    }
-
     public void setDate(String string) {
         this.date = getDate();
-    }
-
-    public void setEmployeeId(Long employeeId) {
-        this.employeeId = employeeId;
     }
 
 

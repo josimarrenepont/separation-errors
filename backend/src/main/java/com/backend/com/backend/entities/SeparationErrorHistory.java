@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+@Setter
 @Getter
 @Entity
 @Table(name = "tb_separation_error_history")
@@ -68,41 +70,6 @@ public class SeparationErrorHistory implements Serializable {
         this.errorPcErrada = (errorPcErrada != null) ? errorPcErrada : 0;
     }
 
-
-    public void setSeparation(Separation separation) {
-        this.separation = separation;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public void setCodProduct(Integer codProduct) {
-        this.codProduct = codProduct;
-    }
-
-    public void setPallet(Integer pallet) {
-        this.pallet = pallet;
-    }
-
-    public void setErrorPcMais(Integer errorPcMais) {
-        this.errorPcMais = errorPcMais;
-    }
-
-    public void setErrorPcMenos(Integer errorPcMenos) {
-        this.errorPcMenos = errorPcMenos;
-    }
-
-    public void setErrorPcErrada(Integer errorPcErrada) {
-        this.errorPcErrada = errorPcErrada;
-    }
 
     public SeparationErrorHistory(Integer codProduct) {
         this.setCodProduct(codProduct);
