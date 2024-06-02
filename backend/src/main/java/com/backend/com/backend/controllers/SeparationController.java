@@ -46,9 +46,10 @@ public class SeparationController {
         Separation obj = separationService.findById(id);
         return ResponseEntity.ok().body(obj);
     }
+
     @PutMapping(value = "/{id}")
     public ResponseEntity<Separation> updateSeparationErrors(
-            @PathVariable Long id, @RequestBody Separation errorData){
+            @PathVariable Long id, @RequestBody Separation errorData) {
         Separation updateSeparation = separationService.updateErrors(id, errorData);
         return ResponseEntity.ok(updateSeparation);
     }
@@ -84,7 +85,8 @@ public class SeparationController {
             separations.setId(separations.getId());
             separations.setErrorPcMais(separations.getErrorPcMais());
             separations.setErrorPcMenos(separations.getErrorPcMenos());
-            separations.setErrorPcErrada(separations.getErrorPcErrada());;
+            separations.setErrorPcErrada(separations.getErrorPcErrada());
+            ;
 
             // Criar um novo histórico de erro
             SeparationErrorHistory errorHistory = new SeparationErrorHistory();
@@ -107,7 +109,6 @@ public class SeparationController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating separation: " + e.getMessage());
         }
-
     }
     @PutMapping("/separations/updateErrors/{id}")
     public ResponseEntity<Separation> updateSeparationErrors(
@@ -116,8 +117,5 @@ public class SeparationController {
 
         return ResponseEntity.ok(updateSeparation);
     }
-
-
 }
-
 

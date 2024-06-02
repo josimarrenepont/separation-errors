@@ -49,7 +49,7 @@ public class SeparationService {
         Separation separation = separationRepository.findById(separationId)
                 .orElseThrow(() -> new ResourceNotFoundException(separationId));
 
-        // Crie uma nova instância de SeparationErrorHistory
+        // Criando uma nova instância de SeparationErrorHistory
         SeparationErrorHistory errorHistory = new SeparationErrorHistory();
         errorHistory.setId(errorData.getId());
         errorHistory.setDate(new Date());
@@ -60,10 +60,10 @@ public class SeparationService {
         errorHistory.setErrorPcMenos(errorData.getErrorPcMenos());
         errorHistory.setErrorPcErrada(errorData.getErrorPcErrada());
 
-        // Adicione o histórico de erro à coleção
+        // Adicionando o histórico de erro à coleção
         separation.addErrorHistory(errorHistory);
 
-        // Atualize os campos relevantes no objeto Separation
+        // Atualizando os campos relevantes no objeto Separation
 
         separation.setId(errorData.getId());
         separation.setDate(new Date());
@@ -74,7 +74,7 @@ public class SeparationService {
         separation.setErrorPcMenos(errorData.getErrorPcMenos());
         separation.setErrorPcErrada(errorData.getErrorPcErrada());;
 
-        // Salve a separação atualizada no repositório
+        // Salvando a separação atualizada no repositório
         return separationRepository.save(separation);
     }
 
@@ -96,8 +96,4 @@ public class SeparationService {
         return separationRepository.getReferenceById(id);
     }
 }
-
-
-
-
 

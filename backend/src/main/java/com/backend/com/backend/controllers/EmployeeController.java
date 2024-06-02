@@ -28,7 +28,6 @@ public class EmployeeController {
     public ResponseEntity<Object> findById(@PathVariable Long id) {
         Employee obj = employeeService.findById(id);
         return ResponseEntity.ok().body(obj);
-
     }
 
     @GetMapping(value = "/findByName/{name}")
@@ -52,6 +51,5 @@ public class EmployeeController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         employeeService.delete(id);
         return ResponseEntity.noContent().build();
-
     }
 }

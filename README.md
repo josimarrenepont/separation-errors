@@ -1,5 +1,3 @@
-<h1 align="center">Separation Errors Project</h1>
-
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/josimarrenepont/separation-errors/blob/main/LICENSE)
 
 # Sobre o projeto
@@ -7,6 +5,10 @@ O projeto foi elaborado, para controlar os erros na separação dos produtos na 
 Manter controle sobre essas informações, a fim de gerenciar possíveis situações, que possam surgir durante a movimentação dos itens na logística.
 
 https://github.com/josimarrenepont/separation-errors/assets/111367304/6d2463ea-5212-4800-9a17-00a2c6f30305
+
+# Modelo Conceitual
+
+![Separation Errors](https://github.com/josimarrenepont/separation-errors/assets/111367304/5b5451f5-a73b-4178-aff9-8853deaa2ce3)
 
 # Tecnologias utilizadas
 

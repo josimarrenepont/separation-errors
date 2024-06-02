@@ -45,7 +45,6 @@ public class SeparationServiceAndRepositoryTests {
 
         assertEquals(1, result.size());
         assertEquals(separation, result.get(0));
-
     }
     @Test
     public void testFindById(){
@@ -89,5 +88,4 @@ public class SeparationServiceAndRepositoryTests {
 
         assertThrows(ResourceNotFoundException.class, () -> separationService.updateErrors(1L, errorData));
     }
-
 }
