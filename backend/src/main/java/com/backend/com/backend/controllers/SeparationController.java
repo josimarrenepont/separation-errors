@@ -71,7 +71,7 @@ public class SeparationController {
     }
 
     public ResponseEntity<Separation> createSeparation(@RequestBody Separation separation) {
-        Separation newSeparation = separationService.createSeparation(separation); // Implemente createSeparation no seu serviço
+        Separation newSeparation = separationService.createSeparation(separation);
         return ResponseEntity.status(HttpStatus.CREATED).body(newSeparation);
     }
 
@@ -79,7 +79,7 @@ public class SeparationController {
     @Transactional
     public ResponseEntity<?> updateSeparationError(@RequestBody Separation separation) {
         try {
-            // Lógica para atualizar a separação em tb_separation
+            // Atualizar a separação em tb_separation
             Separation separations = new Separation();
             separations.setName(separations.getName());
             separations.setId(separations.getId());

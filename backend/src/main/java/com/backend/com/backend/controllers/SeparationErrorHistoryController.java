@@ -29,7 +29,7 @@ public class SeparationErrorHistoryController {
 
     @GetMapping(value = "/error-history/{codProduct}")
     public ResponseEntity<List<SeparationErrorHistory>> getErrorHistoryByCodProduct(@PathVariable Integer codProduct) {
-        // Lógica para buscar o histórico de erros por código de produto
+        // Buscar o histórico de erros por código de produto
         List<SeparationErrorHistory> errorHistory = errorHistoryService.getErrorHistoryByCodProduct(codProduct);
         return new ResponseEntity<>(errorHistory, HttpStatus.OK);
     }
@@ -38,9 +38,5 @@ public class SeparationErrorHistoryController {
     public ResponseEntity<Object> findById(@PathVariable Long id){
         SeparationErrorHistory obj = errorHistoryService.findById(id);
         return ResponseEntity.ok().body(obj);
-    }
-    @GetMapping("/separation-error-history")
-    public SeparationErrorHistory createErrorHistory(@RequestBody SeparationErrorHistory errorHistory){
-    return errorHistoryService.createErrorHistory(errorHistory);
     }
 }

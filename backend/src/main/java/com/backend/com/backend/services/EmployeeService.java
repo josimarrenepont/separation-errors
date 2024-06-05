@@ -42,7 +42,6 @@ public class EmployeeService {
             throw new DatabaseException(e.getMessage());
         }
     }
-
     public Employee update(Long id, Employee obj) {
         Optional<Employee> optionalEntity = employeeRepository.findById(id);
         if (optionalEntity.isPresent()) {
@@ -53,18 +52,15 @@ public class EmployeeService {
             throw new ResourceNotFoundException(id);
         }
     }
-
     private void updateData(Employee entity, Employee obj) {
         entity.setName(obj.getName());
         entity.setBranch(obj.getBranch());
     }
-
     public Employee findByName(String name) {
         // buscar o funcionário pelo nome
         return employeeRepository.findByName(name);
 
     }
-
     public Employee addErrorToEmployee(Long employeeId, Separation errorData) {
         //recuperando funcionário pelo ID
         Employee employee = employeeRepository.findById(employeeId)
@@ -78,7 +74,6 @@ public class EmployeeService {
 
         return updatedEmployee;
     }
-
     public Employee getEmployeeById(Long employeeId) {
         return employeeRepository.findById(employeeId).orElse(null);
     }

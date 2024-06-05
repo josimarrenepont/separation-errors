@@ -43,7 +43,7 @@ public class SeparationErrorHistoryService {
     @GetMapping
     public List<SeparationErrorHistory> getErrorHistoryByCodProduct(Integer codProduct) {
 
-        return separationErrorHistoryRepository.findByCodProduct(codProduct);
+        return errorHistoryRepository.findByCodProduct(codProduct);
     }
 }
 

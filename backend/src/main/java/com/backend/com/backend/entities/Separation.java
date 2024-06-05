@@ -57,13 +57,9 @@ public class Separation implements Serializable {
         this.errorPcErrada = (errorPcErrada != null) ? errorPcErrada : 0;
 
     }
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setId(Long id) {this.id = id;}
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+    public void setDate(Date date) {this.date = date;}
 
     public void setName(String name) {
         this.name = name;
@@ -107,6 +103,7 @@ public class Separation implements Serializable {
     public void setErrorHistory(Set<SeparationErrorHistory> errorHistory) {
         this.errorHistory = errorHistory;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
