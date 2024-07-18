@@ -55,7 +55,7 @@ public class Employee implements Serializable {
     public Integer getTotPcMais() {
         totPcMais = 0;
         for (Separation separations : separations) {
-             totPcMais = separations.getErrorPcMais();
+             totPcMais += separations.getErrorPcMais();
         }
         return totPcMais;
     }
