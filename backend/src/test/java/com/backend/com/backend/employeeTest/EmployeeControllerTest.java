@@ -2,7 +2,7 @@ package com.backend.com.backend.employeeTest;
 
 import com.backend.com.backend.controllers.EmployeeController;
 import com.backend.com.backend.entities.Employee;
-import com.backend.com.backend.services.EmployeeService;
+import com.backend.com.backend.services.impl.EmployeeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +34,7 @@ public class EmployeeControllerTest {
     private EmployeeController employeeController;
 
     @Mock
-    private EmployeeService employeeService;
+    private EmployeeServiceImpl employeeServiceImpl;
 
     private Employee employee;
 
@@ -46,7 +46,7 @@ public class EmployeeControllerTest {
     @Test
     public void testFindAll() throws Exception {
         List<Employee> employeeList = Collections.singletonList(employee);
-        when(employeeService.findAll()).thenReturn(employeeList);
+        when(employeeServiceImpl.findAll()).thenReturn(employeeList);
 
         ResultActions result = mockMvc.perform(get("/employees")
                 .contentType(MediaType.APPLICATION_JSON));
@@ -58,7 +58,7 @@ public class EmployeeControllerTest {
      }
      @Test
     public void testFindById() throws Exception{
-        when(employeeService.findById(1L)).thenReturn(employee);
+        when(employeeServiceImpl.findById(1L)).thenReturn(employee);
 
         ResultActions result = mockMvc.perform(get("/employees/1")
                 .contentType(MediaType.APPLICATION_JSON));
@@ -70,7 +70,7 @@ public class EmployeeControllerTest {
      }
      @Test
     public void testFindByName() throws Exception{
-        when(employeeService.findByName("Joao")).thenReturn(employee);
+        when(employeeServiceImpl.findByName("Joao")).thenReturn(employee);
 
         ResultActions result = mockMvc.perform(get("/employees/findByName/Joao")
                 .contentType(MediaType.APPLICATION_JSON));
@@ -82,7 +82,7 @@ public class EmployeeControllerTest {
      }
      @Test
     public void testInsert() throws Exception{
-        when(employeeService.insert(any(Employee.class))).thenReturn(employee);
+        when(employeeServiceImpl.insert(any(Employee.class))).thenReturn(employee);
 
          // Convertendo objeto Employee para JSON
         String employeeJson = "{\"id\": 1, \"name\": \"Joao\", \"branch\": " +
@@ -100,13 +100,13 @@ public class EmployeeControllerTest {
      @Test
     public void testDelete() throws Exception{
         Long employeeId = 1L;
-        doNothing().when(employeeService).delete(employeeId);
+        doNothing().when(employeeServiceImpl).delete(employeeId);
 
         ResultActions result = mockMvc.perform(delete("/employees/{id}", employeeId)
                 .contentType(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isNoContent());
 
-        verify(employeeService, times(1)).delete(employeeId);
+        verify(employeeServiceImpl, times(1)).delete(employeeId);
      }
 }

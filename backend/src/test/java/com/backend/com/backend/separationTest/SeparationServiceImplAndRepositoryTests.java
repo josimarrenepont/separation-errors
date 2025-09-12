@@ -2,7 +2,7 @@ package com.backend.com.backend.separationTest;
 
 import com.backend.com.backend.entities.Separation;
 import com.backend.com.backend.repositories.SeparationRepository;
-import com.backend.com.backend.services.SeparationService;
+import com.backend.com.backend.services.impl.SeparationServiceImpl;
 import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -21,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class SeparationServiceAndRepositoryTests {
+public class SeparationServiceImplAndRepositoryTests {
 
     @InjectMocks
-    private SeparationService separationService;
+    private SeparationServiceImpl separationServiceImpl;
 
     @Mock
     private SeparationRepository separationRepository;
@@ -41,7 +41,7 @@ public class SeparationServiceAndRepositoryTests {
         List<Separation> separationList = Collections.singletonList(separation);
         when(separationRepository.findAll()).thenReturn(separationList);
 
-        List<Separation> result = separationService.findAll();
+        List<Separation> result = separationServiceImpl.findAll();
 
         assertEquals(1, result.size());
         assertEquals(separation, result.get(0));
@@ -50,7 +50,7 @@ public class SeparationServiceAndRepositoryTests {
     public void testFindById(){
         when(separationRepository.findById(1L)).thenReturn(Optional.of(separation));
 
-        Separation result = separationService.findById(1L);
+        Separation result = separationServiceImpl.findById(1L);
 
         assertEquals(separation, result);
     }
@@ -58,7 +58,7 @@ public class SeparationServiceAndRepositoryTests {
     public void testFindById_NotFound(){
         when(separationRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> separationService.findById(1L));
+        assertThrows(ResourceNotFoundException.class, () -> separationServiceImpl.findById(1L));
     }
     @Test
     public void testSave(){
@@ -75,7 +75,7 @@ public class SeparationServiceAndRepositoryTests {
         when(separationRepository.findById(1L)).thenReturn(Optional.of(separation));
         when(separationRepository.save(separation)).thenReturn(updateSeparation);
 
-        Separation result = separationService.updateErrors(1L, updateSeparation);
+        Separation result = separationServiceImpl.updateErrors(1L, updateSeparation);
 
         assertEquals(updateSeparation, result);
     }
@@ -86,6 +86,6 @@ public class SeparationServiceAndRepositoryTests {
         Separation errorData = new Separation(1L, new Date(), "Updated Separation",
                 20, 5, 3, 2, 10);
 
-        assertThrows(ResourceNotFoundException.class, () -> separationService.updateErrors(1L, errorData));
+        assertThrows(ResourceNotFoundException.class, () -> separationServiceImpl.updateErrors(1L, errorData));
     }
 }

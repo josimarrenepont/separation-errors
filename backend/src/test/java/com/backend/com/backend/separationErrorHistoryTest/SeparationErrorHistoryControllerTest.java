@@ -2,7 +2,7 @@ package com.backend.com.backend.separationErrorHistoryTest;
 
 import com.backend.com.backend.controllers.SeparationErrorHistoryController;
 import com.backend.com.backend.entities.SeparationErrorHistory;
-import com.backend.com.backend.services.SeparationErrorHistoryService;
+import com.backend.com.backend.services.impl.SeparationErrorHistoryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +30,7 @@ public class SeparationErrorHistoryControllerTest {
     private SeparationErrorHistoryController separationErrorHistoryController;
 
     @Mock
-    private SeparationErrorHistoryService errorHistoryService;
+    private SeparationErrorHistoryServiceImpl errorHistoryService;
 
     private SeparationErrorHistory separationErrorHistory;
 

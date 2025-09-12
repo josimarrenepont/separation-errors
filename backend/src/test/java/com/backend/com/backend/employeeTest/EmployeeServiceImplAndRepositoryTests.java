@@ -3,7 +3,7 @@ package com.backend.com.backend.employeeTest;
 import com.backend.com.backend.entities.Employee;
 import com.backend.com.backend.entities.Separation;
 import com.backend.com.backend.repositories.EmployeeRepository;
-import com.backend.com.backend.services.EmployeeService;
+import com.backend.com.backend.services.impl.EmployeeServiceImpl;
 import com.backend.com.backend.services.exceptions.DatabaseException;
 import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,10 +25,10 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-public class EmployeeServiceAndRepositoryTests {
+public class EmployeeServiceImplAndRepositoryTests {
 
     @InjectMocks
-    private EmployeeService employeeService;
+    private EmployeeServiceImpl employeeServiceImpl;
 
     @Mock
     private EmployeeRepository employeeRepository;
@@ -44,7 +44,7 @@ public class EmployeeServiceAndRepositoryTests {
         List<Employee> employeeList = Collections.singletonList(employee);
         when(employeeRepository.findAll()).thenReturn(employeeList);
 
-        List<Employee> result = employeeService.findAll();
+        List<Employee> result = employeeServiceImpl.findAll();
 
         assertEquals(1, result.size());
         assertEquals(employee, result.get(0));
@@ -53,7 +53,7 @@ public class EmployeeServiceAndRepositoryTests {
     public void testFindById(){
         when(employeeRepository.findById(1L)).thenReturn(Optional.of(employee));
 
-        Employee result = employeeService.findById(1L);
+        Employee result = employeeServiceImpl.findById(1L);
 
         assertEquals(employee, result);
     }
@@ -61,7 +61,7 @@ public class EmployeeServiceAndRepositoryTests {
     public void testFindById_NotFound(){
         when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> employeeService.findById(1L));
+        assertThrows(ResourceNotFoundException.class, () -> employeeServiceImpl.findById(1L));
     }
     @Test
     public void testSave(){
@@ -78,7 +78,7 @@ public class EmployeeServiceAndRepositoryTests {
         when(employeeRepository.findById(1L)).thenReturn(Optional.of(employee));
         when(employeeRepository.save(employee)).thenReturn(updateEmployee);
 
-        Employee result = employeeService.update(1L, updateEmployee);
+        Employee result = employeeServiceImpl.update(1L, updateEmployee);
 
         assertEquals(updateEmployee, result);
     }
@@ -86,28 +86,28 @@ public class EmployeeServiceAndRepositoryTests {
     public void testDeleteExistingEmployee(){
         Long employeeId = 1L;
         doNothing().when(employeeRepository).deleteById(employeeId);
-        assertDoesNotThrow(() -> employeeService.delete(employeeId));
+        assertDoesNotThrow(() -> employeeServiceImpl.delete(employeeId));
         verify(employeeRepository, times(1)).deleteById(employeeId);
     }
     @Test
     public void testDeleteNonExistingEmployee(){
         Long employeeId = 1L;
         doThrow(new EmptyResultDataAccessException(1)).when(employeeRepository).deleteById(employeeId);
-        assertThrows(ResourceNotFoundException.class, () -> employeeService.delete(employeeId));
+        assertThrows(ResourceNotFoundException.class, () -> employeeServiceImpl.delete(employeeId));
         verify(employeeRepository, times(1)).deleteById(employeeId);
     }
     @Test
     public void testDeleteEmployeeWithDatabaseException(){
         Long employeeId = 1L;
         doThrow(new DataIntegrityViolationException("Integrity Violation")).when(employeeRepository).deleteById(employeeId);
-        assertThrows(DatabaseException.class, () -> employeeService.delete(employeeId));
+        assertThrows(DatabaseException.class, () -> employeeServiceImpl.delete(employeeId));
         verify(employeeRepository, times(1)).deleteById(employeeId);
     }
     @Test
     public void testFindByName(){
         when(employeeRepository.findByName("Joao")).thenReturn(employee);
 
-        Employee result = employeeService.findByName("Joao");
+        Employee result = employeeServiceImpl.findByName("Joao");
 
         assertEquals(employee, result);
         verify(employeeRepository, times(1)).findByName("Joao");
@@ -116,7 +116,7 @@ public class EmployeeServiceAndRepositoryTests {
     public void testGetEmployeeId(){
         when(employeeRepository.findById(1L)).thenReturn(Optional.of(employee));
 
-        Employee result = employeeService.getEmployeeById(1L);
+        Employee result = employeeServiceImpl.getEmployeeById(1L);
 
         assertEquals(employee, result);
         verify(employeeRepository, times(1)).findById(1L);
@@ -125,7 +125,7 @@ public class EmployeeServiceAndRepositoryTests {
     public void testGetEmployeeId_NotFound(){
         when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
 
-        Employee result = employeeService.getEmployeeById(1L);
+        Employee result = employeeServiceImpl.getEmployeeById(1L);
 
         assertNull(result);
         verify(employeeRepository, times(1)).findById(1L);
@@ -142,7 +142,7 @@ public class EmployeeServiceAndRepositoryTests {
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(employee));
         when(employeeRepository.save(any(Employee.class))).thenReturn(updatedEmployee);
 
-        Employee result = employeeService.addErrorToEmployee(employeeId, error);
+        Employee result = employeeServiceImpl.addErrorToEmployee(employeeId, error);
 
         assertEquals(updatedEmployee, result);
         verify(employeeRepository, times(1)).findById(employeeId);
@@ -157,7 +157,7 @@ public class EmployeeServiceAndRepositoryTests {
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.empty());
 
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            employeeService.addErrorToEmployee(employeeId, error);
+            employeeServiceImpl.addErrorToEmployee(employeeId, error);
         });
 
         assertEquals("Funcionário não encontrado com o ID: " + employeeId, exception.getMessage());

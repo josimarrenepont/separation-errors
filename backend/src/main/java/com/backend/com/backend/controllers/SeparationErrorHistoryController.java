@@ -1,8 +1,8 @@
 package com.backend.com.backend.controllers;
 
 import com.backend.com.backend.entities.SeparationErrorHistory;
-import com.backend.com.backend.services.SeparationErrorHistoryService;
-import com.backend.com.backend.services.SeparationService;
+import com.backend.com.backend.services.impl.SeparationErrorHistoryServiceImpl;
+import com.backend.com.backend.services.impl.SeparationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +16,10 @@ import java.util.List;
 public class SeparationErrorHistoryController {
 
     @Autowired
-    private SeparationErrorHistoryService errorHistoryService;
+    private SeparationErrorHistoryServiceImpl errorHistoryService;
 
     @Autowired
-    private SeparationService separationService;
+    private SeparationServiceImpl separationServiceImpl;
 
     @GetMapping
     public ResponseEntity<List<SeparationErrorHistory>> findAll(){

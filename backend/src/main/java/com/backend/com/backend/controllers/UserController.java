@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.com.backend.entities.User;
-import com.backend.com.backend.services.UserService;
+import com.backend.com.backend.services.impl.UserServiceImpl;
 
 @RestController
 @CrossOrigin("*")
@@ -19,7 +19,7 @@ import com.backend.com.backend.services.UserService;
 public class UserController {
 
     @Autowired
-    private UserService service;
+    private UserServiceImpl service;
 
     @GetMapping
     public ResponseEntity<List<User>> findAll() {

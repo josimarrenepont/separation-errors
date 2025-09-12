@@ -51,30 +51,6 @@ public class Employee implements Serializable {
         this.totPcErrada = totPcErrada;
     }
 
-
-    public Integer getTotPcMais() {
-        totPcMais = 0;
-        for (Separation separations : separations) {
-             totPcMais += separations.getErrorPcMais();
-        }
-        return totPcMais;
-    }
-
-    public Integer getTotPcMenos() {
-       totPcMenos = 0;
-        for (Separation separations : separations) {
-            totPcMenos += separations.getErrorPcMenos();
-        }
-        return totPcMenos;
-    }
-
-    public Integer getTotPcErrada() {
-        totPcErrada = 0;
-        for (Separation separations : separations) {
-            totPcErrada += separations.getErrorPcErrada();
-        }
-        return totPcErrada;
-    }
     public void addError(Separation errorData) {
 
         this.getSeparations().add(errorData);

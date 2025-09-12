@@ -2,7 +2,7 @@ package com.backend.com.backend.separationErrorHistoryTest;
 
 import com.backend.com.backend.entities.SeparationErrorHistory;
 import com.backend.com.backend.repositories.SeparationErrorHistoryRepository;
-import com.backend.com.backend.services.SeparationErrorHistoryService;
+import com.backend.com.backend.services.impl.SeparationErrorHistoryServiceImpl;
 import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class SeparationErrorHistoryServiceAndRepositoryTests {
+public class SeparationErrorHistoryServiceImplAndRepositoryTests {
 
     @InjectMocks
-    private SeparationErrorHistoryService errorHistoryService;
+    private SeparationErrorHistoryServiceImpl errorHistoryService;
 
     @Mock
     private SeparationErrorHistoryRepository errorHistoryRepository;

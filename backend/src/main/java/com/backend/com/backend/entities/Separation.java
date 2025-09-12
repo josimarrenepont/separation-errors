@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.*;
@@ -37,6 +38,7 @@ public class Separation implements Serializable {
     @JoinTable(name = "employee_separation", joinColumns = @JoinColumn(name = "separation_id"), inverseJoinColumns = @JoinColumn(name = "employee_id"))
     private Set<Employee> employees = new HashSet<>();
 
+    @Setter
     @Getter
     @ManyToMany(mappedBy = "separation", cascade = CascadeType.ALL)
     private Set<SeparationErrorHistory> errorHistory = new HashSet<>();
@@ -99,9 +101,6 @@ public class Separation implements Serializable {
 
     public void addEmployee(Employee existingEmployee) {
         employees.add(existingEmployee);
-    }
-    public void setErrorHistory(Set<SeparationErrorHistory> errorHistory) {
-        this.errorHistory = errorHistory;
     }
 
     @Override

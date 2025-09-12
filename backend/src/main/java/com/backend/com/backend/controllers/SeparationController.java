@@ -4,8 +4,8 @@ import com.backend.com.backend.entities.Separation;
 import com.backend.com.backend.entities.SeparationErrorHistory;
 import com.backend.com.backend.entities.dto.SeparationRequestDTO;
 import com.backend.com.backend.repositories.SeparationRepository;
-import com.backend.com.backend.services.EmployeeService;
-import com.backend.com.backend.services.SeparationService;
+import com.backend.com.backend.services.impl.EmployeeServiceImpl;
+import com.backend.com.backend.services.impl.SeparationServiceImpl;
 import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,48 +22,48 @@ import java.util.List;
 public class SeparationController {
 
     @Autowired
-    private final SeparationService separationService;
+    private final SeparationServiceImpl separationServiceImpl;
 
     @Autowired
-    private EmployeeService employeeService;
+    private EmployeeServiceImpl employeeServiceImpl;
 
     @Autowired
     private SeparationRepository separationRepository;
 
     @Autowired
-    public SeparationController(SeparationService separationService) {
-        this.separationService = separationService;
+    public SeparationController(SeparationServiceImpl separationServiceImpl) {
+        this.separationServiceImpl = separationServiceImpl;
     }
 
     @GetMapping
     public ResponseEntity<List<Separation>> findAll() {
-        List<Separation> list = separationService.findAll();
+        List<Separation> list = separationServiceImpl.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> findById(@PathVariable Long id) {
-        Separation obj = separationService.findById(id);
+        Separation obj = separationServiceImpl.findById(id);
         return ResponseEntity.ok().body(obj);
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Separation> updateSeparationErrors(
             @PathVariable Long id, @RequestBody Separation errorData) {
-        Separation updateSeparation = separationService.updateErrors(id, errorData);
+        Separation updateSeparation = separationServiceImpl.updateErrors(id, errorData);
         return ResponseEntity.ok(updateSeparation);
     }
 
     @PutMapping("/separationRequestDTO")
     public ResponseEntity<Separation> addError(@RequestBody Separation errorData) {
-        Separation newError = separationService.addError(errorData);
+        Separation newError = separationServiceImpl.addError(errorData);
         return ResponseEntity.ok(newError);
     }
 
     @PutMapping("/employees/{id}")
     public ResponseEntity<Separation> updatedEmployee(@PathVariable Long id, @RequestBody Separation updatedEmployeeData) {
         try {
-            separationService.updateErrors(id, updatedEmployeeData);
+            separationServiceImpl.updateErrors(id, updatedEmployeeData);
             return ResponseEntity.ok(updatedEmployeeData);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -71,7 +71,7 @@ public class SeparationController {
     }
 
     public ResponseEntity<Separation> createSeparation(@RequestBody Separation separation) {
-        Separation newSeparation = separationService.createSeparation(separation);
+        Separation newSeparation = separationServiceImpl.createSeparation(separation);
         return ResponseEntity.status(HttpStatus.CREATED).body(newSeparation);
     }
 
@@ -113,7 +113,7 @@ public class SeparationController {
     @PutMapping("/separations/updateErrors/{id}")
     public ResponseEntity<Separation> updateSeparationErrors(
             @PathVariable Long id, @RequestBody SeparationRequestDTO errorData) {
-        Separation updateSeparation = separationService.updateErrors(id, errorData);
+        Separation updateSeparation = separationServiceImpl.updateErrors(id, errorData);
 
         return ResponseEntity.ok(updateSeparation);
     }
