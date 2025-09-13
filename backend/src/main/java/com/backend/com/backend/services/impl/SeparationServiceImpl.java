@@ -50,21 +50,10 @@ public class SeparationServiceImpl implements SeparationService {
         Separation separation = separationRepository.findById(separationId)
                 .orElseThrow(() -> new ResourceNotFoundException(separationId));
 
-        // Criando uma nova instância de SeparationErrorHistory
-        SeparationErrorHistory errorHistory = new SeparationErrorHistory();
-        errorHistory.setId(errorData.getId());
-        errorHistory.setDate(new Date());
-        errorHistory.setName(errorData.getName());
-        errorHistory.setCodProduct(errorData.getCodProduct());
-        errorHistory.setPallet(errorData.getPallet());
-        errorHistory.setErrorPcMais(errorData.getErrorPcMais());
-        errorHistory.setErrorPcMenos(errorData.getErrorPcMenos());
-        errorHistory.setErrorPcErrada(errorData.getErrorPcErrada());
+        final var errorHistory = getSeparationErrorHistory(errorData);
 
-        // Adicionando o histórico de erro à coleção
         separation.addErrorHistory(errorHistory);
 
-        // Atualizando os campos relevantes no objeto Separation
         separation.setId(errorData.getId());
         separation.setDate(new Date());
         separation.setName(errorData.getName());
@@ -74,8 +63,20 @@ public class SeparationServiceImpl implements SeparationService {
         separation.setErrorPcMenos(errorData.getErrorPcMenos());
         separation.setErrorPcErrada(errorData.getErrorPcErrada());
 
-        // Salvando a separação atualizada no repositório
         return separationRepository.save(separation);
+    }
+
+    private static SeparationErrorHistory getSeparationErrorHistory(Separation errorData) {
+        SeparationErrorHistory errorHistory = new SeparationErrorHistory();
+        errorHistory.setId(errorData.getId());
+        errorHistory.setDate(new Date());
+        errorHistory.setName(errorData.getName());
+        errorHistory.setCodProduct(errorData.getCodProduct());
+        errorHistory.setPallet(errorData.getPallet());
+        errorHistory.setErrorPcMais(errorData.getErrorPcMais());
+        errorHistory.setErrorPcMenos(errorData.getErrorPcMenos());
+        errorHistory.setErrorPcErrada(errorData.getErrorPcErrada());
+        return errorHistory;
     }
 
     @Override

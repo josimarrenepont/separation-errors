@@ -3,7 +3,6 @@ package com.backend.com.backend.controllers;
 import com.backend.com.backend.entities.SeparationErrorHistory;
 import com.backend.com.backend.services.impl.SeparationErrorHistoryServiceImpl;
 import com.backend.com.backend.services.impl.SeparationServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,15 +10,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost/5173")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/separation-error-history")
 public class SeparationErrorHistoryController {
 
-    @Autowired
-    private SeparationErrorHistoryServiceImpl errorHistoryService;
 
-    @Autowired
-    private SeparationServiceImpl separationServiceImpl;
+    private final SeparationErrorHistoryServiceImpl errorHistoryService;
+    private final SeparationServiceImpl separationServiceImpl;
+
+    public SeparationErrorHistoryController(SeparationErrorHistoryServiceImpl errorHistoryService,
+                                            SeparationServiceImpl separationServiceImpl) {
+        this.errorHistoryService = errorHistoryService;
+        this.separationServiceImpl = separationServiceImpl;
+    }
 
     @GetMapping
     public ResponseEntity<List<SeparationErrorHistory>> findAll(){

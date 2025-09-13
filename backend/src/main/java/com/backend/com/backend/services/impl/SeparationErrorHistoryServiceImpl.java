@@ -29,21 +29,22 @@ public class SeparationErrorHistoryServiceImpl implements SeparationErrorHistory
 
     private Separation savedSeparation;
 
-
+    @Override
     public List<SeparationErrorHistory> findAll() {
+
         return errorHistoryRepository.findAll();
     }
-
+    @Override
     public SeparationErrorHistory findById(Long id) {
         Optional<SeparationErrorHistory> obj = errorHistoryRepository.findById(id);
         return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 
     }
-
+    @Override
     public SeparationErrorHistory createErrorHistory(SeparationErrorHistory errorHistory) {
         return errorHistoryRepository.save(errorHistory);
     }
-
+    @Override
     public void updateAccumulatedSumOfErrors(Separation savedSeparation) {
         this.savedSeparation = savedSeparation;
 

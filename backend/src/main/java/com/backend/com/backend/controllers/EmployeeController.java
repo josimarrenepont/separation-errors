@@ -4,7 +4,6 @@ import com.backend.com.backend.entities.Employee;
 import com.backend.com.backend.entities.Separation;
 import com.backend.com.backend.services.EmployeeService;
 import com.backend.com.backend.services.impl.EmployeeServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,13 +18,11 @@ import java.util.Map;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final EmployeeServiceImpl employeeServiceImpl;
 
-    @Autowired
-    private EmployeeServiceImpl employeeServiceImpl;
-
-    @Autowired
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, EmployeeServiceImpl employeeServiceImpl) {
         this.employeeService = employeeService;
+        this.employeeServiceImpl = employeeServiceImpl;
     }
 
     @GetMapping
@@ -79,5 +76,4 @@ public class EmployeeController {
         employeeServiceImpl.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }

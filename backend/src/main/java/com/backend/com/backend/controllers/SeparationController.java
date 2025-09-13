@@ -4,10 +4,9 @@ import com.backend.com.backend.entities.Separation;
 import com.backend.com.backend.entities.SeparationErrorHistory;
 import com.backend.com.backend.entities.dto.SeparationRequestDTO;
 import com.backend.com.backend.repositories.SeparationRepository;
+import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
 import com.backend.com.backend.services.impl.EmployeeServiceImpl;
 import com.backend.com.backend.services.impl.SeparationServiceImpl;
-import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,18 +20,17 @@ import java.util.List;
 @RequestMapping(value = "/separations")
 public class SeparationController {
 
-    @Autowired
+
     private final SeparationServiceImpl separationServiceImpl;
+    private final EmployeeServiceImpl employeeServiceImpl;
+    private final SeparationRepository separationRepository;
 
-    @Autowired
-    private EmployeeServiceImpl employeeServiceImpl;
-
-    @Autowired
-    private SeparationRepository separationRepository;
-
-    @Autowired
-    public SeparationController(SeparationServiceImpl separationServiceImpl) {
+    public SeparationController(SeparationServiceImpl separationServiceImpl,
+                                EmployeeServiceImpl employeeServiceImpl,
+                                SeparationRepository separationRepository) {
         this.separationServiceImpl = separationServiceImpl;
+        this.employeeServiceImpl = employeeServiceImpl;
+        this.separationRepository = separationRepository;
     }
 
     @GetMapping

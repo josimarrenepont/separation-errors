@@ -24,20 +24,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
-
+    @Override
     public List<Employee> findAll() {
         return employeeRepository.findAll();
     }
-
+    @Override
     public Employee findById(Long id) {
         Optional<Employee> obj = employeeRepository.findById(id);
         return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
-
+    @Override
     public Employee insert(Employee obj) {
         return employeeRepository.save(obj);
     }
-
+    @Override
     public void delete(Long id) {
         try {
             employeeRepository.deleteById(id);
@@ -47,6 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new DatabaseException(e.getMessage());
         }
     }
+    @Override
     public Employee update(Long id, Employee obj) {
         Optional<Employee> optionalEntity = employeeRepository.findById(id);
         if (optionalEntity.isPresent()) {
@@ -57,14 +58,17 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new ResourceNotFoundException(id);
         }
     }
+
     private void updateData(Employee entity, Employee obj) {
         entity.setName(obj.getName());
         entity.setBranch(obj.getBranch());
     }
+    @Override
     public Employee findByName(String name) {
 
         return employeeRepository.findByName(name);
     }
+    @Override
     public Employee addErrorToEmployee(Long employeeId, Separation errorData) {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new EntityNotFoundException("Funcionário não encontrado com o ID: " + employeeId));
@@ -75,10 +79,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return updatedEmployee;
     }
+    @Override
     public Employee getEmployeeById(Long employeeId) {
 
         return employeeRepository.findById(employeeId).orElse(null);
     }
+    @Override
     public Integer calculateTotalError(Employee employee, Function<Separation, Integer> errorExtractor){
         if(employee == null || employee.getSeparations() == null){
             return 0;
