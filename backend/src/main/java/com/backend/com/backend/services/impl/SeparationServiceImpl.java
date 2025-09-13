@@ -3,6 +3,7 @@ package com.backend.com.backend.services.impl;
 import com.backend.com.backend.entities.Separation;
 import com.backend.com.backend.entities.SeparationErrorHistory;
 import com.backend.com.backend.entities.dto.SeparationRequestDTO;
+import com.backend.com.backend.repositories.EmployeeRepository;
 import com.backend.com.backend.repositories.SeparationErrorHistoryRepository;
 import com.backend.com.backend.repositories.SeparationRepository;
 import com.backend.com.backend.services.SeparationService;
@@ -21,12 +22,15 @@ public class SeparationServiceImpl implements SeparationService {
     private final SeparationRepository separationRepository;
     private final SeparationErrorHistoryRepository separationErrorHistoryRepository;
 
-    public SeparationServiceImpl(SeparationRepository separationRepository, SeparationErrorHistoryRepository separationErrorHistoryRepository) {
+    public SeparationServiceImpl(SeparationRepository separationRepository, SeparationErrorHistoryRepository separationErrorHistoryRepository,
+                                 EmployeeRepository employeeRepository) {
         this.separationRepository = separationRepository;
         this.separationErrorHistoryRepository = separationErrorHistoryRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     private Separation savedSeparation;
+    private final EmployeeRepository employeeRepository;
 
     @Override
     public List<Separation> findAll() {

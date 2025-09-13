@@ -44,19 +44,22 @@ public class Employee implements Serializable {
     public Employee() {
     }
 
-    public Employee(Long id, String name, String branch, Integer totPcMais, Integer totPcMenos, Integer totPcErrada) {
+    public Employee(Long id, String name, String branch, Integer totPcMais, Integer totPcMenos,
+                    Integer totPcErrada) {
         this.id = id;
         this.name = name;
         this.branch = branch;
-        this.totPcMais = totPcMais;
-        this.totPcMenos = totPcMenos;
-        this.totPcErrada = totPcErrada;
+        this.totPcMais = (totPcMais != null) ? totPcMais : 0;
+        this.totPcMenos = (totPcMenos != null) ? totPcMenos : 0;
+        this.totPcErrada = (totPcErrada != null) ? totPcErrada : 0;
+
     }
 
     public void addError(Separation errorData) {
-
         this.getSeparations().add(errorData);
+        errorData.addEmployee(this);
     }
+
     public Set<Separation> setErrors(Separation requestDTO){
        SeparationRequestDTO separationRequestDTO = new SeparationRequestDTO();
        return getSeparations();

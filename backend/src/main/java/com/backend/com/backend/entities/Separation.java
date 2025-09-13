@@ -51,7 +51,6 @@ public class Separation implements Serializable {
     @ManyToMany(mappedBy = "separation", cascade = CascadeType.ALL)
     private Set<SeparationErrorHistory> errorHistory = new HashSet<>();
 
-
     public Separation() {
     }
 
@@ -77,11 +76,11 @@ public class Separation implements Serializable {
     }
     public void addErrorToHistory(SeparationErrorHistory errorHistory) {
         this.errorHistory.add(errorHistory);
-
     }
 
     public void addEmployee(Employee existingEmployee) {
         employees.add(existingEmployee);
+        existingEmployee.getSeparations().add(this);
     }
 
     @Override
