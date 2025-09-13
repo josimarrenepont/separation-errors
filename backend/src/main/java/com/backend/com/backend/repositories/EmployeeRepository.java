@@ -10,5 +10,4 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	@Query
 	Employee findByName(String name);
 
-
 }

@@ -3,6 +3,7 @@ package com.backend.com.backend.services.impl;
 import com.backend.com.backend.entities.Separation;
 import com.backend.com.backend.entities.SeparationErrorHistory;
 import com.backend.com.backend.repositories.SeparationErrorHistoryRepository;
+import com.backend.com.backend.repositories.SeparationRepository;
 import com.backend.com.backend.services.SeparationErrorHistoryService;
 import com.backend.com.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,13 @@ public class SeparationErrorHistoryServiceImpl implements SeparationErrorHistory
 
     private final SeparationErrorHistoryRepository errorHistoryRepository;
     private final SeparationErrorHistoryRepository separationErrorHistoryRepository;
+    private final SeparationRepository separationRepository;
 
-    public SeparationErrorHistoryServiceImpl(SeparationErrorHistoryRepository errorHistoryRepository, SeparationErrorHistoryRepository separationErrorHistoryRepository) {
+    public SeparationErrorHistoryServiceImpl(SeparationErrorHistoryRepository errorHistoryRepository,
+                                             SeparationErrorHistoryRepository separationErrorHistoryRepository, SeparationRepository separationRepository) {
         this.errorHistoryRepository = errorHistoryRepository;
         this.separationErrorHistoryRepository = separationErrorHistoryRepository;
+        this.separationRepository = separationRepository;
     }
 
     private Separation savedSeparation;

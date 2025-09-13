@@ -27,14 +27,16 @@ public class Employee implements Serializable {
     private String branch;
     @Setter
     @Getter
+    @Transient
     private Integer totPcMais;
     @Setter
     @Getter
+    @Transient
     private Integer totPcMenos;
     @Setter
     @Getter
+    @Transient
     private Integer totPcErrada;
-
 
     @ManyToMany(mappedBy = "employees")
     private Set<Separation> separations = new HashSet<>();

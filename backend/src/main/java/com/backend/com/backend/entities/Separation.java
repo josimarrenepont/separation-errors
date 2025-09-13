@@ -14,23 +14,31 @@ import java.util.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Separation implements Serializable {
 
+    @Setter
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Setter
     @Getter
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "America/Sao_Paulo")
     private Date date;
+    @Setter
     @Getter
     private String name;
+    @Setter
     @Getter
     private Integer codProduct;
+    @Setter
     @Getter
     private Integer pallet;
+    @Setter
     @Getter
     private Integer errorPcMais;
+    @Setter
     @Getter
     private Integer errorPcMenos;
+    @Setter
     @Getter
     private Integer errorPcErrada;
 
@@ -58,33 +66,6 @@ public class Separation implements Serializable {
         this.errorPcMenos = (errorPcMenos != null) ? errorPcMenos : 0;
         this.errorPcErrada = (errorPcErrada != null) ? errorPcErrada : 0;
 
-    }
-    public void setId(Long id) {this.id = id;}
-
-    public void setDate(Date date) {this.date = date;}
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPallet(Integer pallet) {
-        this.pallet = pallet;
-    }
-
-    public void setCodProduct(Integer codProduct) {
-        this.codProduct = codProduct;
-    }
-
-    public void setErrorPcMais(Integer errorPcMais) {
-        this.errorPcMais = errorPcMais;
-    }
-
-    public void setErrorPcMenos(Integer errorPcMenos) {
-        this.errorPcMenos = errorPcMenos;
-    }
-
-    public void setErrorPcErrada(Integer errorPcErrada) {
-        this.errorPcErrada = errorPcErrada;
     }
 
     public void addErrorHistory(SeparationErrorHistory separationErrorHistory) {

@@ -62,19 +62,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         entity.setBranch(obj.getBranch());
     }
     public Employee findByName(String name) {
-        // buscar o funcionário pelo nome
-        return employeeRepository.findByName(name);
 
+        return employeeRepository.findByName(name);
     }
     public Employee addErrorToEmployee(Long employeeId, Separation errorData) {
-        //recuperando funcionário pelo ID
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new EntityNotFoundException("Funcionário não encontrado com o ID: " + employeeId));
 
-        // adicionar os erros ao funcionário
         employee.addError(errorData);
 
-        // atualizando no repositório
         Employee updatedEmployee = employeeRepository.save(employee);
 
         return updatedEmployee;

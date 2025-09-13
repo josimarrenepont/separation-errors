@@ -79,30 +79,17 @@ public class SeparationController {
     @Transactional
     public ResponseEntity<?> updateSeparationError(@RequestBody Separation separation) {
         try {
-            // Atualizar a separação em tb_separation
             Separation separations = new Separation();
             separations.setName(separations.getName());
             separations.setId(separations.getId());
             separations.setErrorPcMais(separations.getErrorPcMais());
             separations.setErrorPcMenos(separations.getErrorPcMenos());
             separations.setErrorPcErrada(separations.getErrorPcErrada());
-            ;
 
-            // Criar um novo histórico de erro
-            SeparationErrorHistory errorHistory = new SeparationErrorHistory();
-            errorHistory.setName(separation.getName());
-            errorHistory.setId(separations.getId());
-            errorHistory.setDate(new Date());
-            errorHistory.setCodProduct(errorHistory.getCodProduct());
-            errorHistory.setPallet(errorHistory.getPallet());
-            errorHistory.setErrorPcMais(errorHistory.getErrorPcMais());
-            errorHistory.setErrorPcMenos(errorHistory.getErrorPcMenos());
-            errorHistory.setErrorPcErrada(errorHistory.getErrorPcErrada());
+            final var errorHistory = getSeparationErrorHistory(separation, separations);
 
-            // Adicionar o histórico de erro à separação
             separation.addErrorHistory(errorHistory);
-
-            // Salvar a separação (que agora inclui o histórico) no banco de dados
+            
             separationRepository.save(separation);
 
             return ResponseEntity.ok("Separation updated successfully with error history");
@@ -110,6 +97,20 @@ public class SeparationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating separation: " + e.getMessage());
         }
     }
+
+    private static SeparationErrorHistory getSeparationErrorHistory(Separation separation, Separation separations) {
+        SeparationErrorHistory errorHistory = new SeparationErrorHistory();
+        errorHistory.setName(separation.getName());
+        errorHistory.setId(separations.getId());
+        errorHistory.setDate(new Date());
+        errorHistory.setCodProduct(errorHistory.getCodProduct());
+        errorHistory.setPallet(errorHistory.getPallet());
+        errorHistory.setErrorPcMais(errorHistory.getErrorPcMais());
+        errorHistory.setErrorPcMenos(errorHistory.getErrorPcMenos());
+        errorHistory.setErrorPcErrada(errorHistory.getErrorPcErrada());
+        return errorHistory;
+    }
+
     @PutMapping("/separations/updateErrors/{id}")
     public ResponseEntity<Separation> updateSeparationErrors(
             @PathVariable Long id, @RequestBody SeparationRequestDTO errorData) {
