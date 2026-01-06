@@ -36,7 +36,6 @@ public class SeparationRequestDTO{
         this.date = getDate();
     }
 
-
     public void setSeparation(Separation separation) {
         separation.setErrorHistory(separation.getErrorHistory());
     }

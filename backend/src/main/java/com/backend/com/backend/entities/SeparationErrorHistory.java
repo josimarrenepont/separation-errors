@@ -1,6 +1,7 @@
 package com.backend.com.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -53,6 +54,7 @@ public class SeparationErrorHistory implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "separation_id")
+    @JsonIgnoreProperties("errorHistory")
     private Separation separation;
 
 

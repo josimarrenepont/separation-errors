@@ -41,5 +41,13 @@ public class SeparationErrorHistoryController {
         SeparationErrorHistory obj = errorHistoryService.findById(id);
         return ResponseEntity.ok().body(obj);
     }
+    /*
+    public ResponseEntity<List<SeparationErrorHistoryController>> getByDateRange(
+            @RequestParam("startDate") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) Date endDate){
 
+        List<SeparationErrorHistory> list = errorHistoryService.findByDateRange(startDate, endDate);
+        return ResponseEntity.ok(list);
+    }
+     */
 }

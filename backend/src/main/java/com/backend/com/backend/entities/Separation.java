@@ -1,6 +1,7 @@
 package com.backend.com.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -42,13 +43,14 @@ public class Separation implements Serializable {
     @Getter
     private Integer errorPcErrada;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "employee_separation", joinColumns = @JoinColumn(name = "separation_id"), inverseJoinColumns = @JoinColumn(name = "employee_id"))
     private Set<Employee> employees = new HashSet<>();
 
     @Setter
     @Getter
-    @ManyToMany(mappedBy = "separation", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "separation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("separation")
     private Set<SeparationErrorHistory> errorHistory = new HashSet<>();
 
     public Separation() {
@@ -67,15 +69,9 @@ public class Separation implements Serializable {
 
     }
 
-    public void addErrorHistory(SeparationErrorHistory separationErrorHistory) {
-        if (this.errorHistory == null) {
-            this.errorHistory = getErrorHistory();
-        }
-        this.errorHistory.add(separationErrorHistory);
-        separationErrorHistory.setSeparation(this);
-    }
-    public void addErrorToHistory(SeparationErrorHistory errorHistory) {
+    public void addErrorHistory(SeparationErrorHistory errorHistory) {
         this.errorHistory.add(errorHistory);
+        errorHistory.setSeparation(this);
     }
 
     public void addEmployee(Employee existingEmployee) {

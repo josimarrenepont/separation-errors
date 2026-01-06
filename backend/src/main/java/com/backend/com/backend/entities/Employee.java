@@ -1,6 +1,7 @@
 package com.backend.com.backend.entities;
 
 import com.backend.com.backend.entities.dto.SeparationRequestDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,6 +40,7 @@ public class Employee implements Serializable {
     private Integer totPcErrada;
 
     @ManyToMany(mappedBy = "employees")
+    @JsonIgnoreProperties("employees")
     private Set<Separation> separations = new HashSet<>();
 
     public Employee() {

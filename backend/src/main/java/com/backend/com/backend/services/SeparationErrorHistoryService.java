@@ -16,4 +16,6 @@ public interface SeparationErrorHistoryService {
     void updateAccumulatedSumOfErrors(Separation savedSeparation);
 
     List<SeparationErrorHistory> getErrorHistoryByCodProduct(Integer codProduct);
+
+    /*List<SeparationErrorHistory> findByDateRange(Date startDate, Date endDate);*/
 }

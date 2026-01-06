@@ -21,6 +21,7 @@ public class SeparationServiceImpl implements SeparationService {
 
     private final SeparationRepository separationRepository;
     private final SeparationErrorHistoryRepository separationErrorHistoryRepository;
+    private final EmployeeRepository employeeRepository;
 
     public SeparationServiceImpl(SeparationRepository separationRepository, SeparationErrorHistoryRepository separationErrorHistoryRepository,
                                  EmployeeRepository employeeRepository) {
@@ -30,7 +31,7 @@ public class SeparationServiceImpl implements SeparationService {
     }
 
     private Separation savedSeparation;
-    private final EmployeeRepository employeeRepository;
+
 
     @Override
     public List<Separation> findAll() {
@@ -72,7 +73,7 @@ public class SeparationServiceImpl implements SeparationService {
 
     private static SeparationErrorHistory getSeparationErrorHistory(Separation errorData) {
         SeparationErrorHistory errorHistory = new SeparationErrorHistory();
-        errorHistory.setId(errorData.getId());
+
         errorHistory.setDate(new Date());
         errorHistory.setName(errorData.getName());
         errorHistory.setCodProduct(errorData.getCodProduct());
@@ -86,11 +87,6 @@ public class SeparationServiceImpl implements SeparationService {
     @Override
     public Separation createSeparation(Separation separation) {
         return separationRepository.save(separation);
-    }
-
-    @Override
-    public Separation getSeparationById(Long id) {
-        return separationRepository.getReferenceById(id);
     }
 
     @Override

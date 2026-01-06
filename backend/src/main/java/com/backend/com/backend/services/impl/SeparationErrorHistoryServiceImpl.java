@@ -54,5 +54,11 @@ public class SeparationErrorHistoryServiceImpl implements SeparationErrorHistory
 
         return errorHistoryRepository.findByCodProduct(codProduct);
     }
+    /*
+    @Override
+    public List<SeparationErrorHistory> findByDateRange(Date startDate, Date endDate){
+        return errorHistoryRepository.findByDateBetween(startDate, endDate);
+    }
+     */
 }
 

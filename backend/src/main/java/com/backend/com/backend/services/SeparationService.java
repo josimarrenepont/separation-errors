@@ -17,8 +17,6 @@ public interface SeparationService {
 
     Separation createSeparation(Separation separation);
 
-    Separation getSeparationById(Long id);
-
     Separation addError(Separation newError);
 
     Separation updateErrors(Long id, SeparationRequestDTO errorData);
