@@ -3,7 +3,7 @@ import { ReactDOM, createRoot } from 'react-dom';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import App from './App'; // Importe o componente App corretamente
 import './assets';
-import SeparationForm from './components/SeparationForm';
+import SeparationForm from './Components/SeparationForm';
 import './index.css';
 import './styles';
 

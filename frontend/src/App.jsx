@@ -126,3 +126,4 @@ const calculateErrorSummary = (filteredErrors) => {
 }
 
 createRoot(document.getElementById('root')).render(<App />);
+export default App;

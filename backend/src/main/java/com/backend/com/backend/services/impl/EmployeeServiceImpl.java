@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -86,9 +87,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
     @Override
     public Integer calculateTotalError(Employee employee, Function<Separation, Integer> errorExtractor){
-        if(employee == null || employee.getSeparations() == null){
-            return 0;
-        }
-        return employee.getSeparations().stream().mapToInt(errorExtractor::apply).sum();
+        
+        return Optional.ofNullable(employee)
+                .map(Employee::getSeparations)
+                .orElseGet(Collections::emptySet)
+                .stream()
+                .mapToInt(errorExtractor::apply)
+                .sum();
     }
 }
